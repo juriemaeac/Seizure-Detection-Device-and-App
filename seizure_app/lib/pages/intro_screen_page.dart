@@ -14,8 +14,10 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-                //color: primaryColor,
-                gradient: LinearGradient(colors: [secondary, primary]),
+                color: darkBlue,
+                //gradient: LinearGradient(colors: [lightBlue, darkBlue],
+                //begin: Alignment.bottomLeft,
+                //end: Alignment.topRight,),
                 // image: DecorationImage(
                 //   image: AssetImage('images/intro-bg.png'),
                 //   fit: BoxFit.scaleDown,
@@ -34,15 +36,17 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
                 left: 30,
                 right: 30,
               ),
-              decoration: const BoxDecoration(
-                //color: primaryColor,
-                gradient: LinearGradient(colors: [secondary, primary]),
-                // image: DecorationImage(
-                //   image: AssetImage('images/intro-bg.png'),
-                //   fit: BoxFit.scaleDown,
-                //   alignment: Alignment.bottomCenter,
-                // ),
-              ),
+              // decoration: const BoxDecoration(
+              //   //color: primaryColor,
+              //   gradient: LinearGradient(colors: [lightBlue, darkBlue],
+              //   begin: Alignment.topLeft,
+              //   end: Alignment.bottomRight,),
+              //   // image: DecorationImage(
+              //   //   image: AssetImage('images/intro-bg.png'),
+              //   //   fit: BoxFit.scaleDown,
+              //   //   alignment: Alignment.bottomCenter,
+              //   // ),
+              // ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -59,7 +63,7 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
                     ),
                   ),
                   Expanded(
-                      child: Image(image: AssetImage('images/intro-bg.png'))),
+                      child: Image(image: AssetImage('images/introBG.png'))),
                 ],
               ),
             ),
@@ -90,7 +94,7 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
                       text: const TextSpan(
                         children: [
                           TextSpan(
-                            text: 'Make your bonding relationship between ',
+                            text: 'Achuchuchu blah blah hatdog hatdog \n',
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w500,
@@ -98,11 +102,11 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
                             ),
                           ),
                           TextSpan(
-                            text: 'pets & humans.',
+                            text: 'kemerut acchuchu.',
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w500,
-                              color: primary,
+                              color: darkBlue,
                             ),
                           ),
                         ],
@@ -132,9 +136,9 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
                         decoration: BoxDecoration(
                           borderRadius:
                               const BorderRadius.all(Radius.circular(55)),
-                          gradient: const LinearGradient(
-                                        colors: [fourthColor, thirdColor]),
-                          //color: primaryColor,
+                          // gradient: const LinearGradient(
+                          //               colors: [lightBlue, darkBlue],),
+                          color: darkBlue,
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.3),
@@ -155,7 +159,7 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
                                 child: const Icon(
                                   Icons.chevron_right,
                                   size: 35,
-                                  color: fourthColor,
+                                  color: darkBlue,
                                 )),
                             const Expanded(
                               child: Text(

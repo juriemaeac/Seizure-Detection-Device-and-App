@@ -1,12 +1,7 @@
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:seizure_app/constant.dart';
 
-  List<Color> gradientColors = [
-    secondary,
-    primary
-  ];
 LineChartData activityData() {
     return LineChartData(
       gridData: FlGridData(
@@ -38,8 +33,9 @@ LineChartData activityData() {
             FlSpot(12, 4),
             
           ],
+          
           isCurved: true,
-          color: Colors.blue,
+          color:Colors.white,
           barWidth: 2,
           isStrokeCapRound: true,
           dotData: FlDotData(
@@ -47,7 +43,7 @@ LineChartData activityData() {
           ),
           belowBarData: BarAreaData(
             show: true,
-            color: Colors. blue.withOpacity(0.3),
+            color: Color(0xFF4d79fe).withOpacity(0.3),
           ),
         ),
       ],

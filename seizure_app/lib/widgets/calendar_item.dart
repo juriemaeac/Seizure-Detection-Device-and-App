@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:seizure_app/constant.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarWeekly extends StatefulWidget {
@@ -26,11 +27,16 @@ class _CalendarWeeklyState extends State<CalendarWeekly> {
         focusedDay: DateTime.now(),
         calendarFormat: CalendarFormat.week,
         calendarStyle: CalendarStyle(
-          todayTextStyle: const TextStyle(fontSize: 10, color: Colors.white),
-          defaultTextStyle: const TextStyle(fontSize: 10),
-          weekendTextStyle: const TextStyle(fontSize: 10),
+          outsideTextStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 12.0,
+            fontWeight: FontWeight.w600,
+          ),
+          todayTextStyle: const TextStyle(fontSize: 12, color: Colors.white),
+          defaultTextStyle: const TextStyle(fontSize: 12),
+          weekendTextStyle: const TextStyle(fontSize: 12),
           todayDecoration: BoxDecoration(
-            color: Colors.blue,
+            color: darkBlue,
             borderRadius: BorderRadius.circular(20.0),
           ),
           defaultDecoration: BoxDecoration(

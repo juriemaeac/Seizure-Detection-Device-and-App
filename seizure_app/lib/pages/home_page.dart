@@ -1,6 +1,9 @@
+import 'dart:ffi';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:seizure_app/constant.dart';
 import 'package:seizure_app/default_widget.dart';
 import 'package:seizure_app/widgets/calendar.dart';
@@ -21,42 +24,44 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: [
-          // SliverAppBar(
-          //   backgroundColor: Colors.white,
-          //   centerTitle: false,
-          //   title: RichText(
-          //     text: const TextSpan(
-          //       children: [
-          //         TextSpan(
-          //           text: 'Hi User\n',
-          //           style: TextStyle(
-          //             fontSize: 20,
-          //             fontWeight: FontWeight.bold,
-          //           ),
-          //         ),
-          //         TextSpan(
-          //           text: 'Good Morning!',
-          //           style: TextStyle(
-          //             fontSize: 18,
-          //           ),
-          //         ),
-          //       ],
-          //       style: TextStyle(
-          //         fontSize: 20,
-          //         color: Colors.black87,
-          //       ),
-          //     ),
-          //   ),
-          // ),
+
+          sliverList(
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 10,
+                ),
+                margin: const EdgeInsets.only(
+                  top: 50,
+                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  Icon(
+                    Icons.dashboard_rounded,
+                    size: 30,
+                    color: grey,
+                  ),
+                  Icon(
+                    Icons.person_rounded,
+                    size: 30,
+                    color: grey,
+                  ),
+                ],
+              ),
+            ),
+          ),
+
           sliverList(
             child: Container(
               padding: const EdgeInsets.symmetric(
                   horizontal: 20,
                   //vertical: 20,
                 ),
-                margin: const EdgeInsets.only(
-                  top: 60,
-                ),
+              //   margin: const EdgeInsets.only(
+              //     top: 60,
+              //   ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,6 +99,35 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
+
+          sliverList(
+            child: Container(
+              padding: const EdgeInsets.only(top:10, left: 20, right: 20),
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Seizure Activity',
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                      // Text(
+                      //   'See All',
+                      //   style: Theme.of(context).textTheme.headline6!.copyWith(
+                      //         color: Colors.grey,
+                      //       ),
+                      // ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          
           sliverList(
             child: Container(
               padding: const EdgeInsets.symmetric(
@@ -110,7 +144,7 @@ class _HomePageState extends State<HomePage> {
                 width: double.infinity,
                 height: 130,
                 decoration: BoxDecoration(
-                    color: secondary.withOpacity(0.5),
+                    color: darkBlue,
                     borderRadius: BorderRadius.only(
                       topRight: Radius.circular(20),
                       topLeft: Radius.circular(20),
@@ -118,9 +152,8 @@ class _HomePageState extends State<HomePage> {
                     boxShadow: const [
                   BoxShadow(
                     color: Colors.black12,
-                    blurRadius: 10,
-                    spreadRadius: 3,
-                    offset: Offset(0, 10),
+                    blurRadius: 15,
+                    spreadRadius: 2,
                   ),
                 ],
                 ),
@@ -130,14 +163,14 @@ class _HomePageState extends State<HomePage> {
                       width: double.infinity,
                       child: LineChart(activityData()),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: Text(
-                        "Seizure Activity",
-                        style: TextStyle(
-                            fontSize: 12, fontWeight: FontWeight.bold),
-                      ),
-                    )
+                    // Padding(
+                    //   padding: const EdgeInsets.all(15),
+                    //   child: Text(
+                    //     "Seizure Activity",
+                    //     style: TextStyle(
+                    //         fontSize: 12, fontWeight: FontWeight.bold),
+                    //   ),
+                    // )
                   ],
                 ),
               ),
@@ -146,7 +179,7 @@ class _HomePageState extends State<HomePage> {
                 height: 50,
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 decoration: BoxDecoration(
-                    color: secondary.withOpacity(0.5),
+                    color: darkBlue,
                     borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(20),
                       bottomLeft: Radius.circular(20),
@@ -164,35 +197,36 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                        "Device Connectivity",
+                        "Show full activity",
                         style: TextStyle(
-                            fontSize: 12, fontWeight: FontWeight.bold),
+                            fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
                       ),
                     ElevatedButton(
                       style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.white),
                           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20.0),))),
                       onPressed: () {},
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 10, right:10),
+                        padding: const EdgeInsets.only(left: 7, right:7),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: const <Widget>[
                             Icon(
-                              Icons.toggle_on_outlined,
-                              color: Colors.white,
+                              Icons.notes_rounded,
+                              color:darkBlue,
                             ),
                             SizedBox(
                               width: 10,
                             ),
                             Text(
-                              'Connect',
+                              'Show',
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400,
-                                color: Colors.white,
+                                color: darkBlue,
                               ),
                             ),
                           ],
@@ -207,364 +241,364 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          sliverList(
-            child: Container(
-              // padding: const EdgeInsets.symmetric(
-              //   horizontal: 20,
-              //   vertical: 20,
-              // ),
-              margin: const EdgeInsets.only(
-                top: 10,
-                left: 20,
-                right: 20,
-                bottom: 10,
-              ),
-              height: 300,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Analytics",
-                    style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.left,
-                    ),
-                  SizedBox(height: 10,),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        children: [
-                          Container(
-                            width: (MediaQuery.of(context).size.width * 0.85)/2,
-                            height: 120,
-                            decoration: BoxDecoration(
-                                color: thirdColor,
-                                borderRadius: BorderRadius.circular(20),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Colors.black12,
-                                    blurRadius: 10,
-                                    spreadRadius: 3,
-                                    offset: Offset(0, 10),
-                                  ),
-                                ],
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Icon(
-                                          Icons.favorite_border_rounded,
-                                          color: Colors.white,
-                                          size: 40,
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Text(
-                                              "82",
-                                              style: TextStyle(
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.w400,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Column(
-                                              children: [
-                                                SizedBox(height: 13,),
-                                                Text(
-                                                  "bpm",
-                                                  style: TextStyle(
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                const Text(
-                                      "Heart Rate",
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                              ]),
-                          )
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Container(
-                            width: (MediaQuery.of(context).size.width * 0.85)/2,
-                            height: 120,
-                            decoration: BoxDecoration(
-                                color: thirdColor,
-                                borderRadius: BorderRadius.circular(20),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Colors.black12,
-                                    blurRadius: 10,
-                                    spreadRadius: 3,
-                                    offset: Offset(0, 10),
-                                  ),
+          // sliverList(
+          //   child: Container(
+          //     // padding: const EdgeInsets.symmetric(
+          //     //   horizontal: 20,
+          //     //   vertical: 20,
+          //     // ),
+          //     margin: const EdgeInsets.only(
+          //       top: 10,
+          //       left: 20,
+          //       right: 20,
+          //       bottom: 10,
+          //     ),
+          //     height: 300,
+          //     child: Column(
+          //       mainAxisAlignment: MainAxisAlignment.start,
+          //       crossAxisAlignment: CrossAxisAlignment.start,
+          //       children: [
+          //         Text(
+          //           "Analytics",
+          //           style: TextStyle(
+          //                   fontSize: 18, fontWeight: FontWeight.bold),
+          //                   textAlign: TextAlign.left,
+          //           ),
+          //         SizedBox(height: 10,),
+          //         Row(
+          //           crossAxisAlignment: CrossAxisAlignment.center,
+          //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //           children: [
+          //             Column(
+          //               children: [
+          //                 Container(
+          //                   width: (MediaQuery.of(context).size.width * 0.85)/2,
+          //                   height: 120,
+          //                   decoration: BoxDecoration(
+          //                       color: thirdColor,
+          //                       borderRadius: BorderRadius.circular(20),
+          //                       boxShadow: const [
+          //                         BoxShadow(
+          //                           color: Colors.black12,
+          //                           blurRadius: 10,
+          //                           spreadRadius: 3,
+          //                           offset: Offset(0, 10),
+          //                         ),
+          //                       ],
+          //                   ),
+          //                   child: Column(
+          //                     mainAxisAlignment: MainAxisAlignment.center,
+          //                     crossAxisAlignment: CrossAxisAlignment.center,
+          //                     children: [
+          //                       Row(
+          //                         mainAxisAlignment: MainAxisAlignment.center,
+          //                         crossAxisAlignment: CrossAxisAlignment.center,
+          //                         children: [
+          //                           Column(
+          //                             children: [
+          //                               Icon(
+          //                                 Icons.favorite_border_rounded,
+          //                                 color: Colors.white,
+          //                                 size: 40,
+          //                               ),
+          //                             ],
+          //                           ),
+          //                           SizedBox(
+          //                             width: 10,
+          //                           ),
+          //                           Column(
+          //                             children: [
+          //                               Row(
+          //                                 children: [
+          //                                   Text(
+          //                                     "82",
+          //                                     style: TextStyle(
+          //                                       fontSize: 30,
+          //                                       fontWeight: FontWeight.w400,
+          //                                       color: Colors.white,
+          //                                     ),
+          //                                   ),
+          //                                   SizedBox(
+          //                                     width: 5,
+          //                                   ),
+          //                                   Column(
+          //                                     children: [
+          //                                       SizedBox(height: 13,),
+          //                                       Text(
+          //                                         "bpm",
+          //                                         style: TextStyle(
+          //                                           fontSize: 12,
+          //                                           fontWeight: FontWeight.w400,
+          //                                           color: Colors.white,
+          //                                         ),
+          //                                       ),
+          //                                     ],
+          //                                   ),
+          //                                 ],
+          //                               ),
+          //                             ],
+          //                           ),
+          //                         ],
+          //                       ),
+          //                       const Text(
+          //                             "Heart Rate",
+          //                             style: TextStyle(
+          //                               fontSize: 15,
+          //                               fontWeight: FontWeight.w400,
+          //                               color: Colors.white,
+          //                             ),
+          //                           ),
+          //                     ]),
+          //                 )
+          //               ],
+          //             ),
+          //             Column(
+          //               children: [
+          //                 Container(
+          //                   width: (MediaQuery.of(context).size.width * 0.85)/2,
+          //                   height: 120,
+          //                   decoration: BoxDecoration(
+          //                       color: thirdColor,
+          //                       borderRadius: BorderRadius.circular(20),
+          //                       boxShadow: const [
+          //                         BoxShadow(
+          //                           color: Colors.black12,
+          //                           blurRadius: 10,
+          //                           spreadRadius: 3,
+          //                           offset: Offset(0, 10),
+          //                         ),
                                   
-                                ],
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Icon(
-                                          Icons.device_hub_rounded,
-                                          color: Colors.white,
-                                          size: 40,
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Text(
-                                              "3.5",
-                                              style: TextStyle(
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.w400,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Column(
-                                              children: [
-                                                SizedBox(height: 13,),
-                                                Text(
-                                                  "Hz",
-                                                  style: TextStyle(
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                const Text(
-                                      "Accelerometry",
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                              ]),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        children: [
-                          Container(
-                            width: (MediaQuery.of(context).size.width * 0.85)/2,
-                            height: 120,
-                            decoration: BoxDecoration(
-                                color: thirdColor,
-                                borderRadius: BorderRadius.circular(20),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Colors.black12,
-                                    blurRadius: 10,
-                                    spreadRadius: 3,
-                                    offset: Offset(0, 10),
-                                  ),
-                                ],
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Icon(
-                                          Icons.back_hand,
-                                          color: Colors.white,
-                                          size: 40,
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Text(
-                                              "2.0",
-                                              style: TextStyle(
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.w400,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Column(
-                                              children: [
-                                                SizedBox(height: 13,),
-                                                Text(
-                                                  "μS",
-                                                  style: TextStyle(
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                const Text(
-                                  "Electrodermal",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ]),
-                          )
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Container(
-                            width: (MediaQuery.of(context).size.width * 0.85)/2,
-                            height: 120,
-                            decoration: BoxDecoration(
-                                color: thirdColor,
-                                borderRadius: BorderRadius.circular(20),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Colors.black12,
-                                    blurRadius: 10,
-                                    spreadRadius: 3,
-                                    offset: Offset(0, 10),
-                                  ),
-                                ],
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Icon(
-                                          Icons.analytics,
-                                          color: Colors.white,
-                                          size: 40,
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Column(
-                                      children: [
-                                        Text(
-                                          "Normal",
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                const Text(
-                                  "Device Sensitivity",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ]),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
+          //                       ],
+          //                   ),
+          //                   child: Column(
+          //                     mainAxisAlignment: MainAxisAlignment.center,
+          //                     crossAxisAlignment: CrossAxisAlignment.center,
+          //                     children: [
+          //                       Row(
+          //                         mainAxisAlignment: MainAxisAlignment.center,
+          //                         crossAxisAlignment: CrossAxisAlignment.center,
+          //                         children: [
+          //                           Column(
+          //                             children: [
+          //                               Icon(
+          //                                 Icons.device_hub_rounded,
+          //                                 color: Colors.white,
+          //                                 size: 40,
+          //                               ),
+          //                             ],
+          //                           ),
+          //                           SizedBox(
+          //                             width: 10,
+          //                           ),
+          //                           Column(
+          //                             children: [
+          //                               Row(
+          //                                 children: [
+          //                                   Text(
+          //                                     "3.5",
+          //                                     style: TextStyle(
+          //                                       fontSize: 30,
+          //                                       fontWeight: FontWeight.w400,
+          //                                       color: Colors.white,
+          //                                     ),
+          //                                   ),
+          //                                   SizedBox(
+          //                                     width: 5,
+          //                                   ),
+          //                                   Column(
+          //                                     children: [
+          //                                       SizedBox(height: 13,),
+          //                                       Text(
+          //                                         "Hz",
+          //                                         style: TextStyle(
+          //                                           fontSize: 12,
+          //                                           fontWeight: FontWeight.w400,
+          //                                           color: Colors.white,
+          //                                         ),
+          //                                       ),
+          //                                     ],
+          //                                   ),
+          //                                 ],
+          //                               ),
+          //                             ],
+          //                           ),
+          //                         ],
+          //                       ),
+          //                       const Text(
+          //                             "Accelerometry",
+          //                             style: TextStyle(
+          //                               fontSize: 15,
+          //                               fontWeight: FontWeight.w400,
+          //                               color: Colors.white,
+          //                             ),
+          //                           ),
+          //                     ]),
+          //                 )
+          //               ],
+          //             ),
+          //           ],
+          //         ),
+          //         const SizedBox(height: 20),
+          //         Row(
+          //           crossAxisAlignment: CrossAxisAlignment.center,
+          //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //           children: [
+          //             Column(
+          //               children: [
+          //                 Container(
+          //                   width: (MediaQuery.of(context).size.width * 0.85)/2,
+          //                   height: 120,
+          //                   decoration: BoxDecoration(
+          //                       color: thirdColor,
+          //                       borderRadius: BorderRadius.circular(20),
+          //                       boxShadow: const [
+          //                         BoxShadow(
+          //                           color: Colors.black12,
+          //                           blurRadius: 10,
+          //                           spreadRadius: 3,
+          //                           offset: Offset(0, 10),
+          //                         ),
+          //                       ],
+          //                   ),
+          //                   child: Column(
+          //                     mainAxisAlignment: MainAxisAlignment.center,
+          //                     crossAxisAlignment: CrossAxisAlignment.center,
+          //                     children: [
+          //                       Row(
+          //                         mainAxisAlignment: MainAxisAlignment.center,
+          //                         crossAxisAlignment: CrossAxisAlignment.center,
+          //                         children: [
+          //                           Column(
+          //                             children: [
+          //                               Icon(
+          //                                 Icons.back_hand,
+          //                                 color: Colors.white,
+          //                                 size: 40,
+          //                               ),
+          //                             ],
+          //                           ),
+          //                           SizedBox(
+          //                             width: 10,
+          //                           ),
+          //                           Column(
+          //                             children: [
+          //                               Row(
+          //                                 children: [
+          //                                   Text(
+          //                                     "2.0",
+          //                                     style: TextStyle(
+          //                                       fontSize: 30,
+          //                                       fontWeight: FontWeight.w400,
+          //                                       color: Colors.white,
+          //                                     ),
+          //                                   ),
+          //                                   SizedBox(
+          //                                     width: 5,
+          //                                   ),
+          //                                   Column(
+          //                                     children: [
+          //                                       SizedBox(height: 13,),
+          //                                       Text(
+          //                                         "μS",
+          //                                         style: TextStyle(
+          //                                           fontSize: 12,
+          //                                           fontWeight: FontWeight.w400,
+          //                                           color: Colors.white,
+          //                                         ),
+          //                                       ),
+          //                                     ],
+          //                                   ),
+          //                                 ],
+          //                               ),
+          //                             ],
+          //                           ),
+          //                         ],
+          //                       ),
+          //                       const Text(
+          //                         "Electrodermal",
+          //                         style: TextStyle(
+          //                           fontSize: 15,
+          //                           fontWeight: FontWeight.w400,
+          //                           color: Colors.white,
+          //                         ),
+          //                       ),
+          //                     ]),
+          //                 )
+          //               ],
+          //             ),
+          //             Column(
+          //               children: [
+          //                 Container(
+          //                   width: (MediaQuery.of(context).size.width * 0.85)/2,
+          //                   height: 120,
+          //                   decoration: BoxDecoration(
+          //                       color: thirdColor,
+          //                       borderRadius: BorderRadius.circular(20),
+          //                       boxShadow: const [
+          //                         BoxShadow(
+          //                           color: Colors.black12,
+          //                           blurRadius: 10,
+          //                           spreadRadius: 3,
+          //                           offset: Offset(0, 10),
+          //                         ),
+          //                       ],
+          //                   ),
+          //                   child: Column(
+          //                     mainAxisAlignment: MainAxisAlignment.center,
+          //                     crossAxisAlignment: CrossAxisAlignment.center,
+          //                     children: [
+          //                       Row(
+          //                         mainAxisAlignment: MainAxisAlignment.center,
+          //                         crossAxisAlignment: CrossAxisAlignment.center,
+          //                         children: [
+          //                           Column(
+          //                             children: [
+          //                               Icon(
+          //                                 Icons.analytics,
+          //                                 color: Colors.white,
+          //                                 size: 40,
+          //                               ),
+          //                             ],
+          //                           ),
+          //                           SizedBox(
+          //                             width: 10,
+          //                           ),
+          //                           Column(
+          //                             children: [
+          //                               Text(
+          //                                 "Normal",
+          //                                 style: TextStyle(
+          //                                   fontSize: 20,
+          //                                   fontWeight: FontWeight.w400,
+          //                                   color: Colors.white,
+          //                                 ),
+          //                               ),
+          //                             ],
+          //                           ),
+          //                         ],
+          //                       ),
+          //                       const Text(
+          //                         "Device Sensitivity",
+          //                         style: TextStyle(
+          //                           fontSize: 15,
+          //                           fontWeight: FontWeight.w400,
+          //                           color: Colors.white,
+          //                         ),
+          //                       ),
+          //                     ]),
+          //                 )
+          //               ],
+          //             ),
+          //           ],
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
           
           sliverList(
             child: Container(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.only(top:10, left: 20, right: 20),
               width: MediaQuery.of(context).size.width,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -573,13 +607,14 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Category',
+                        'Analytics',
                         style: Theme.of(context).textTheme.headline6,
                       ),
                       Text(
                         'See All',
-                        style: Theme.of(context).textTheme.headline6!.copyWith(
+                        style: TextStyle(
                               color: Colors.grey,
+                              fontSize: 14,
                             ),
                       ),
                     ],
@@ -589,9 +624,11 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           sliverList(
-              child: SizedBox(
-            height: 120,
+              child: Container(
+            height: 200,
             width: MediaQuery.of(context).size.width,
+            //margin: const EdgeInsets.only(left: 20, right: 20, bottom:20),
+            //padding: const EdgeInsets.all(20),
             child: ListView(
               shrinkWrap: true,
               primary: false,
@@ -599,30 +636,247 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.all(0),
               scrollDirection: Axis.horizontal,
               children: [
-                GridOption(
-                  image: 'images/vet.png',
-                  title: 'Vet',
-                  isSelected: true,
-                  onTap: () {},
+                Container(
+                  width: 230,
+                  margin: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.only(top:15, bottom:15, left:20, right:20),
+                  //height: 200,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 15,
+                          spreadRadius: 2,
+                        ),
+                      ],
+                  ),
+                  child:Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "104",
+                            style: TextStyle(
+                              fontSize: 50,
+                              fontWeight: FontWeight.bold,
+                              color: darkGrey,
+                              fontFamily: GoogleFonts.poppins().fontFamily,
+                            ),
+                          ),
+                          SizedBox(width: 5,),
+                          Column(
+                            children: const[
+                              SizedBox(height: 35,
+                              ),
+                              Text(
+                                "bpm",
+                                style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              color: darkGrey
+                            ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20,),
+                      Container(
+                        padding: const EdgeInsets.only(left:10, right: 10, top:3, bottom:3),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.grey[200],
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.favorite_rounded,
+                              color: Color.fromARGB(255, 244, 86, 74),
+                            ),
+                            SizedBox(width: 10,),
+                            Text(
+                              "Heart Rate",
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-                GridOption(
-                  image: 'images/Grooming.png',
-                  title: 'Grooming',
-                  isSelected: false,
-                  onTap: () {},
+                Container(
+                  width: 230,
+                  margin: const EdgeInsets.only(top:20, bottom:20, right:20),
+                  padding: const EdgeInsets.only(top:15, bottom:15, left:20, right:20),
+                  //height: 200,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 15,
+                          spreadRadius: 2,
+                        ),
+                      ],
+                  ),
+                  child:Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 5,),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Nominal",
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: darkGrey,
+                              fontFamily: GoogleFonts.poppins().fontFamily,
+                            ),
+                          ),
+                          Text(
+                            "movement",
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: darkGrey
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 28,),
+                      Container(
+                        padding: const EdgeInsets.only(left:10, right: 10, top:3, bottom:3),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.grey[200],
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.device_hub_rounded,
+                              color: Colors.green,
+                            ),
+                            SizedBox(width: 10,),
+                            Text(
+                              "Accelerometer",
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-                GridOption(
-                  image: 'images/food.png',
-                  title: 'Food',
-                  isSelected: false,
-                  onTap: () {},
+                Container(
+                  width: 230,
+                  margin: const EdgeInsets.only(top:20, bottom:20, right:20),
+                  padding: const EdgeInsets.only(top:15, bottom:15, left:20, right:20),
+                  //height: 200,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 15,
+                          spreadRadius: 2,
+                        ),
+                      ],
+                  ),
+                  child:Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 5,),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Erratic",
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: darkGrey,
+                              fontFamily: GoogleFonts.poppins().fontFamily,
+                            ),
+                          ),
+                          Text(
+                            "activity",
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: darkGrey
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 28,),
+                      Container(
+                        padding: const EdgeInsets.only(left:10, right: 10, top:3, bottom:3),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.grey[200],
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.back_hand,
+                              color: Colors.amber,
+                            ),
+                            SizedBox(width: 10,),
+                            Text(
+                              "Electrodermal Activity",
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-                GridOption(
-                  image: 'images/playing.png',
-                  title: 'Playing',
-                  isSelected: false,
-                  onTap: () {},
-                ),
+                // GridOption(
+                //   image: 'images/vet.png',
+                //   title: 'Vet',
+                //   isSelected: true,
+                //   onTap: () {},
+                // ),
+                // GridOption(
+                //   image: 'images/Grooming.png',
+                //   title: 'Grooming',
+                //   isSelected: false,
+                //   onTap: () {},
+                // ),
+                // GridOption(
+                //   image: 'images/food.png',
+                //   title: 'Food',
+                //   isSelected: false,
+                //   onTap: () {},
+                // ),
+                // GridOption(
+                //   image: 'images/playing.png',
+                //   title: 'Playing',
+                //   isSelected: false,
+                //   onTap: () {},
+                // ),
               ],
             ),
           )),
@@ -642,13 +896,14 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Nearby Veterinary',
+                        'Recent Activities',
                         style: Theme.of(context).textTheme.headline6,
                       ),
                       Text(
                         'See All',
-                        style: Theme.of(context).textTheme.headline6!.copyWith(
+                        style: TextStyle(
                               color: Colors.grey,
+                              fontSize: 12,
                             ),
                       ),
                     ],
@@ -692,7 +947,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
         currentIndex: 0,
-        selectedItemColor: primaryColor,
+        selectedItemColor: darkBlue,
         unselectedItemColor: Colors.grey,
         onTap: (index) {
           print('selected index $index');
@@ -717,7 +972,7 @@ class DrListContainer extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
-        color: secondryColor,
+        color: darkBlue,
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.2),
@@ -736,7 +991,7 @@ class DrListContainer extends StatelessWidget {
             width: 80,
             height: 80,
             decoration: BoxDecoration(
-              color: primaryColor,
+              color: darkBlue,
               borderRadius: BorderRadius.circular(20),
               image: const DecorationImage(
                 image: AssetImage('images/dr.png'), // change in future
@@ -788,7 +1043,7 @@ class DrListContainer extends StatelessWidget {
             width: 40,
             child: Container(
               decoration: const BoxDecoration(
-                color: primaryColor,
+                color: darkBlue,
                 shape: BoxShape.circle,
               ),
               child: IconButton(
@@ -836,7 +1091,7 @@ class GridOption extends StatelessWidget {
               width: MediaQuery.of(context).size.width / 4.3,
               height: 85,
               decoration: BoxDecoration(
-                color: isSelected ? primaryColor : secondryColor,
+                color: isSelected ? darkBlue : lightBlue,
                 borderRadius: BorderRadius.circular(25),
               ),
               child: Image.asset(

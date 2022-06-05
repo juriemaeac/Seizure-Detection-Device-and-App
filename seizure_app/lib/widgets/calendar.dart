@@ -21,11 +21,13 @@ class CalendarSection extends StatelessWidget {
                 style: GoogleFonts.quicksand(
                   fontSize: 15.0,
                   fontWeight: FontWeight.w600,
+                  color: Colors.black
                 ),
               ),
             ],
           ),
         ),
+        SizedBox(height: 10.0),
         Container(
           width: MediaQuery.of(context).size.width,
           // padding: const EdgeInsets.only(
