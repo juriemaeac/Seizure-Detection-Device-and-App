@@ -6,3 +6,4 @@ const Color lightBlue = Color(0xFFA3B3CB);
 const Color darkBlue = Color(0xFF001AB4);
 const Color darkGrey = Color(0xFF575964);
 const Color blue = Color(0xFF3754B7);
+const Color red = Color.fromARGB(255, 244, 86, 74);
