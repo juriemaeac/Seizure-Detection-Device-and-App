@@ -39,6 +39,7 @@ dependencies:
   fl_chart:
   floating_bottom_navigation_bar: ^1.5.2
   percent_indicator: ^4.0.0
+  flutter_switch: ^0.3.2
 
 dev_dependencies:
   flutter_test:

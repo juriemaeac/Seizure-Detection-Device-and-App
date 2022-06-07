@@ -11,6 +11,7 @@ import 'package:seizure_app/pages/profile.dart';
 import 'package:seizure_app/pages/records.dart';
 import 'package:seizure_app/widgets/barchart.dart';
 import 'package:seizure_app/widgets/calendar.dart';
+import 'package:seizure_app/widgets/recent_high.dart';
 import 'package:seizure_app/widgets/recent_normal.dart';
 
 class HomePage extends StatefulWidget {
@@ -591,7 +592,7 @@ class _HomePageState extends State<HomePage> {
             primary: false,
             padding: const EdgeInsets.only(bottom: 60),
             children: const [
-              RecentActivitiesNormal(),
+              RecentActivitiesAlert(),
             ],
           ))
         ],
