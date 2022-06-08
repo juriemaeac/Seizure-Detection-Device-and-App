@@ -50,7 +50,7 @@ class _CalendarWeeklyState extends State<CalendarWeekly> {
                 ),
               ]),
           weekendDecoration: BoxDecoration(
-              color: Colors.white,
+              color: lightGrey,
               borderRadius: BorderRadius.circular(20.0),
               boxShadow: const [
                 BoxShadow(
@@ -58,7 +58,8 @@ class _CalendarWeeklyState extends State<CalendarWeekly> {
                   spreadRadius: 1.0,
                   color: Colors.black12,
                 ),
-              ]),
+              ]
+          ),
         ),
       ),
     );

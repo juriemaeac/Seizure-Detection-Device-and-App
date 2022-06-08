@@ -43,16 +43,16 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
-                  Icon(
-                    Icons.dashboard_rounded,
-                    size: 30,
-                    color: grey,
-                  ),
-                  Icon(
-                    Icons.person_rounded,
-                    size: 30,
-                    color: grey,
-                  ),
+                  // Icon(
+                  //   Icons.dashboard_rounded,
+                  //   size: 30,
+                  //   color: grey,
+                  // ),
+                  // Icon(
+                  //   Icons.person_rounded,
+                  //   size: 30,
+                  //   color: grey,
+                  // ),
                 ],
               ),
             ),
@@ -69,15 +69,27 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    'Hi User',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Hi User',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10), // Image border
+                        child: SizedBox.fromSize(
+                          size: const Size.fromRadius(20), // Image radius
+                          child: Image.asset('images/samplePic.jpg', fit: BoxFit.cover)
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
+                  const Text(
                     'Good Morning!',
                     style: TextStyle(
                       fontSize: 18,
@@ -134,12 +146,12 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Container(
                     width: double.infinity,
-                    height: 150,
+                    height: 170,
                     decoration: const BoxDecoration(
                       color: darkBlue,
                       borderRadius: BorderRadius.only(
-                        topRight: const Radius.circular(20),
-                        topLeft: const Radius.circular(20),
+                        topRight: Radius.circular(20),
+                        topLeft: Radius.circular(20),
                       ),
                       boxShadow: [
                         BoxShadow(
@@ -268,15 +280,15 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.sensors_rounded,
                             color: Colors.grey,
                             size: 20,
                           ),
-                          SizedBox(width: 5),
+                          const SizedBox(width: 5),
                           const Text(
                             'Update',
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.grey,
                               fontSize: 14,
                             ),
@@ -367,7 +379,7 @@ class _HomePageState extends State<HomePage> {
                           children: const [
                             Icon(
                               Icons.favorite_rounded,
-                              color: const Color.fromARGB(255, 244, 86, 74),
+                              color: Color.fromARGB(255, 244, 86, 74),
                             ),
                             SizedBox(
                               width: 10,
@@ -530,7 +542,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             const Text(
                               "Electrodermal Activity",
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: Colors.grey,
                                 fontSize: 12,
                               ),
@@ -547,7 +559,7 @@ class _HomePageState extends State<HomePage> {
           sliverList(
             child: Container(
               padding: const EdgeInsets.only(
-                top: 20,
+                //top: 20,
                 left: 20,
                 right: 20,
                 bottom: 5,
@@ -563,22 +575,32 @@ class _HomePageState extends State<HomePage> {
                         'Recent Activity',
                         style: Theme.of(context).textTheme.headline6,
                       ),
-                      Row(
-                        children: const [
-                          Icon(
-                            Icons.monitor_heart_outlined,
-                            color: Colors.grey,
-                            size: 20,
-                          ),
-                          SizedBox(width: 5),
-                          Text(
-                            'See All',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 14,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const RecordPage(),
                             ),
-                          ),
-                        ],
+                          );
+                        },
+                        child: Row(
+                          children: const [
+                            Icon(
+                              Icons.monitor_heart_outlined,
+                              color: Colors.grey,
+                              size: 20,
+                            ),
+                            SizedBox(width: 5),
+                            Text(
+                              'See All',
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

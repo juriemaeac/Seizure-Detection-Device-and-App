@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'Seizure App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        //primarySwatch: Colors.blue,
+        //primarySwatch: Colors.indigo,
         textTheme: GoogleFonts.poppinsTextTheme(
           Theme.of(context).textTheme,
         ),

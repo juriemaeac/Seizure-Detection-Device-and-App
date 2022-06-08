@@ -20,6 +20,8 @@ class _ProfilePageState extends State<ProfilePage> {
   bool sensitiveStatus = false;
   TimeOfDay selectedTimeStart = TimeOfDay.now();
   TimeOfDay selectedTimeEnd = TimeOfDay.now() ;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +54,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     height: MediaQuery.of(context).size.height/3.5,
                     decoration: BoxDecoration(
                       color: lightGrey,
-                      borderRadius: BorderRadius.all(Radius.circular(20),
+                      borderRadius: const BorderRadius.all(Radius.circular(20),
                       ),
                       boxShadow: [
                         BoxShadow(
@@ -65,12 +67,11 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
-                  
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(20), // Image border
                           child: SizedBox.fromSize(
-                            size: Size.fromRadius(80), // Image radius
+                            size: const Size.fromRadius(80), // Image radius
                             child: Image.asset('images/samplePic.jpg', fit: BoxFit.cover),
                           ),
                         ),
@@ -82,18 +83,18 @@ class _ProfilePageState extends State<ProfilePage> {
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
-                              color: darkBlue,
+                              color: darkGrey,
                             ),
                           ),
                         ),
                         
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                       ]
                     ),
                   ),
-                  SizedBox(width: 10,),
+                  const SizedBox(width: 10,),
                   Container(
                     color: Colors.transparent,
                     width: MediaQuery.of(context).size.width/2-30,
@@ -113,7 +114,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Profile',
                                       style: TextStyle(
                                         fontSize: 22,
@@ -122,7 +123,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ),
                                     ),
                                     IconButton(
-                                      icon: Icon(
+                                      icon: const Icon(
                                         Icons.edit,
                                         color: Colors.black87,
                                       ),
@@ -156,14 +157,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.bold,
-                                      color: darkBlue,
+                                      color: darkGrey,
                                     ),
                                   ),
                                   Text(
                                     'Full Name',
                                     style: TextStyle(
                                       fontSize: 11,
-                                      color: Colors.black,
+                                      color: lightBlue,
                                     ),
                                   ),
                                   SizedBox(
@@ -174,14 +175,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.bold,
-                                      color: darkBlue,
+                                      color: darkGrey,
                                     ),
                                   ),
                                   Text(
                                     'Guardian Name',
                                     style: TextStyle(
                                       fontSize: 11,
-                                      color: Colors.black,
+                                      color: lightBlue,
                                     ),
                                   ),
                                   SizedBox(
@@ -192,14 +193,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.bold,
-                                      color: darkBlue,
+                                      color: darkGrey,
                                     ),
                                   ),
                                   Text(
                                     'Contact Number',
                                     style: TextStyle(
                                       fontSize: 11,
-                                      color: Colors.black,
+                                      color: lightBlue,
                                     ),
                                   ),
                                   SizedBox(
@@ -210,14 +211,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.bold,
-                                      color: darkBlue,
+                                      color: darkGrey,
                                     ),
                                   ),
                                   Text(
                                     'Address',
                                     style: TextStyle(
                                       fontSize: 11,
-                                      color: Colors.black,
+                                      color: lightBlue,
                                     ),
                                   ),
                                   
@@ -232,7 +233,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Container(
@@ -241,7 +242,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
-                    BoxShadow(
+                    const BoxShadow(
                       color: Colors.black12,
                       blurRadius: 13,
                       spreadRadius: 2,
@@ -258,14 +259,14 @@ class _ProfilePageState extends State<ProfilePage> {
                         top: 10,
                         bottom: 10,
                       ),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: darkBlue,
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(20),
                           bottomLeft: Radius.circular(20),
                         ),
                       ),
-                      child: Icon(
+                      child: const Icon(
                         Icons.phone_android_rounded,
                         color: Colors.white, //or red
                         size: 85,
@@ -352,7 +353,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ],
                 )
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Container(
@@ -361,7 +362,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
-                    BoxShadow(
+                    const BoxShadow(
                       color: Colors.black12,
                       blurRadius: 13,
                       spreadRadius: 2,
@@ -387,15 +388,15 @@ class _ProfilePageState extends State<ProfilePage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.speed_rounded,
                                 color: darkGrey,
                                 size: 28,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
-                              Text(
+                              const Text(
                                 'Sensing Parameters',
                                 style: TextStyle(
                                   fontSize: 18,
@@ -405,7 +406,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               )
                             ],
                           ),
-                          Divider(
+                          const Divider(
                             color: Color.fromARGB(255, 240, 240, 240),
                             thickness: 1,
                           ),
@@ -417,26 +418,26 @@ class _ProfilePageState extends State<ProfilePage> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.motion_photos_on_rounded,
                                     color: Colors.green,
                                     size: 40,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 10,
                                   ),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(
+                                      const Text(
                                         'Normal State',
                                         style: TextStyle(
                                           fontSize: 15,
                                           color: darkBlue,
                                         ),
                                       ),
-                                      Text(
+                                      const Text(
                                         'Subtitle',
                                         style: TextStyle(
                                           fontSize: 12,
@@ -473,7 +474,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
@@ -484,26 +485,26 @@ class _ProfilePageState extends State<ProfilePage> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.contactless_rounded,
                                     color: red,
                                     size: 40,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 10,
                                   ),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(
+                                      const Text(
                                         'Sensitive State',
                                         style: TextStyle(
                                           fontSize: 15,
                                           color: darkBlue,
                                         ),
                                       ),
-                                      Text(
+                                      const Text(
                                         'Subtitle',
                                         style: TextStyle(
                                           fontSize: 12,
@@ -543,7 +544,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ],
                       ),
                     ),
-                    Divider(
+                    const Divider(
                             color: Color.fromARGB(255, 217, 217, 217),
                             thickness: 1,
                           ),
@@ -551,7 +552,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       padding: const EdgeInsets.only(top:10, bottom: 10, left: 20, right: 20),
                         //height: 120,
                         width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(20),
@@ -572,14 +573,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Row(
-                                        children: [
-                                        Icon(
+                                        children: const[
+                                         Icon(
                                           Icons.access_time_rounded,
                                           color: darkGrey,
                                           size: 28,
                                         ),
-                                        SizedBox(width: 10,),
-                                          Text(
+                                         SizedBox(width: 10,),
+                                           Text(
                                             'Set Schedule',
                                             style: TextStyle(
                                                 fontSize: 18,
@@ -589,7 +590,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 10,
                                       ),
                                       ElevatedButton(
@@ -622,7 +623,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ),
                                     ],
                                   ),
-                                  VerticalDivider(
+                                  const VerticalDivider(
                                     color: Color.fromARGB(255, 240, 240, 240),
                                     thickness: 1,
                                   ),
@@ -631,68 +632,78 @@ class _ProfilePageState extends State<ProfilePage> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Container(
-                                        width: 115,
+                                        width: 130,
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              'From: ',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                color: darkGrey,
+                                            Container(
+                                              width: 50,
+                                              child: Text(
+                                                'From: ',
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: darkGrey,
+                                                ),
                                               ),
                                             ),
                                             GestureDetector(
                                               onTap: () { _selectTimeStart(context); },
                                               child: Container(
+                                                width: 80,
                                                 padding: const EdgeInsets.only(top:3, bottom: 3, left: 15, right: 15),
                                                 decoration: BoxDecoration(
                                                   color: lightGrey,
                                                   borderRadius: BorderRadius.circular(10),),
                                                 child: Text(
                                                   '${selectedTimeStart.hour}:${selectedTimeStart.minute}',
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     fontSize: 20,
                                                     fontWeight: FontWeight.bold,
                                                     color: darkGrey,
                                                   ),
+                                                  textAlign: TextAlign.center,
                                                 ),
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 10,
                                       ),
                                       Container(
-                                        width: 115,
+                                        width: 130,
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              'Until: ',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                color: darkGrey,
+                                            Container(
+                                              width: 50,
+                                              child: Text(
+                                                'Until: ',
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: darkGrey,
+                                                ),
                                               ),
                                             ),
                                             GestureDetector(
                                               onTap: () { _selectTimeEnd(context); },
                                               child: Container(
+                                                width: 80,
                                                 padding: const EdgeInsets.only(top:3, bottom: 3, left: 15, right: 15),
                                                 decoration: BoxDecoration(
                                                   color: lightGrey,
                                                   borderRadius: BorderRadius.circular(10),),
                                                 child: Text(
                                                   '${selectedTimeEnd.hour}:${selectedTimeEnd.minute}',
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     fontSize: 20,
                                                     fontWeight: FontWeight.bold,
                                                     color: darkGrey,
                                                   ),
+                                                  textAlign: TextAlign.center,
                                                 ),
                                               ),
                                             ),
