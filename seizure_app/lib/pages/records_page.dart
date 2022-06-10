@@ -1,11 +1,9 @@
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:seizure_app/constant.dart';
-import 'package:seizure_app/default_widget.dart';
 import 'package:seizure_app/pages/home_page.dart';
-import 'package:seizure_app/pages/profile.dart';
+import 'package:seizure_app/pages/profile_page.dart';
 import 'package:seizure_app/widgets/barchart.dart';
-import 'package:seizure_app/widgets/recent_high.dart';
 import 'package:seizure_app/widgets/recent_normal.dart';
 import 'package:seizure_app/widgets/stat_card.dart';
 
@@ -114,7 +112,7 @@ class _RecordPageState extends State<RecordPage> {
                 primary: false,
                 padding: const EdgeInsets.only(bottom: 0),
                 itemBuilder: (BuildContext context, int index) {
-                  return RecentActivitiesNormal();
+                  return const RecentActivitiesNormal();
                 }
                 // children: const [
                 //   RecentActivitiesNormal(),
@@ -131,7 +129,7 @@ class _RecordPageState extends State<RecordPage> {
       bottomNavigationBar: FloatingNavbar(
         onTap: (int val) => setState(() {
           pageIndex = val;
-          print('selected index $val');
+          //print('selected index $val');
           if (pageIndex == 0) {
             Navigator.push(
               context,
@@ -175,22 +173,6 @@ class _RecordPageState extends State<RecordPage> {
         borderRadius: 20,
         iconSize: 20,
       ),
-      // CustomScrollView(
-      //   slivers: [
-      //     sliverList(
-      //       child:
-      //     ),
-      //     sliverList(
-      //       child:
-      //     ),
-      //     sliverList(
-      //       child:
-      //     ),
-      //     sliverList(
-      //       child:
-      //     ),
-      //   ]
-      // ),
     );
   }
 }

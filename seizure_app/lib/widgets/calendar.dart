@@ -27,8 +27,8 @@ class CalendarSection extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(height: 10.0),
-        Container(
+        const SizedBox(height: 10.0),
+        SizedBox(
           width: MediaQuery.of(context).size.width,
           // padding: const EdgeInsets.only(
           //     left: 25.0, top: 15.0, right: 25.0, bottom: 0),

@@ -1,18 +1,13 @@
-import 'dart:ffi';
-
-import 'package:fl_chart/fl_chart.dart';
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:seizure_app/constant.dart';
 import 'package:seizure_app/default_widget.dart';
-import 'package:seizure_app/pages/profile.dart';
-import 'package:seizure_app/pages/records.dart';
+import 'package:seizure_app/pages/profile_page.dart';
+import 'package:seizure_app/pages/records_page.dart';
 import 'package:seizure_app/widgets/barchart.dart';
 import 'package:seizure_app/widgets/calendar.dart';
 import 'package:seizure_app/widgets/recent_high.dart';
-import 'package:seizure_app/widgets/recent_normal.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -38,22 +33,6 @@ class _HomePageState extends State<HomePage> {
               ),
               margin: const EdgeInsets.only(
                 top: 50,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  // Icon(
-                  //   Icons.dashboard_rounded,
-                  //   size: 30,
-                  //   color: grey,
-                  // ),
-                  // Icon(
-                  //   Icons.person_rounded,
-                  //   size: 30,
-                  //   color: grey,
-                  // ),
-                ],
               ),
             ),
           ),
@@ -130,7 +109,7 @@ class _HomePageState extends State<HomePage> {
                         style: Theme.of(context).textTheme.headline6,
                       ),
                     ],
-                  ),
+                  ), 
                 ],
               ),
             ),
@@ -175,14 +154,6 @@ class _HomePageState extends State<HomePage> {
                           //child: LineChart(activityData()),
                           child: const BarChartSample1(),
                         ),
-                        // Padding(
-                        //   padding: const EdgeInsets.all(15),
-                        //   child: Text(
-                        //     "Seizure Activity",
-                        //     style: TextStyle(
-                        //         fontSize: 12, fontWeight: FontWeight.bold),
-                        //   ),
-                        // )
                       ],
                     ),
                   ),
@@ -209,7 +180,7 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(
-                          "Show full activity",
+                          "Record a Seizure activity",
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
@@ -224,14 +195,7 @@ class _HomePageState extends State<HomePage> {
                                   RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20.0),
                               ))),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const RecordPage(),
-                              ),
-                            );
-                          },
+                          onPressed: () {},
                           child: Padding(
                             padding: const EdgeInsets.only(left: 7, right: 7),
                             child: Row(
@@ -239,14 +203,14 @@ class _HomePageState extends State<HomePage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: const <Widget>[
                                 Icon(
-                                  Icons.notes_rounded,
+                                  Icons.record_voice_over_rounded,
                                   color: darkBlue,
                                 ),
                                 SizedBox(
                                   width: 10,
                                 ),
                                 Text(
-                                  'Show',
+                                  'Record',
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400,
@@ -279,14 +243,14 @@ class _HomePageState extends State<HomePage> {
                         style: Theme.of(context).textTheme.headline6,
                       ),
                       Row(
-                        children: [
-                          const Icon(
+                        children: const[
+                           Icon(
                             Icons.sensors_rounded,
                             color: Colors.grey,
                             size: 20,
                           ),
-                          const SizedBox(width: 5),
-                          const Text(
+                          SizedBox(width: 5),
+                          Text(
                             'Update',
                             style: TextStyle(
                               color: Colors.grey,
@@ -302,7 +266,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           sliverList(
-              child: Container(
+            child: SizedBox(
             height: 200,
             width: MediaQuery.of(context).size.width,
             //margin: const EdgeInsets.only(left: 20, right: 20, bottom:20),
@@ -454,15 +418,15 @@ class _HomePageState extends State<HomePage> {
                           color: Colors.grey[200],
                         ),
                         child: Row(
-                          children: [
-                            const Icon(
+                          children: const [
+                             Icon(
                               Icons.device_hub_rounded,
                               color: Colors.green,
                             ),
-                            const SizedBox(
+                            SizedBox(
                               width: 10,
                             ),
-                            const Text(
+                            Text(
                               "Accelerometer",
                               style: TextStyle(
                                 color: Colors.grey,
@@ -532,15 +496,15 @@ class _HomePageState extends State<HomePage> {
                           color: Colors.grey[200],
                         ),
                         child: Row(
-                          children: [
-                            const Icon(
+                          children: const [
+                            Icon(
                               Icons.back_hand,
                               color: Colors.amber,
                             ),
-                            const SizedBox(
+                            SizedBox(
                               width: 10,
                             ),
-                            const Text(
+                            Text(
                               "Electrodermal Activity",
                               style: TextStyle(
                                 color: Colors.grey,
@@ -622,7 +586,7 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: FloatingNavbar(
         onTap: (int val) => setState(() {
           pageIndex = val;
-          print('selected index $val');
+          //print('selected index $val');
           if (pageIndex == 0) {
             Navigator.push(
               context,
@@ -670,56 +634,4 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class GridOption extends StatelessWidget {
-  const GridOption({
-    Key? key,
-    required this.image,
-    required this.title,
-    this.isSelected = false,
-    required this.onTap,
-  }) : super(key: key);
 
-  final String image;
-  final String title;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        margin: const EdgeInsets.only(left: 25),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width / 4.3,
-              height: 85,
-              decoration: BoxDecoration(
-                color: isSelected ? darkBlue : lightBlue,
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: Image.asset(
-                image,
-                // fit: BoxFit.scaleDown,
-                height: 50,
-              ),
-            ),
-            Flexible(
-              child: Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 18,
-                  color: Colors.black54,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}

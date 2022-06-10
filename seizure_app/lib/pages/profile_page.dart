@@ -2,10 +2,9 @@ import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.da
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:seizure_app/constant.dart';
-import 'package:seizure_app/pages/edit_profile.dart';
+import 'package:seizure_app/pages/edit_profile_page.dart';
 import 'package:seizure_app/pages/home_page.dart';
-import 'package:seizure_app/pages/records.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:seizure_app/pages/records_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -106,40 +105,46 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: [
                         Expanded(
                           flex: 1,
-                          child: Container(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text(
-                                      'Profile',
-                                      style: TextStyle(
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black87,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: const [
+                                      Icon(
+                                        Icons.person, color: darkBlue,
                                       ),
-                                    ),
-                                    IconButton(
-                                      icon: const Icon(
-                                        Icons.edit,
-                                        color: Colors.black87,
+                                      SizedBox(width: 5,),
+                                      Text(
+                                        'Profile',
+                                        style: TextStyle(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.w600,
+                                          color: darkBlue,
+                                        ),
                                       ),
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => const EditProfilePage(),
-                                          ),
-                                        );
-                                      },
+                                    ],
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(
+                                      Icons.edit,
+                                      color: darkBlue,
                                     ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => const EditProfilePage(),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                         Expanded(
@@ -241,8 +246,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    const BoxShadow(
+                  boxShadow: const [
+                    BoxShadow(
                       color: Colors.black12,
                       blurRadius: 13,
                       spreadRadius: 2,
@@ -284,7 +289,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Container(
+                          SizedBox(
                             width: MediaQuery.of(context).size.width-155,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -361,8 +366,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    const BoxShadow(
+                  boxShadow: const [
+                     BoxShadow(
                       color: Colors.black12,
                       blurRadius: 13,
                       spreadRadius: 2,
@@ -387,16 +392,16 @@ class _ProfilePageState extends State<ProfilePage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const Icon(
+                            children: const [
+                              Icon(
                                 Icons.speed_rounded,
                                 color: darkGrey,
                                 size: 28,
                               ),
-                              const SizedBox(
+                              SizedBox(
                                 width: 10,
                               ),
-                              const Text(
+                              Text(
                                 'Sensing Parameters',
                                 style: TextStyle(
                                   fontSize: 18,
@@ -429,15 +434,15 @@ class _ProfilePageState extends State<ProfilePage> {
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
+                                    children: const [
+                                      Text(
                                         'Normal State',
                                         style: TextStyle(
                                           fontSize: 15,
                                           color: darkBlue,
                                         ),
                                       ),
-                                      const Text(
+                                      Text(
                                         'Subtitle',
                                         style: TextStyle(
                                           fontSize: 12,
@@ -496,15 +501,15 @@ class _ProfilePageState extends State<ProfilePage> {
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
+                                    children: const [
+                                      Text(
                                         'Sensitive State',
                                         style: TextStyle(
                                           fontSize: 15,
                                           color: darkBlue,
                                         ),
                                       ),
-                                      const Text(
+                                      Text(
                                         'Subtitle',
                                         style: TextStyle(
                                           fontSize: 12,
@@ -610,7 +615,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                             crossAxisAlignment: CrossAxisAlignment.center,
                                             children: const <Widget>[
                                               Text(
-                                                'Save', //or connect
+                                                'Set', //or connect
                                                 style: TextStyle(
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.w400,
@@ -631,13 +636,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Container(
+                                      SizedBox(
                                         width: 130,
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Container(
+                                            const SizedBox(
                                               width: 50,
                                               child: Text(
                                                 'From: ',
@@ -672,13 +677,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                       const SizedBox(
                                         height: 10,
                                       ),
-                                      Container(
+                                      SizedBox(
                                         width: 130,
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Container(
+                                            const SizedBox(
                                               width: 50,
                                               child: Text(
                                                 'Until: ',
@@ -729,7 +734,7 @@ class _ProfilePageState extends State<ProfilePage> {
       bottomNavigationBar: FloatingNavbar(
         onTap: (int val) => setState(() {
           pageIndex = val;
-          print('selected index $val');
+          //print('selected index $val');
           if (pageIndex == 0) {
             Navigator.push(
               context,

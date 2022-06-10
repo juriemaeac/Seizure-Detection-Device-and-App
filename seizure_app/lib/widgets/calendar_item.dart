@@ -27,7 +27,7 @@ class _CalendarWeeklyState extends State<CalendarWeekly> {
         focusedDay: DateTime.now(),
         calendarFormat: CalendarFormat.week,
         calendarStyle: CalendarStyle(
-          outsideTextStyle: TextStyle(
+          outsideTextStyle: const TextStyle(
             color: Colors.white,
             fontSize: 12.0,
             fontWeight: FontWeight.w600,

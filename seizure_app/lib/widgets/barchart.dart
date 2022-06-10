@@ -117,7 +117,7 @@ class BarChartSample1State extends State<BarChartSample1> {
           color: isTouched ? red : barColor,
           width: width,
           borderSide: isTouched
-              ? BorderSide(color:red , width: 1)
+              ? const BorderSide(color:red , width: 1)
               : const BorderSide(color: Colors.white, width: 0),
           backDrawRodData: BackgroundBarChartRodData(
             show: true,

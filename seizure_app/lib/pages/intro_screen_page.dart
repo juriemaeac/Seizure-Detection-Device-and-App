@@ -15,14 +15,6 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
     return Container(
       decoration: const BoxDecoration(
         color: darkBlue,
-        //gradient: LinearGradient(colors: [lightBlue, darkBlue],
-        //begin: Alignment.bottomLeft,
-        //end: Alignment.topRight,),
-        // image: DecorationImage(
-        //   image: AssetImage('images/intro-bg.png'),
-        //   fit: BoxFit.scaleDown,
-        //   alignment: Alignment.bottomCenter,
-        // ),
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -35,26 +27,26 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
                   left: 30,
                   right: 30,
                 ),
-                // decoration: const BoxDecoration(
-                //   //color: primaryColor,
-                //   gradient: LinearGradient(colors: [lightBlue, darkBlue],
-                //   begin: Alignment.topLeft,
-                //   end: Alignment.bottomRight,),
-                //   // image: DecorationImage(
-                //   //   image: AssetImage('images/intro-bg.png'),
-                //   //   fit: BoxFit.scaleDown,
-                //   //   alignment: Alignment.bottomCenter,
-                //   // ),
-                // ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: const [
                     Center(
                       child: Text(
+                        'SEIZE',
+                        style: TextStyle(
+                          fontSize: 50,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Center(
+                      child: Text(
                         'Seizure Device Companion',
                         style: TextStyle(
-                          fontSize: 30,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
@@ -93,7 +85,7 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
                         text: const TextSpan(
                           children: [
                             TextSpan(
-                              text: 'Achuchuchu blah blah hatdog hatdog \n',
+                              text: 'A companion app for a \n',
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500,
@@ -101,7 +93,7 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
                               ),
                             ),
                             TextSpan(
-                              text: 'kemerut acchuchu.',
+                              text: 'better quality of life',
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500,
@@ -114,7 +106,7 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
                       const SizedBox(height: 25),
                       GestureDetector(
                         onTap: () {
-                          print('Button Clicled');
+                          //print('Button Clicled');
                           // Navigator.push(
                           //   context,
                           //   MaterialPageRoute(
@@ -135,8 +127,6 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
                           decoration: BoxDecoration(
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(55)),
-                            // gradient: const LinearGradient(
-                            //               colors: [lightBlue, darkBlue],),
                             color: darkBlue,
                             boxShadow: [
                               BoxShadow(
