@@ -16,9 +16,16 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   int pageIndex = 2;
   bool normalStatus = true;
+  bool isConnected = false;
   bool sensitiveStatus = false;
   TimeOfDay selectedTimeStart = TimeOfDay.now();
   TimeOfDay selectedTimeEnd = TimeOfDay.now() ;
+
+  String nickname = 'Nickname';
+  String fullname = 'Full Name';
+  String guardianName = 'Guardian Name';
+  String address = 'Complete Address';
+  int number = 0;
 
 
   @override
@@ -75,11 +82,11 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        const FittedBox(
+                        FittedBox(
                           fit: BoxFit.fitWidth, 
                           child: Text(
-                            'Nickname',
-                            style: TextStyle(
+                            nickname,
+                            style: const TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
                               color: darkGrey,
@@ -156,9 +163,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const[
+                                children:[
                                   Text(
-                                    'Full Name',
+                                    fullname,
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.bold,
@@ -176,7 +183,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     height: 10,
                                   ),
                                   Text(
-                                    'Guardian Full Name',
+                                    guardianName,
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.bold,
@@ -194,7 +201,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     height: 10,
                                   ),
                                   Text(
-                                    '09876543121',
+                                    number.toString(),
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.bold,
@@ -212,7 +219,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     height: 10,
                                   ),
                                   Text(
-                                    'Full Address',
+                                    address,
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.bold,
@@ -607,7 +614,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 RoundedRectangleBorder(
                                               borderRadius: BorderRadius.circular(20.0),
                                             ))),
-                                        onPressed: () { },
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) => _buildPopupDialog(context),
+                                          );
+                                        },
                                         child: Padding(
                                           padding: const EdgeInsets.only(left: 50, right: 50),
                                           child: Row(
@@ -810,4 +822,60 @@ class _ProfilePageState extends State<ProfilePage> {
           });
         }
   }
+}
+
+
+Widget _buildPopupDialog(BuildContext context) {
+  return new AlertDialog(
+    shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            contentPadding: EdgeInsets.only(top: 10.0),
+    content: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Text(
+            "The schedule is successfully set to: START TIME until END TIME",
+            style: TextStyle(
+              fontSize: 15, 
+              color: darkGrey
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: InkWell(
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              padding: EdgeInsets.only(top: 5, bottom: 5),
+              decoration: BoxDecoration(
+                color: darkBlue,
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(20.0),
+                    bottomRight: Radius.circular(20.0)),
+              ),
+              child: Text(
+                "Close",
+                style: TextStyle(color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+    // actions: <Widget>[
+    //   new FlatButton(
+    //     onPressed: () {
+    //       Navigator.of(context).pop();
+    //     },
+    //     textColor: Theme.of(context).primaryColor,
+    //     child: const Text('Close'),
+    //   ),
+    // ],
+  );
 }

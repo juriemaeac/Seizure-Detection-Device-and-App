@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:seizure_app/constant.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:seizure_app/pages/profile_page.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({ Key? key }) : super(key: key);
@@ -483,7 +484,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15.0),
                             ))),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const ProfilePage(),
+                            ),
+                          );
+                        },
                         child: Padding(
                           padding: const EdgeInsets.only(left: 85, right: 85, top:10, bottom: 10),
                           child: Row(
@@ -513,7 +522,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15.0),
                             ))),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
                         child: Padding(
                           padding: const EdgeInsets.only(left: 15, right: 15, top:10, bottom: 10),
                           child: Row(
