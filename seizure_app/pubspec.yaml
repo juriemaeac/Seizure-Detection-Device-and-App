@@ -41,6 +41,10 @@ dependencies:
   percent_indicator: ^4.0.0
   flutter_switch: ^0.3.2
   image_picker: ^0.8.5+3
+  oscilloscope: ^0.2.0+1
+  flutter_blue: ^0.8.0
+  hive: ^2.2.2
+  loading_animation_widget:
 
 dev_dependencies:
   flutter_test:

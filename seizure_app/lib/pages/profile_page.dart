@@ -2,6 +2,7 @@ import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.da
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:seizure_app/constant.dart';
+import 'package:seizure_app/device/blu_connection.dart';
 import 'package:seizure_app/pages/edit_profile_page.dart';
 import 'package:seizure_app/pages/home_page.dart';
 import 'package:seizure_app/pages/records_page.dart';
@@ -331,7 +332,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                         RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                     ))),
-                                onPressed: () { },
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => FlutterBlueApp(),
+                                    ),
+                                  );
+                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 7, right: 7),
                                   child: Row(
@@ -346,7 +354,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         width: 10,
                                       ),
                                       Text(
-                                        'Connected', //or connect
+                                        'CONNECT', //or connect
                                         style: TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w400,

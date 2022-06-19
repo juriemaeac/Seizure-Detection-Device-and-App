@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:seizure_app/constant.dart';
 import 'package:seizure_app/default_widget.dart';
+import 'package:seizure_app/device/blu_connection.dart';
+import 'package:seizure_app/device/sensor.dart';
+import 'package:seizure_app/device/widget.dart';
 import 'package:seizure_app/pages/profile_page.dart';
 import 'package:seizure_app/pages/records_page.dart';
 import 'package:seizure_app/widgets/barchart.dart';
@@ -195,7 +198,15 @@ class _HomePageState extends State<HomePage> {
                                   RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20.0),
                               ))),
-                          onPressed: () {},
+                          onPressed: () {
+                            //check ata dito kung may connected sa device o wala, kapag wala
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SensorPage(),
+                              ),
+                            );
+                          },
                           child: Padding(
                             padding: const EdgeInsets.only(left: 7, right: 7),
                             child: Row(
