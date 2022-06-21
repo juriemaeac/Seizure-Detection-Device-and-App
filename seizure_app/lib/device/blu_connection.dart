@@ -66,45 +66,41 @@ class DeviceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(device!.name),
-        actions: <Widget>[
-          StreamBuilder<BluetoothDeviceState>(
-            stream: device!.state,
-            initialData: BluetoothDeviceState.connecting,
-            builder: (c, snapshot) {
-              VoidCallback onPressed;
-              String text;
-              switch (snapshot.data) {
-                case BluetoothDeviceState.connected:
-                  onPressed = () => device!.disconnect();
-                  text = 'DISCONNECT';
-                  break;
-                case BluetoothDeviceState.disconnected:
-                  onPressed = () => device!.connect();
-                  text = 'CONNECT';
-                  break;
-                default:
-                  onPressed = (() => {});
-                  text = snapshot.data.toString().substring(21).toUpperCase();
-                  break;
-              }
-              return ElevatedButton(
-                  onPressed: onPressed,
-                  child: Text(
-                    text,
-                    style: Theme.of(context)
-                        .primaryTextTheme
-                        .button
-                        ?.copyWith(color: Colors.white),
-                  ));
-            },
-          )
-        ],
-      ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
+            SizedBox(height: 60,),
+            StreamBuilder<BluetoothDeviceState>(
+                stream: device!.state,
+                initialData: BluetoothDeviceState.connecting,
+                builder: (c, snapshot) {
+                  VoidCallback onPressed;
+                  String text;
+                  switch (snapshot.data) {
+                    case BluetoothDeviceState.connected:
+                      onPressed = () => device!.disconnect();
+                      text = 'DISCONNECT';
+                      break;
+                    case BluetoothDeviceState.disconnected:
+                      onPressed = () => device!.connect();
+                      text = 'CONNECT';
+                      break;
+                    default:
+                      onPressed = (() => {});
+                      text = snapshot.data.toString().substring(21).toUpperCase();
+                      break;
+                  }
+                  return ElevatedButton(
+                      onPressed: onPressed,
+                      child: Text(
+                        text,
+                        style: Theme.of(context)
+                            .primaryTextTheme
+                            .button
+                            ?.copyWith(color: Colors.white),
+                      ));
+                },
+              ),
             StreamBuilder<BluetoothDeviceState>(
               stream: device!.state,
               initialData: BluetoothDeviceState.connecting,

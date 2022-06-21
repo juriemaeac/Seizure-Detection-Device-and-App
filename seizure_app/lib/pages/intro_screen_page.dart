@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seizure_app/constant.dart';
+import 'package:seizure_app/device/blu_connection.dart';
 import 'package:seizure_app/pages/home_page.dart';
 
 class IntroScreenPage extends StatefulWidget {
@@ -115,7 +116,7 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
                           // );
                           Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
-                                  builder: (context) => const HomePage()),
+                                  builder: (context) => const FlutterBlueApp()),
                               (Route<dynamic> route) => false);
                         },
                         child: Container(

@@ -25,20 +25,20 @@ class FindDevicesScreen extends StatelessWidget {
               top: 50,
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ProfilePage(),
-                      ),
-                    );
-                  },
-                ),
-                const Text(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                // IconButton(
+                //   icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                //   onPressed: () {
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //         builder: (context) => const ProfilePage(),
+                //       ),
+                //     );
+                //   },
+                // ),
+                Text(
                   'Find Device',
                   style: TextStyle(
                     fontSize: 20,
@@ -46,9 +46,9 @@ class FindDevicesScreen extends StatelessWidget {
                     color: Colors.black87,
                   ),
                 ),
-                const SizedBox(
-                  width: 40,
-                ),
+                // const SizedBox(
+                //   width: 40,
+                // ),
               ],
             ),
           ),
@@ -73,8 +73,26 @@ class FindDevicesScreen extends StatelessWidget {
                                   builder: (c, snapshot) {
                                     if (snapshot.data ==
                                         BluetoothDeviceState.connected) {
-                                      return RaisedButton(
-                                        child: Text('OPEN'),
+                                      return ElevatedButton(
+                                        child: const Padding(
+                                          padding:  EdgeInsets.only(left: 20, right: 20),
+                                          child: Text('OPEN', 
+                                            style: TextStyle(
+                                              color: Colors.white
+                                            )
+                                          ),
+                                        ),
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all(darkBlue),
+                                          shape: MaterialStateProperty.all<
+                                                  RoundedRectangleBorder>(
+                                              RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(20.0),
+                                            
+                                          ),
+                                          ),
+                                          ),
                                         onPressed: () => Navigator.of(context).push(
                                             MaterialPageRoute(
                                                 builder: (context) =>

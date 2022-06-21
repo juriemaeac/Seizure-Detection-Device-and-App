@@ -1,6 +1,7 @@
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:seizure_app/constant.dart';
+import 'package:seizure_app/device/sensor.dart';
 import 'package:seizure_app/pages/home_page.dart';
 import 'package:seizure_app/pages/profile_page.dart';
 import 'package:seizure_app/widgets/barchart.dart';
@@ -134,7 +135,7 @@ class _RecordPageState extends State<RecordPage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomePage(),
+                builder: (context) => const SensorPage(),
               ),
             );
           } else if (pageIndex == 1) {
@@ -155,7 +156,7 @@ class _RecordPageState extends State<RecordPage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomePage(),
+                builder: (context) => const SensorPage(),
               ),
             );
           }

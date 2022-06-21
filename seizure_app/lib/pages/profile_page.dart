@@ -1,14 +1,18 @@
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:seizure_app/constant.dart';
 import 'package:seizure_app/device/blu_connection.dart';
+import 'package:seizure_app/device/sensor.dart';
+import 'package:seizure_app/device/widget.dart';
 import 'package:seizure_app/pages/edit_profile_page.dart';
 import 'package:seizure_app/pages/home_page.dart';
 import 'package:seizure_app/pages/records_page.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({Key? key, this.device}) : super(key: key);
+  final BluetoothDevice? device;
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -27,6 +31,36 @@ class _ProfilePageState extends State<ProfilePage> {
   String guardianName = 'Guardian Name';
   String address = 'Complete Address';
   int number = 0;
+
+  List<Widget> _buildServiceTiles(List<BluetoothService> services) {
+    return services
+        .map(
+          (s) => ServiceTile(
+            service: s,
+            characteristicTiles: s.characteristics
+                .map(
+                  (c) => CharacteristicTile(
+                    characteristic: c,
+                    onReadPressed: () => c.read(),
+                    onWritePressed: () => c.write([13, 24]),
+                    onNotificationPressed: () =>
+                        c.setNotifyValue(!c.isNotifying),
+                    descriptorTiles: c.descriptors
+                        .map(
+                          (d) => DescriptorTile(
+                            descriptor: d,
+                            onReadPressed: () => d.read(),
+                            onWritePressed: () => d.write([11, 12]),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                )
+                .toList(),
+          ),
+        )
+        .toList();
+  }
 
 
   @override
@@ -323,6 +357,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
+                              
                               ElevatedButton(
                                 style: ButtonStyle(
                                     backgroundColor:
@@ -759,7 +794,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomePage(),
+                builder: (context) => const SensorPage(),
               ),
             );
           } else if (pageIndex == 1) {
@@ -780,7 +815,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomePage(),
+                builder: (context) => const SensorPage(),
               ),
             );
           }
