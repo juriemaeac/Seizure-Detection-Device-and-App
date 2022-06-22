@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:seizure_app/constant.dart';
 import 'package:seizure_app/device/blu_connection.dart';
+import 'package:seizure_app/device/device_screen.dart';
 import 'package:seizure_app/device/sensor.dart';
 import 'package:seizure_app/device/widget.dart';
 import 'package:seizure_app/pages/profile_page.dart';
@@ -69,32 +70,33 @@ class FindDevicesScreen extends StatelessWidget {
                                 subtitle: Text(d.id.toString()),
                                 trailing: StreamBuilder<BluetoothDeviceState>(
                                   stream: d.state,
-                                  initialData: BluetoothDeviceState.disconnected,
+                                  initialData:
+                                      BluetoothDeviceState.disconnected,
                                   builder: (c, snapshot) {
                                     if (snapshot.data ==
                                         BluetoothDeviceState.connected) {
                                       return ElevatedButton(
                                         child: const Padding(
-                                          padding:  EdgeInsets.only(left: 20, right: 20),
-                                          child: Text('OPEN', 
-                                            style: TextStyle(
-                                              color: Colors.white
-                                            )
-                                          ),
+                                          padding: EdgeInsets.only(
+                                              left: 20, right: 20),
+                                          child: Text('OPEN',
+                                              style: TextStyle(
+                                                  color: Colors.white)),
                                         ),
                                         style: ButtonStyle(
                                           backgroundColor:
-                                              MaterialStateProperty.all(darkBlue),
+                                              MaterialStateProperty.all(
+                                                  darkBlue),
                                           shape: MaterialStateProperty.all<
-                                                  RoundedRectangleBorder>(
-                                              RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(20.0),
-                                            
+                                              RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                            ),
                                           ),
-                                          ),
-                                          ),
-                                        onPressed: () => Navigator.of(context).push(
-                                            MaterialPageRoute(
+                                        ),
+                                        onPressed: () => Navigator.of(context)
+                                            .push(MaterialPageRoute(
                                                 builder: (context) =>
                                                     DeviceScreen(device: d))),
                                       );
@@ -116,12 +118,10 @@ class FindDevicesScreen extends StatelessWidget {
                               result: r,
                               onTap: () => Navigator.of(context)
                                   .push(MaterialPageRoute(builder: (context) {
-                                    r.device.connect();
-                                    //return DeviceScreen(device: r.device); WALA TO
-                                    return SensorPage(device: r.device);
-                                  }
-                                )
-                              ),
+                                r.device.connect();
+                                //return DeviceScreen(device: r.device); WALA TO
+                                return SensorPage(device: r.device);
+                              })),
                             ),
                           )
                           .toList(),
@@ -137,7 +137,8 @@ class FindDevicesScreen extends StatelessWidget {
         stream: FlutterBlue.instance.isScanning,
         initialData: false,
         builder: (c, snapshot) {
-          if (snapshot.data == true) { //nilagyan ng true
+          if (snapshot.data == true) {
+            //nilagyan ng true
             return FloatingActionButton(
               child: const Icon(Icons.stop),
               onPressed: () => FlutterBlue.instance.stopScan(),
@@ -145,7 +146,9 @@ class FindDevicesScreen extends StatelessWidget {
             );
           } else {
             return FloatingActionButton(
-                child: const Icon(Icons.search,),
+                child: const Icon(
+                  Icons.search,
+                ),
                 backgroundColor: darkBlue,
                 onPressed: () => FlutterBlue.instance
                     .startScan(timeout: const Duration(seconds: 4)));

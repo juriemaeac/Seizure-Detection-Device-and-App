@@ -9,7 +9,7 @@ class PersonalInfo extends HiveObject {
   @HiveField(2)
   late String time;
   @HiveField(3)
-  late bool isHeistend;
+  late var isHeistend;
   @HiveField(4)
   late String bpm;
   @HiveField(5)

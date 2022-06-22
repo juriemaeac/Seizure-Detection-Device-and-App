@@ -45,6 +45,8 @@ dependencies:
   flutter_blue: ^0.8.0
   hive: ^2.2.2
   loading_animation_widget:
+  foundation_flutter: ^0.2.0
+  hive_flutter: ^1.1.0
 
 dev_dependencies:
   flutter_test:

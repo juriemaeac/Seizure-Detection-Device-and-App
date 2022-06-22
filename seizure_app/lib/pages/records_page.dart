@@ -22,36 +22,67 @@ class _RecordPageState extends State<RecordPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       extendBody: true,
-
       body: Column(
         children: [
           Container(
             padding: const EdgeInsets.only(
-              top: 60,
-              left: 20,
-              right: 20,
+              top: 50,
+              // left: 20,
+              // right: 20,
             ),
             width: MediaQuery.of(context).size.width,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
-                    Icon(
-                      Icons.bar_chart_rounded,
-                      color: darkBlue,
-                      size: 28,
-                    ),
-                    Text(
-                      'Records',
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w600,
-                        color: darkBlue,
+                Container(
+                  child: Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(
+                          Icons.chevron_left_rounded,
+                          size: 25,
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
                       ),
-                    ),
-                  ],
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          "Back",
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: const [
+                      Icon(
+                        Icons.bar_chart_rounded,
+                        color: darkBlue,
+                        size: 28,
+                      ),
+                      Text(
+                        'Records',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w600,
+                          color: darkBlue,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -68,7 +99,7 @@ class _RecordPageState extends State<RecordPage> {
               children: [
                 Container(
                   width: double.infinity,
-                  height: 220,
+                  height: 210,
                   decoration: BoxDecoration(
                     color: darkBlue,
                     borderRadius: BorderRadius.circular(20),
@@ -127,53 +158,51 @@ class _RecordPageState extends State<RecordPage> {
           ),
         ],
       ),
-      bottomNavigationBar: FloatingNavbar(
-        onTap: (int val) => setState(() {
-          pageIndex = val;
-          //print('selected index $val');
-          if (pageIndex == 0) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const SensorPage(),
-              ),
-            );
-          } else if (pageIndex == 1) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const RecordPage(),
-              ),
-            );
-          } else if (pageIndex == 2) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const ProfilePage(),
-              ),
-            );
-          } else {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const SensorPage(),
-              ),
-            );
-          }
-        }),
-        currentIndex: pageIndex,
-        items: [
-          FloatingNavbarItem(icon: Icons.home),
-          FloatingNavbarItem(icon: Icons.bar_chart),
-          FloatingNavbarItem(icon: Icons.person),
-        ],
-        selectedItemColor: lightBlue,
-        unselectedItemColor: Colors.white,
-        backgroundColor: darkBlue,
-        itemBorderRadius: 15,
-        borderRadius: 20,
-        iconSize: 20,
-      ),
+      // bottomNavigationBar: FloatingNavbar(
+      //   onTap: (int val) => setState(() {
+      //     pageIndex = val;
+      //     //print('selected index $val');
+      //     if (pageIndex == 0) {
+      //       int count = 0;
+      //       Navigator.popUntil(context, (route) {
+      //         return count++ == 1;
+      //       });
+      //     } else if (pageIndex == 1) {
+      //       // Navigator.push(
+      //       //   context,
+      //       //   MaterialPageRoute(
+      //       //     builder: (context) => const RecordPage(),
+      //       //   ),
+      //       // );
+      //     } else if (pageIndex == 2) {
+      //       Navigator.push(
+      //         context,
+      //         MaterialPageRoute(
+      //           builder: (context) => const ProfilePage(),
+      //         ),
+      //       );
+      //     } else {
+      //       Navigator.push(
+      //         context,
+      //         MaterialPageRoute(
+      //           builder: (context) => const SensorPage(),
+      //         ),
+      //       );
+      //     }
+      //   }),
+      //   currentIndex: 1,
+      //   items: [
+      //     FloatingNavbarItem(icon: Icons.home),
+      //     FloatingNavbarItem(icon: Icons.bar_chart),
+      //     FloatingNavbarItem(icon: Icons.person),
+      //   ],
+      //   selectedItemColor: lightBlue,
+      //   unselectedItemColor: Colors.white,
+      //   backgroundColor: darkBlue,
+      //   itemBorderRadius: 15,
+      //   borderRadius: 20,
+      //   iconSize: 20,
+      // ),
     );
   }
 }
