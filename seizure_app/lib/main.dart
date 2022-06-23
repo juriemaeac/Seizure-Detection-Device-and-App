@@ -10,10 +10,29 @@ import 'package:seizure_app/pages/intro_screen_page.dart';
 import 'package:seizure_app/pages/profile_page.dart';
 import 'package:seizure_app/pages/records_page.dart';
 
-void main() async {
+import 'model/personal_info.dart';
+import 'model/sensed_data.dart';
+
+late Box boxData;
+late Box boxInfo;
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-
+  // boxData = await Hive.openBox('seizeData');
+  // boxInfo = await Hive.openBox('userInfo');
+  // Hive.registerAdapter(SensedDataAdapter());
+  // Hive.registerAdapter(PersonalInfoAdapter());
+  // boxInfo.put(
+  //     'PersonalInfo',
+  //     PersonalInfo(
+  //         nickname: "nickname",
+  //         firstName: "firstName",
+  //         middleName: "middleName",
+  //         lastName: "lastName",
+  //         guardianName: "guardianName",
+  //         email: "email",
+  //         contactNumber: 0912345678,
+  //         address: "address"));
   runApp(const MyApp());
   // RenderErrorBox.backgroundColor = Colors.transparent;
   // RenderErrorBox.textStyle = ui.TextStyle(color: Colors.transparent);
@@ -26,19 +45,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Seizure App',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          //primarySwatch: Colors.indigo,
-          textTheme: GoogleFonts.poppinsTextTheme(
-            Theme.of(context).textTheme,
-          ),
+      title: 'Seizure App',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        //primarySwatch: Colors.indigo,
+        textTheme: GoogleFonts.poppinsTextTheme(
+          Theme.of(context).textTheme,
         ),
-        home: const IntroScreenPage(),
-        routes: <String, WidgetBuilder>{
-          "Home": (BuildContext context) => SensorPage(),
-          "Records": (BuildContext context) => RecordPage(),
-          "Profile": (BuildContext context) => ProfilePage(),
-        });
+      ),
+      home: const IntroScreenPage(),
+    );
   }
 }

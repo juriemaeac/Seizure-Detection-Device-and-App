@@ -362,14 +362,13 @@ class _SensorPageState extends State<SensorPage> {
                                                     BorderRadius.circular(20.0),
                                               ))),
                                           onPressed: () {
-                                            //check ata dito kung may connected sa device o wala, kapag wala
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const SensorPage(),
-                                              ),
-                                            );
+                                            showDialog(
+                                              barrierDismissible: false,
+                                                context: context,
+                                                builder: (BuildContext
+                                                        context) =>
+                                                    _buildPopupDialog(context),
+                                              );
                                           },
                                           child: Padding(
                                             padding: const EdgeInsets.only(
@@ -989,7 +988,7 @@ class _SensorPageState extends State<SensorPage> {
                                               child: Row(
                                                 children: const [
                                                   Icon(
-                                                    Icons.sensors,
+                                                    Icons.speed_rounded,
                                                     color: Colors.blue,
                                                   ),
                                                   SizedBox(
@@ -1125,4 +1124,177 @@ class _SensorPageState extends State<SensorPage> {
       ),
     );
   }
+}
+
+Widget _buildPopupDialog(BuildContext context) {
+  return new AlertDialog(
+    backgroundColor: Colors.white,
+    shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(20.0))),
+    contentPadding: EdgeInsets.only(top: 10.0),
+    content: Container(
+      padding: EdgeInsets.only(top:15),
+      height: MediaQuery.of(context).size.height/3,
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        //mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(left:30, top: 20),
+            width: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(
+                  Icons.warning_amber_rounded,
+                  color: Colors.red,
+                  size: 40,
+                ),
+              ],
+            ),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text("Record",
+              style: TextStyle(
+                      fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red),),
+                            SizedBox(height: 20,),
+              Text("Seizure Episode Detected",
+              style: TextStyle(
+                      fontSize: 15,
+                            color: Colors.black),),
+              Text("Manual Record",
+              style: TextStyle(
+                      fontSize: 15,
+                            color: Colors.black),),
+                            SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: (){
+                  Navigator.of(context).pop();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right:20.0),
+                  child: Text(
+                    "Confirm",
+                    style: TextStyle(
+                      fontSize: 15,
+                            color: Colors.red),
+                  ),
+                ),
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(
+                            Colors.white),
+                    shape: MaterialStateProperty.all<
+                        RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(20.0),
+                      ),
+                    ),
+                  ),),
+                  SizedBox(height: 20),
+
+
+            ],
+          )
+          
+        ],
+      ),
+    ),
+  );
+}
+
+Widget _buildPopupDialogAlert(BuildContext context) {
+  return new AlertDialog(
+    backgroundColor: Colors.red,
+    shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(20.0))),
+    contentPadding: EdgeInsets.only(top: 10.0),
+    content: Container(
+      padding: EdgeInsets.only(top:15),
+      height: MediaQuery.of(context).size.height/3,
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        //mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                    Icons.warning_amber_rounded,
+                    color: Colors.white,
+                    size: 65,
+                  ),
+              Text("Warning",
+              style: TextStyle(
+                      fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),),
+                            SizedBox(height: 20,),
+              Text("Possible Seizure",
+              style: TextStyle(
+                      fontSize: 15,
+                            color: Colors.white),),
+              Text("Episode Detected",
+              style: TextStyle(
+                      fontSize: 15,
+                            color: Colors.white),),
+                            SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: (){
+                  Navigator.of(context).pop();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right:20.0),
+                  child: Text(
+                    "Confirm",
+                    style: TextStyle(
+                      fontSize: 15,
+                            color: Colors.red),
+                  ),
+                ),
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(
+                            Colors.white),
+                    shape: MaterialStateProperty.all<
+                        RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(20.0),
+                      ),
+                    ),
+                  ),),
+                  SizedBox(height: 10,),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("False Alarm?",
+                                style: TextStyle(
+                        fontSize: 15,
+                              color: Colors.white),),
+                  ),
+                            SizedBox(height: 20),
+
+
+            ],
+          )
+          
+        ],
+      ),
+    ),
+  );
 }

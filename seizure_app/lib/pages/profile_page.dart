@@ -479,10 +479,10 @@ class _ProfilePageState extends State<ProfilePage> {
                         children: [
                           Container(
                             padding: const EdgeInsets.only(
-                              top: 10,
+                              top: 20,
                               left: 20,
                               right: 20,
-                              bottom: 10,
+                              bottom: 20,
                             ),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -664,7 +664,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           Container(
                             padding: const EdgeInsets.only(
-                                top: 10, bottom: 10, left: 20, right: 20),
+                                top: 20, bottom: 20, left: 20, right: 20),
                             //height: 120,
                             width: MediaQuery.of(context).size.width,
                             decoration: const BoxDecoration(
@@ -972,52 +972,86 @@ class _ProfilePageState extends State<ProfilePage> {
 
 Widget _buildPopupDialog(BuildContext context) {
   return new AlertDialog(
+    backgroundColor: Colors.white,
     shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(20.0))),
     contentPadding: EdgeInsets.only(top: 10.0),
-    content: Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Text(
-            "The schedule is successfully set to: START TIME until END TIME",
-            style: TextStyle(fontSize: 15, color: darkGrey),
-          ),
-        ),
-        GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: InkWell(
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.only(top: 5, bottom: 5),
-              decoration: BoxDecoration(
-                color: darkBlue,
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20.0),
-                    bottomRight: Radius.circular(20.0)),
-              ),
-              child: Text(
-                "Close",
-                style: TextStyle(color: Colors.white),
-                textAlign: TextAlign.center,
-              ),
+    content: Container(
+      padding: EdgeInsets.all(15),
+      height: MediaQuery.of(context).size.height/3,
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        //mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            
+            padding: EdgeInsets.only(left:20, top: 20),
+            width: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(
+                    Icons.alarm_on_rounded,
+                    color: Colors.amber,
+                    size: 40,
+                  ),
+              ],
             ),
           ),
-        ),
-      ],
+          
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text("Schedule",
+              style: TextStyle(
+                      fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.amber),),
+                            SizedBox(height: 20,),
+              Text("Set From: ",
+              style: TextStyle(
+                      fontSize: 15,
+                            color: Colors.black),),
+              Text("Until: ",
+              style: TextStyle(
+                      fontSize: 15,
+                            color: Colors.black),),
+                            SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: (){
+                  Navigator.of(context).pop();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right:20.0),
+                  child: Text(
+                    "Close",
+                    style: TextStyle(
+                      fontSize: 15,
+                            color: Colors.white),
+                  ),
+                ),
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(
+                            Colors.amber),
+                    shape: MaterialStateProperty.all<
+                        RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(20.0),
+                      ),
+                    ),
+                  ),),
+                            SizedBox(height: 20),
+            ],
+          )
+          
+        ],
+      ),
     ),
-    // actions: <Widget>[
-    //   new FlatButton(
-    //     onPressed: () {
-    //       Navigator.of(context).pop();
-    //     },
-    //     textColor: Theme.of(context).primaryColor,
-    //     child: const Text('Close'),
-    //   ),
-    // ],
   );
 }

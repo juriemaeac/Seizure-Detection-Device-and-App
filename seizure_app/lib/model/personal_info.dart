@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+part 'personal_info.g.dart';
 
 @HiveType(typeId: 0)
 class PersonalInfo extends HiveObject {

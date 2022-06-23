@@ -1,7 +1,8 @@
 import 'package:hive/hive.dart';
+part 'sensed_data.g.dart';
 
 @HiveType(typeId: 1)
-class PersonalInfo extends HiveObject {
+class SensedData extends HiveObject {
   @HiveField(0)
   String? id;
   @HiveField(1)
@@ -16,7 +17,7 @@ class PersonalInfo extends HiveObject {
   late String gsr;
   @HiveField(6)
   late String accelerometer;
-  PersonalInfo(
+  SensedData(
       {required this.date,
       required this.time,
       required this.isHeistend,

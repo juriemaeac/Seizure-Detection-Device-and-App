@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:seizure_app/constant.dart';
 import 'package:seizure_app/device/widget.dart';
 
 class DeviceScreen extends StatelessWidget {
@@ -40,104 +42,146 @@ class DeviceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 60,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 60,
+          ),
+          Container(
+            padding: EdgeInsets.all(40),
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height /3,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 15,
+                  spreadRadius: 2,
+                ),
+              ],
             ),
-            StreamBuilder<BluetoothDeviceState>(
-              stream: device!.state,
-              initialData: BluetoothDeviceState.connecting,
-              builder: (c, snapshot) {
-                VoidCallback onPressed;
-                String text;
-                switch (snapshot.data) {
-                  case BluetoothDeviceState.connected:
-                    onPressed = () {
-                      device!.disconnect();
-                      Navigator.pop(context);
-                    };
-                    text = 'DISCONNECT';
-                    break;
-                  case BluetoothDeviceState.disconnected:
-                    onPressed = () => device!.connect();
-                    text = 'CONNECT';
-                    break;
-                  default:
-                    onPressed = (() => {});
-                    text = snapshot.data.toString().substring(21).toUpperCase();
-                    break;
-                }
-                return ElevatedButton(
-                    onPressed: onPressed,
-                    child: Text(
-                      text,
-                      style: Theme.of(context)
-                          .primaryTextTheme
-                          .button
-                          ?.copyWith(color: Colors.white),
-                    ));
-              },
-            ),
-            StreamBuilder<BluetoothDeviceState>(
-              stream: device!.state,
-              initialData: BluetoothDeviceState.connecting,
-              builder: (c, snapshot) => ListTile(
-                leading: (snapshot.data == BluetoothDeviceState.connected)
-                    ? const Icon(Icons.bluetooth_connected)
-                    : const Icon(Icons.bluetooth_disabled),
-                title: Text(
-                    'Device is ${snapshot.data.toString().split('.')[1]}.'),
-                subtitle: Text('${device!.id}'),
-                trailing: StreamBuilder<bool>(
-                  stream: device!.isDiscoveringServices,
-                  initialData: false,
-                  builder: (c, snapshot) => IndexedStack(
-                    index: 1,
-                    children: <Widget>[
-                      IconButton(
-                        icon: const Icon(Icons.refresh),
-                        onPressed: () => device!.discoverServices(),
-                      ),
-                      const IconButton(
-                        icon: SizedBox(
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation(Colors.grey),
+            margin: EdgeInsets.all(40),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                StreamBuilder<BluetoothDeviceState>(
+                  stream: device!.state,
+                  initialData: BluetoothDeviceState.connecting,
+                  builder: (c, snapshot) => Container(
+                    width: double.infinity,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (snapshot.data ==
+                            BluetoothDeviceState.connected) ...[
+                          const Icon(
+                            Icons.bluetooth_connected,
+                            color: Colors.blue,
+                            size: 40,
+                          )
+                        ] else ...[
+                          const Icon(
+                            Icons.bluetooth_disabled,
+                            color: lightGrey,
+                            size: 40,
                           ),
-                          width: 18.0,
-                          height: 18.0,
-                        ),
-                        onPressed: null,
-                      )
-                    ],
+                        ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ),
-            StreamBuilder<int>(
-              stream: device!.mtu,
-              initialData: 0,
-              builder: (c, snapshot) => ListTile(
-                title: Text('MTU Size'),
-                subtitle: Text('${snapshot.data} bytes'),
-                trailing: IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () => device!.requestMtu(223),
+                SizedBox(height: 20,),
+                StreamBuilder<BluetoothDeviceState>(
+                  stream: device!.state,
+                  initialData: BluetoothDeviceState.connecting,
+                  builder: (c, snapshot) => Container(
+                    width: double.infinity,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(device!.name, 
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black
+                          ),
+                        ),
+                        SizedBox(height: 20,),
+                        Text('ID: ${device!.id.toString()}'),
+                        Text(
+                            'Device is ${snapshot.data.toString().split('.')[1]}.',
+                            style: TextStyle(
+                              color: lightBlue
+                            ),),
+                            SizedBox(height: 8),
+                            Divider(thickness: 1,),
+                            SizedBox(height: 8),
+                        Container(
+                          child: StreamBuilder<BluetoothDeviceState>(
+                            stream: device!.state,
+                            initialData: BluetoothDeviceState.connecting,
+                            builder: (c, snapshot) {
+                              VoidCallback onPressed;
+                              String text;
+                              switch (snapshot.data) {
+                                case BluetoothDeviceState.connected:
+                                  onPressed = () {
+                                    device!.disconnect();
+                                    Navigator.pop(context);
+                                  };
+                                  text = 'DISCONNECT';
+                                  break;
+                                case BluetoothDeviceState.disconnected:
+                                  onPressed = () => device!.connect();
+                                  text = 'CONNECT';
+                                  break;
+                                default:
+                                  onPressed = (() => {});
+                                  text =
+                                      snapshot.data.toString().substring(21).toUpperCase();
+                                  break;
+                              }
+                              return ElevatedButton(
+                                  onPressed: onPressed,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 20.0, right:20.0),
+                                    child: Text(
+                                      text,
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                              color: Colors.white)
+                                    ),
+                                  ),
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              darkBlue),
+                                      shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20.0),
+                                        ),
+                                      ),
+                                    ),);
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
-            StreamBuilder<List<BluetoothService>>(
-              stream: device!.services,
-              initialData: const [],
-              builder: (c, snapshot) {
-                return Column(
-                  children: _buildServiceTiles(snapshot.data ?? []),
-                );
-              },
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
