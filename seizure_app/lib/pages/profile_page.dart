@@ -1,25 +1,33 @@
-import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
+import 'dart:async';
+import 'dart:core';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:hive/hive.dart';
 import 'package:seizure_app/constant.dart';
-import 'package:seizure_app/device/blu_connection.dart';
-import 'package:seizure_app/device/device_screen.dart';
-import 'package:seizure_app/device/sensor.dart';
 import 'package:seizure_app/device/widget.dart';
 import 'package:seizure_app/pages/edit_profile_page.dart';
-import 'package:seizure_app/pages/home_page.dart';
-import 'package:seizure_app/pages/records_page.dart';
+
+import '../boxes/boxData.dart';
+import '../boxes/boxInfo.dart';
+import '../model/personal_info.dart';
+import '../model/sensed_data.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key, this.device}) : super(key: key);
-  final BluetoothDevice? device;
+  const ProfilePage({Key? key}) : super(key: key);
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  @override
+  void initState() {
+    super.initState();
+    Hive.openBox<PersonalInfo>(HiveBoxesInfo.info);
+  }
+
   int pageIndex = 2;
   bool normalStatus = true;
   bool isConnected = false;
@@ -27,44 +35,28 @@ class _ProfilePageState extends State<ProfilePage> {
   TimeOfDay selectedTimeStart = TimeOfDay.now();
   TimeOfDay selectedTimeEnd = TimeOfDay.now();
 
-  String nickname = 'Nickname';
-  String fullname = 'Full Name';
-  String guardianName = 'Guardian Name';
-  String address = 'Complete Address';
-  int number = 0;
-
-  List<Widget> _buildServiceTiles(List<BluetoothService> services) {
-    return services
-        .map(
-          (s) => ServiceTile(
-            service: s,
-            characteristicTiles: s.characteristics
-                .map(
-                  (c) => CharacteristicTile(
-                    characteristic: c,
-                    onReadPressed: () => c.read(),
-                    onWritePressed: () => c.write([13, 24]),
-                    onNotificationPressed: () =>
-                        c.setNotifyValue(!c.isNotifying),
-                    descriptorTiles: c.descriptors
-                        .map(
-                          (d) => DescriptorTile(
-                            descriptor: d,
-                            onReadPressed: () => d.read(),
-                            onWritePressed: () => d.write([11, 12]),
-                          ),
-                        )
-                        .toList(),
-                  ),
-                )
-                .toList(),
-          ),
-        )
-        .toList();
-  }
+  late String nickname = 'Nickname';
+  late String firstName = 'First Name';
+  late String middleName = 'Middle Name';
+  late String lastName = 'Last Name';
+  late String fullname = 'Full Name';
+  late String guardianName = 'Guardian Name';
+  late String address = 'Complete Address';
+  late String email = '';
+  late int number = 0;
 
   @override
   Widget build(BuildContext context) {
+    var infolength = Hive.box<PersonalInfo>(HiveBoxesInfo.info).length;
+    var infoBox = Hive.box<PersonalInfo>(HiveBoxesInfo.info);
+    if (infolength != 0) {
+      PersonalInfo? data = infoBox.getAt(0);
+      nickname = data?.nickname.toString() ?? "Nick Name";
+      fullname = "${data?.firstName} ${data?.middleName} ${data?.lastName}";
+      guardianName = data?.guardianName ?? "Guardian Name";
+      address = data?.address ?? "Complete Address";
+      number = data?.contactNumber ?? 0912345678;
+    }
     return Scaffold(
       backgroundColor: Colors.white,
       extendBody: true,
@@ -218,11 +210,23 @@ class _ProfilePageState extends State<ProfilePage> {
                                               color: darkBlue,
                                             ),
                                             onPressed: () {
+                                              PersonalInfo person =
+                                                  PersonalInfo(
+                                                      nickname: nickname,
+                                                      firstName: firstName,
+                                                      middleName: middleName,
+                                                      lastName: lastName,
+                                                      guardianName:
+                                                          guardianName,
+                                                      email: email,
+                                                      contactNumber: number,
+                                                      address: address);
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      const EditProfilePage(),
+                                                      EditProfilePage(
+                                                          personalinfo: person),
                                                 ),
                                               );
                                             },
@@ -382,7 +386,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      children: const [
+                                      children: [
                                         Text(
                                           'Device Connectivity',
                                           style: TextStyle(
@@ -392,7 +396,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ),
                                         ),
                                         Text(
-                                          'Phone Name',
+                                          "Phone Model",
                                           style: TextStyle(
                                             fontSize: 12,
                                             color: darkGrey,
@@ -895,51 +899,115 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
       ),
-      // bottomNavigationBar: FloatingNavbar(
-      //   onTap: (int val) => setState(() {
-      //     pageIndex = val;
-      //     //print('selected index $val');
-      //     if (pageIndex == 0) {
-      //       int count = 0;
-      //       Navigator.popUntil(context, (route) {
-      //         return count++ == 1;
-      //       });
-      //     } else if (pageIndex == 1) {
-      //       Navigator.push(
-      //         context,
-      //         MaterialPageRoute(
-      //           builder: (context) => const RecordPage(),
-      //         ),
-      //       );
-      //     } else if (pageIndex == 2) {
-      //       // Navigator.push(
-      //       //   context,
-      //       //   MaterialPageRoute(
-      //       //     builder: (context) => const ProfilePage(),
-      //       //   ),
-      //       // );
-      //     } else {
-      //       // Navigator.push(
-      //       //   context,
-      //       //   MaterialPageRoute(
-      //       //     builder: (context) => const SensorPage(),
-      //       //   ),
-      //       // );
-      //     }
-      //   }),
-      //   currentIndex: 2,
-      //   items: [
-      //     FloatingNavbarItem(icon: Icons.home),
-      //     FloatingNavbarItem(icon: Icons.bar_chart),
-      //     FloatingNavbarItem(icon: Icons.person),
-      //   ],
-      //   selectedItemColor: lightBlue,
-      //   unselectedItemColor: Colors.white,
-      //   backgroundColor: darkBlue,
-      //   itemBorderRadius: 15,
-      //   borderRadius: 20,
-      //   iconSize: 20,
-      // ),
+    );
+  }
+
+  Widget _buildPopupDialog(BuildContext context) {
+    return new AlertDialog(
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20.0))),
+      contentPadding: EdgeInsets.only(top: 10.0),
+      content: Container(
+        padding: EdgeInsets.all(15),
+        height: MediaQuery.of(context).size.height / 3,
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          //mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(left: 20, top: 20),
+              width: double.infinity,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(
+                    Icons.alarm_on_rounded,
+                    color: Colors.amber,
+                    size: 40,
+                  ),
+                ],
+              ),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "Schedule",
+                  style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.amber),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width / 4.2,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Set From: ",
+                            style: TextStyle(fontSize: 15, color: Colors.black),
+                          ),
+                          Text(
+                            "${selectedTimeStart.hour}:${selectedTimeStart.minute}",
+                            style: TextStyle(fontSize: 15, color: Colors.black),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Until: ",
+                            style: TextStyle(fontSize: 15, color: Colors.black),
+                          ),
+                          Text(
+                            "${selectedTimeEnd.hour}:${selectedTimeEnd.minute}",
+                            style: TextStyle(fontSize: 15, color: Colors.black),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                    child: Text(
+                      "Close",
+                      style: TextStyle(fontSize: 15, color: Colors.white),
+                    ),
+                  ),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.amber),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+              ],
+            )
+          ],
+        ),
+      ),
     );
   }
 
@@ -968,90 +1036,4 @@ class _ProfilePageState extends State<ProfilePage> {
       });
     }
   }
-}
-
-Widget _buildPopupDialog(BuildContext context) {
-  return new AlertDialog(
-    backgroundColor: Colors.white,
-    shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(20.0))),
-    contentPadding: EdgeInsets.only(top: 10.0),
-    content: Container(
-      padding: EdgeInsets.all(15),
-      height: MediaQuery.of(context).size.height/3,
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        //mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            
-            padding: EdgeInsets.only(left:20, top: 20),
-            width: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(
-                    Icons.alarm_on_rounded,
-                    color: Colors.amber,
-                    size: 40,
-                  ),
-              ],
-            ),
-          ),
-          
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text("Schedule",
-              style: TextStyle(
-                      fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.amber),),
-                            SizedBox(height: 20,),
-              Text("Set From: ",
-              style: TextStyle(
-                      fontSize: 15,
-                            color: Colors.black),),
-              Text("Until: ",
-              style: TextStyle(
-                      fontSize: 15,
-                            color: Colors.black),),
-                            SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: (){
-                  Navigator.of(context).pop();
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right:20.0),
-                  child: Text(
-                    "Close",
-                    style: TextStyle(
-                      fontSize: 15,
-                            color: Colors.white),
-                  ),
-                ),
-                style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(
-                            Colors.amber),
-                    shape: MaterialStateProperty.all<
-                        RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(20.0),
-                      ),
-                    ),
-                  ),),
-                            SizedBox(height: 20),
-            ],
-          )
-          
-        ],
-      ),
-    ),
-  );
 }

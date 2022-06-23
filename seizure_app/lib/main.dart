@@ -5,6 +5,8 @@ import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:seizure_app/boxes/boxData.dart';
+import 'package:seizure_app/boxes/boxInfo.dart';
 import 'package:seizure_app/device/sensor.dart';
 import 'package:seizure_app/pages/intro_screen_page.dart';
 import 'package:seizure_app/pages/profile_page.dart';
@@ -18,10 +20,10 @@ late Box boxInfo;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  // boxData = await Hive.openBox('seizeData');
-  // boxInfo = await Hive.openBox('userInfo');
-  // Hive.registerAdapter(SensedDataAdapter());
-  // Hive.registerAdapter(PersonalInfoAdapter());
+  Hive.registerAdapter(SensedDataAdapter());
+  Hive.registerAdapter(PersonalInfoAdapter());
+  await Hive.openBox<SensedData>(HiveBoxesData.data);
+  await Hive.openBox<PersonalInfo>(HiveBoxesInfo.info);
   // boxInfo.put(
   //     'PersonalInfo',
   //     PersonalInfo(

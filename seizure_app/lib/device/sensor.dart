@@ -2,22 +2,21 @@
 
 import 'dart:async';
 import 'dart:convert' show utf8;
-
-import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:oscilloscope/oscilloscope.dart';
+import 'package:hive/hive.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:seizure_app/boxes/boxData.dart';
 import 'package:seizure_app/constant.dart';
-import 'package:seizure_app/device/device_screen.dart';
-import 'package:seizure_app/device/widget.dart';
-import 'package:seizure_app/pages/home_page.dart';
+import 'package:seizure_app/model/sensed_data.dart';
 import 'package:seizure_app/pages/profile_page.dart';
 import 'package:seizure_app/pages/records_page.dart';
 import 'package:seizure_app/widgets/barchart.dart';
 import 'package:seizure_app/widgets/calendar.dart';
-import 'package:seizure_app/widgets/recent_high.dart';
+import 'package:seizure_app/widgets/notification_widget.dart';
+import 'package:oscilloscope/oscilloscope.dart';
 
 class SensorPage extends StatefulWidget {
   const SensorPage({Key? key, this.device}) : super(key: key);
@@ -35,12 +34,22 @@ class _SensorPageState extends State<SensorPage> {
   late bool isReady;
   late Stream<List<int>> stream;
   final List noReading = [];
+  List<double> traceData = [];
+
+  late String date;
+  late String time;
+  late String isHeightened = 'False';
+  late String bpm = 'Erratic';
+  late String gsr = 'Erratic';
+  late String accelerometer = 'Erratic';
 
   @override
   void initState() {
     super.initState();
     isReady = false;
     connectToDevice();
+    Hive.openBox<SensedData>(HiveBoxesData.data);
+    NotificationWidget.init();
   }
 
   parseData(String dataVal) {
@@ -140,6 +149,18 @@ class _SensorPageState extends State<SensorPage> {
 
   @override
   Widget build(BuildContext context) {
+    Oscilloscope oscilloscope = Oscilloscope(
+      showYAxis: true,
+      padding: 0.0,
+      backgroundColor: Colors.white,
+      traceColor: lightBlue,
+      yAxisMax: 200.0,
+      yAxisMin: 0.0,
+      dataSet: traceData,
+      strokeWidth: 2,
+      yAxisColor: lightGrey,
+    );
+
     return Scaffold(
       // appBar: AppBar(
       //   title: Text('Records Page'),
@@ -177,6 +198,9 @@ class _SensorPageState extends State<SensorPage> {
                     } else if (snapshot.connectionState ==
                             ConnectionState.active &&
                         snapshot.data != []) {
+
+                        
+
                       print("Ito yung snapshotData ${snapshot.data}");
                       var currentValue = _dataParser(snapshot.data!);
                       print("Current Value: $currentValue");
@@ -185,11 +209,26 @@ class _SensorPageState extends State<SensorPage> {
 
                       print("Parsed Data");
                       print("IsSeizure: ${dataArray[0]}");
-                      print("IsHeistened: ${dataArray[1]}");
+                      print("IsHeightened: ${dataArray[1]}");
                       print("BPM: ${dataArray[2]}");
                       print("GSR: ${dataArray[3]}");
                       print("ACC: ${dataArray[4]}");
 
+                      traceData.add(double.tryParse(dataArray[2]) ?? 0);
+
+                      bpm = "${dataArray[2]}";
+                      var seizureStat = dataArray[0];
+                      if (seizureStat == '1') {
+                        NotificationWidget.showNotification(
+                            title: "Warning",
+                            body: "Possible Seizure Episode Detected");
+                        showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (BuildContext context) =>
+                              _buildPopupDialogAlert(context, bpm),
+                        );
+                      }
                       // HOME PAGE
                       return Scaffold(
                         body: Column(
@@ -306,15 +345,20 @@ class _SensorPageState extends State<SensorPage> {
                                       children: [
                                         Container(
                                           width: double.infinity,
-                                          padding: const EdgeInsets.only(
-                                            top: 10,
+                                          margin: EdgeInsets.all(10),
+                                          padding: const EdgeInsets.all(
+                                            10,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(20),
                                           ),
                                           // padding: const EdgeInsets.only(
                                           //   left: 20,
                                           //   right: 20,
                                           //),
                                           //child: LineChart(activityData()),
-                                          child: const BarChartSample1(),
+                                          child: oscilloscope,//const BarChartSample1(),
                                         ),
                                       ],
                                     ),
@@ -364,11 +408,10 @@ class _SensorPageState extends State<SensorPage> {
                                           onPressed: () {
                                             showDialog(
                                               barrierDismissible: false,
-                                                context: context,
-                                                builder: (BuildContext
-                                                        context) =>
-                                                    _buildPopupDialog(context),
-                                              );
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  _buildPopupDialog(context),
+                                            );
                                           },
                                           child: Padding(
                                             padding: const EdgeInsets.only(
@@ -423,18 +466,34 @@ class _SensorPageState extends State<SensorPage> {
                                             .headline6,
                                       ),
                                       Row(
-                                        children: const [
+                                        children: [
                                           Icon(
                                             Icons.sensors_rounded,
                                             color: Colors.grey,
                                             size: 20,
                                           ),
                                           SizedBox(width: 5),
-                                          Text(
-                                            'Update',
-                                            style: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 14,
+                                          GestureDetector(
+                                            onTap: () {
+                                              NotificationWidget.showNotification(
+                                                  title: "Warning",
+                                                  body:
+                                                      "Possible Seizure Episode Detected");
+                                              showDialog(
+                                                barrierDismissible: false,
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        _buildPopupDialogAlert(
+                                                            context, bpm),
+                                              );
+                                            },
+                                            child: Text(
+                                              'Update',
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 14,
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -1124,177 +1183,189 @@ class _SensorPageState extends State<SensorPage> {
       ),
     );
   }
-}
 
-Widget _buildPopupDialog(BuildContext context) {
-  return new AlertDialog(
-    backgroundColor: Colors.white,
-    shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(20.0))),
-    contentPadding: EdgeInsets.only(top: 10.0),
-    content: Container(
-      padding: EdgeInsets.only(top:15),
-      height: MediaQuery.of(context).size.height/3,
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        //mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(left:30, top: 20),
-            width: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+  void addData(String bpmNow) {
+    DateTime now = DateTime.now();
+    String formattedTime = DateFormat.Hm().format(now);
+    String recordDate = DateFormat("MMMM dd, yyyy").format(DateTime.now());
+
+    Box<SensedData> dataBox = Hive.box<SensedData>(HiveBoxesData.data);
+    dataBox.add(SensedData(
+      date: recordDate,
+      time: formattedTime,
+      isHeightened: 'False',
+      bpm: bpmNow,
+      gsr: 'Erratic',
+      accelerometer: 'Erratic',
+    ));
+  }
+
+  Widget _buildPopupDialog(BuildContext context) {
+    return new AlertDialog(
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20.0))),
+      contentPadding: EdgeInsets.only(top: 10.0),
+      content: Container(
+        padding: EdgeInsets.only(top: 15),
+        height: MediaQuery.of(context).size.height / 3,
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          //mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(left: 30, top: 20),
+              width: double.infinity,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(
+                    Icons.warning_amber_rounded,
+                    color: Colors.red,
+                    size: 40,
+                  ),
+                ],
+              ),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "Record",
+                  style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "Seizure Episode Detected",
+                  style: TextStyle(fontSize: 15, color: Colors.black),
+                ),
+                Text(
+                  "Manual Record",
+                  style: TextStyle(fontSize: 15, color: Colors.black),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    String setBPM = 'Erratic';
+                    addData(setBPM);
+                    Navigator.of(context).pop();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                    child: Text(
+                      "Confirm",
+                      style: TextStyle(fontSize: 15, color: Colors.red),
+                    ),
+                  ),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.white),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPopupDialogAlert(BuildContext context, String bpmString) {
+    return new AlertDialog(
+      backgroundColor: Colors.red,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20.0))),
+      contentPadding: EdgeInsets.only(top: 10.0),
+      content: Container(
+        padding: EdgeInsets.only(top: 15),
+        height: MediaQuery.of(context).size.height / 3,
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          //mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Icon(
                   Icons.warning_amber_rounded,
-                  color: Colors.red,
-                  size: 40,
+                  color: Colors.white,
+                  size: 65,
                 ),
+                Text(
+                  "Warning",
+                  style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "Possible Seizure",
+                  style: TextStyle(fontSize: 15, color: Colors.white),
+                ),
+                Text(
+                  "Episode Detected",
+                  style: TextStyle(fontSize: 15, color: Colors.white),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    addData(bpmString);
+                    Navigator.of(context).pop();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                    child: Text(
+                      "Confirm",
+                      style: TextStyle(fontSize: 15, color: Colors.red),
+                    ),
+                  ),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.white),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    "False Alarm?",
+                    style: TextStyle(fontSize: 15, color: Colors.white),
+                  ),
+                ),
+                SizedBox(height: 20),
               ],
-            ),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text("Record",
-              style: TextStyle(
-                      fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.red),),
-                            SizedBox(height: 20,),
-              Text("Seizure Episode Detected",
-              style: TextStyle(
-                      fontSize: 15,
-                            color: Colors.black),),
-              Text("Manual Record",
-              style: TextStyle(
-                      fontSize: 15,
-                            color: Colors.black),),
-                            SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: (){
-                  Navigator.of(context).pop();
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right:20.0),
-                  child: Text(
-                    "Confirm",
-                    style: TextStyle(
-                      fontSize: 15,
-                            color: Colors.red),
-                  ),
-                ),
-                style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(
-                            Colors.white),
-                    shape: MaterialStateProperty.all<
-                        RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(20.0),
-                      ),
-                    ),
-                  ),),
-                  SizedBox(height: 20),
-
-
-            ],
-          )
-          
-        ],
+            )
+          ],
+        ),
       ),
-    ),
-  );
-}
-
-Widget _buildPopupDialogAlert(BuildContext context) {
-  return new AlertDialog(
-    backgroundColor: Colors.red,
-    shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(20.0))),
-    contentPadding: EdgeInsets.only(top: 10.0),
-    content: Container(
-      padding: EdgeInsets.only(top:15),
-      height: MediaQuery.of(context).size.height/3,
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        //mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(
-                    Icons.warning_amber_rounded,
-                    color: Colors.white,
-                    size: 65,
-                  ),
-              Text("Warning",
-              style: TextStyle(
-                      fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),),
-                            SizedBox(height: 20,),
-              Text("Possible Seizure",
-              style: TextStyle(
-                      fontSize: 15,
-                            color: Colors.white),),
-              Text("Episode Detected",
-              style: TextStyle(
-                      fontSize: 15,
-                            color: Colors.white),),
-                            SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: (){
-                  Navigator.of(context).pop();
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right:20.0),
-                  child: Text(
-                    "Confirm",
-                    style: TextStyle(
-                      fontSize: 15,
-                            color: Colors.red),
-                  ),
-                ),
-                style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(
-                            Colors.white),
-                    shape: MaterialStateProperty.all<
-                        RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(20.0),
-                      ),
-                    ),
-                  ),),
-                  SizedBox(height: 10,),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text("False Alarm?",
-                                style: TextStyle(
-                        fontSize: 15,
-                              color: Colors.white),),
-                  ),
-                            SizedBox(height: 20),
-
-
-            ],
-          )
-          
-        ],
-      ),
-    ),
-  );
+    );
+  }
 }

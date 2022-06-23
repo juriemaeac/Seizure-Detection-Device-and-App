@@ -47,6 +47,8 @@ dependencies:
   loading_animation_widget:
   foundation_flutter: ^0.2.0
   hive_flutter: ^1.1.0
+  device_info_plus: ^4.0.0
+  flutter_local_notifications: 
 
 dev_dependencies:
   flutter_test:

@@ -10,7 +10,7 @@ class SensedData extends HiveObject {
   @HiveField(2)
   late String time;
   @HiveField(3)
-  late var isHeistend;
+  late String isHeightened;
   @HiveField(4)
   late String bpm;
   @HiveField(5)
@@ -20,7 +20,7 @@ class SensedData extends HiveObject {
   SensedData(
       {required this.date,
       required this.time,
-      required this.isHeistend,
+      required this.isHeightened,
       required this.bpm,
       required this.gsr,
       required this.accelerometer});

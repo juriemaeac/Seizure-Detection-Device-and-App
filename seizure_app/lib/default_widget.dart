@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 
-SliverList sliverList({required Widget child}) {
-  return SliverList(
-    delegate: SliverChildListDelegate(
-      <Widget>[child],
-    ),
-  );
-}
+// SliverList sliverList({required Widget child}) {
+//   return SliverList(
+//     delegate: SliverChildListDelegate(
+//       <Widget>[child],
+//     ),
+//   );
+// }

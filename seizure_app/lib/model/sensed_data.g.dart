@@ -19,7 +19,7 @@ class SensedDataAdapter extends TypeAdapter<SensedData> {
     return SensedData(
       date: fields[1] as String,
       time: fields[2] as String,
-      isHeistend: fields[3] as dynamic,
+      isHeightened: fields[3] as String,
       bpm: fields[4] as String,
       gsr: fields[5] as String,
       accelerometer: fields[6] as String,
@@ -37,7 +37,7 @@ class SensedDataAdapter extends TypeAdapter<SensedData> {
       ..writeByte(2)
       ..write(obj.time)
       ..writeByte(3)
-      ..write(obj.isHeistend)
+      ..write(obj.isHeightened)
       ..writeByte(4)
       ..write(obj.bpm)
       ..writeByte(5)

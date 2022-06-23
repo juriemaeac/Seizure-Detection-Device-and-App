@@ -4,6 +4,14 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:seizure_app/constant.dart';
 
+double countSeizureMon = 2;
+double countSeizureTue = 2;
+double countSeizureWed = 2;
+double countSeizureThu = 2;
+double countSeizureFri = 2;
+double countSeizureSat = 2;
+double countSeizureSun = 2;
+
 class BarChartSample1 extends StatefulWidget {
   final List<Color> availableColors = const [
     Colors.purpleAccent,
@@ -21,7 +29,7 @@ class BarChartSample1 extends StatefulWidget {
 }
 
 class BarChartSample1State extends State<BarChartSample1> {
-  final Color barBackgroundColor = lightGrey;//const Color(0xff72d8bf);
+  final Color barBackgroundColor = lightGrey; //const Color(0xff72d8bf);
   final Duration animDuration = const Duration(milliseconds: 250);
 
   int touchedIndex = -1;
@@ -35,22 +43,22 @@ class BarChartSample1State extends State<BarChartSample1> {
       child: Container(
         //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
         //color: darkBlue,//const Color(0xff81e5cd),
-        margin: const EdgeInsets.only(left:10, right:10),
+        margin: const EdgeInsets.only(left: 10, right: 10),
         decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    // borderRadius: BorderRadius.only(
-                    //   topRight: Radius.circular(20),
-                    //   topLeft: Radius.circular(20),
-                    // ),
-                    boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 15,
-                    spreadRadius: 2,
-                  ),
-                ],
-                ),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          // borderRadius: BorderRadius.only(
+          //   topRight: Radius.circular(20),
+          //   topLeft: Radius.circular(20),
+          // ),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 15,
+              spreadRadius: 2,
+            ),
+          ],
+        ),
         child: Stack(
           children: <Widget>[
             Padding(
@@ -76,7 +84,7 @@ class BarChartSample1State extends State<BarChartSample1> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top:8),
+              padding: const EdgeInsets.only(top: 8),
               child: Align(
                 alignment: Alignment.topRight,
                 child: IconButton(
@@ -117,7 +125,7 @@ class BarChartSample1State extends State<BarChartSample1> {
           color: isTouched ? red : barColor,
           width: width,
           borderSide: isTouched
-              ? const BorderSide(color:red , width: 1)
+              ? const BorderSide(color: red, width: 1)
               : const BorderSide(color: Colors.white, width: 0),
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
@@ -133,7 +141,8 @@ class BarChartSample1State extends State<BarChartSample1> {
   List<BarChartGroupData> showingGroups() => List.generate(7, (i) {
         switch (i) {
           case 0:
-            return makeGroupData(0, 5, isTouched: i == touchedIndex);
+            return makeGroupData(0, countSeizureMon,
+                isTouched: i == touchedIndex);
           case 1:
             return makeGroupData(1, 0, isTouched: i == touchedIndex);
           case 2:

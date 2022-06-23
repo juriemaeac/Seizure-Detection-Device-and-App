@@ -1,12 +1,16 @@
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:seizure_app/constant.dart';
 import 'package:seizure_app/device/sensor.dart';
 import 'package:seizure_app/pages/home_page.dart';
 import 'package:seizure_app/pages/profile_page.dart';
 import 'package:seizure_app/widgets/barchart.dart';
-import 'package:seizure_app/widgets/recent_normal.dart';
 import 'package:seizure_app/widgets/stat_card.dart';
+
+import '../boxes/boxData.dart';
+import '../model/sensed_data.dart';
 
 class RecordPage extends StatefulWidget {
   const RecordPage({Key? key}) : super(key: key);
@@ -17,7 +21,15 @@ class RecordPage extends StatefulWidget {
 
 class _RecordPageState extends State<RecordPage> {
   int pageIndex = 1;
+  int count = 0;
   @override
+  void initState() {
+    super.initState();
+    Hive.openBox<SensedData>(HiveBoxesData.data);
+  }
+
+  @override
+  var recordsCount = Hive.box<SensedData>(HiveBoxesData.data).length;
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -116,7 +128,7 @@ class _RecordPageState extends State<RecordPage> {
                       ProjectStatisticsCard(
                         name: 'Seizures Detected',
                         descriptions: 'Database Analytics',
-                        count: 4,
+                        count: recordsCount,
                         // progress: 1,
                         // progressString: '4',
                         color: darkBlue,
@@ -135,74 +147,185 @@ class _RecordPageState extends State<RecordPage> {
               ],
             ),
           ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height - 390,
-            child: ListView.builder(
-                itemCount: 10,
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                primary: false,
-                padding: const EdgeInsets.only(bottom: 0),
-                itemBuilder: (BuildContext context, int index) {
-                  return const RecentActivitiesNormal();
+          ValueListenableBuilder(
+              valueListenable:
+                  Hive.box<SensedData>(HiveBoxesData.data).listenable(),
+              builder: (context, Box<SensedData> box, _) {
+                if (box.values.isEmpty) {
+                  return Center(
+                    child: Container(
+                        padding: const EdgeInsets.only(top: 120),
+                        child: const Text("Records list is empty")),
+                  );
                 }
-                // children: const [
-                //   RecentActivitiesNormal(),
-                //   RecentActivitiesAlert(),
-                //   RecentActivitiesAlert(),
-                //   RecentActivitiesAlert(),
-                //   RecentActivitiesAlert(),
-                //   RecentActivitiesAlert(),
-                // ],
-                ),
-          ),
+                return SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height - 390,
+                    child: ListView.builder(
+                        itemCount: box.values.length,
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        primary: false,
+                        padding: const EdgeInsets.only(bottom: 0),
+                        itemBuilder: (BuildContext context, int index) {
+                          int reverseIndex = box.length - 1 - index;
+                          final SensedData? res = box.getAt(reverseIndex);
+                          //return const RecentActivitiesNormal();
+                          return ListTile(
+                            title: Container(
+                              margin: const EdgeInsets.symmetric(
+                                //horizontal: 10,
+                                vertical: 10,
+                              ),
+                              padding: const EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                color: Colors.white,
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Colors.black12,
+                                    blurRadius: 15,
+                                    spreadRadius: 3,
+                                    // offset: const Offset(
+                                    //   0,
+                                    //   10,
+                                    // ),
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Container(
+                                        width: 40,
+                                        height: 80,
+                                        decoration: BoxDecoration(
+                                          color: Colors.red,
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
+                                        child: const Icon(
+                                          Icons.warning_amber_rounded,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 20,
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const Text(
+                                            'Seizure Episode',
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            '${res!.date} - ${res.time}',
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 9,
+                                          ),
+                                          Container(
+                                            height: 2,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                140,
+                                            decoration: const BoxDecoration(
+                                              color: Colors.transparent,
+                                              border: Border(
+                                                top: BorderSide(
+                                                  color: Color.fromARGB(
+                                                      255, 240, 240, 240),
+                                                  width: 1,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 9,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.favorite_rounded,
+                                                color: Color.fromARGB(
+                                                    255, 244, 86, 74),
+                                                size: 20,
+                                              ),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Text(
+                                                "${res.bpm} bpm",
+                                                style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              Icon(
+                                                Icons.device_hub_rounded,
+                                                color: Colors.green,
+                                                size: 20,
+                                              ),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Text(
+                                                "Erratic",
+                                                style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              Icon(
+                                                Icons.back_hand,
+                                                color: Colors.amber,
+                                                size: 20,
+                                              ),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Text(
+                                                "Erratic",
+                                                style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }),
+                  ),
+                );
+              }),
         ],
       ),
-      // bottomNavigationBar: FloatingNavbar(
-      //   onTap: (int val) => setState(() {
-      //     pageIndex = val;
-      //     //print('selected index $val');
-      //     if (pageIndex == 0) {
-      //       int count = 0;
-      //       Navigator.popUntil(context, (route) {
-      //         return count++ == 1;
-      //       });
-      //     } else if (pageIndex == 1) {
-      //       // Navigator.push(
-      //       //   context,
-      //       //   MaterialPageRoute(
-      //       //     builder: (context) => const RecordPage(),
-      //       //   ),
-      //       // );
-      //     } else if (pageIndex == 2) {
-      //       Navigator.push(
-      //         context,
-      //         MaterialPageRoute(
-      //           builder: (context) => const ProfilePage(),
-      //         ),
-      //       );
-      //     } else {
-      //       Navigator.push(
-      //         context,
-      //         MaterialPageRoute(
-      //           builder: (context) => const SensorPage(),
-      //         ),
-      //       );
-      //     }
-      //   }),
-      //   currentIndex: 1,
-      //   items: [
-      //     FloatingNavbarItem(icon: Icons.home),
-      //     FloatingNavbarItem(icon: Icons.bar_chart),
-      //     FloatingNavbarItem(icon: Icons.person),
-      //   ],
-      //   selectedItemColor: lightBlue,
-      //   unselectedItemColor: Colors.white,
-      //   backgroundColor: darkBlue,
-      //   itemBorderRadius: 15,
-      //   borderRadius: 20,
-      //   iconSize: 20,
-      // ),
     );
   }
 }
