@@ -12,23 +12,30 @@ import '../model/personal_info.dart';
 import '../model/sensed_data.dart';
 
 class EditProfilePage extends StatefulWidget {
-  const EditProfilePage({Key? key, required this.personalinfo})
-      : super(key: key);
-  final PersonalInfo personalinfo;
+  const EditProfilePage({
+    Key? key,
+  }) : super(key: key);
   @override
   State<EditProfilePage> createState() => _EditProfilePageState();
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String? nickname;
-  String? firstName;
-  String? middleName;
-  String? lastName;
-  String? guardianName;
-  String? email;
-  String? address;
-  int? number;
+  @override
+  void initState() {
+    super.initState();
+    Hive.openBox<PersonalInfo>(HiveBoxesInfo.info);
+  }
+
+  late String nickname;
+  late String firstName;
+  late String middleName;
+  late String lastName;
+  late String guardianName;
+  late String email;
+  late String address;
+  late int number;
+
   late PickedFile _imageFile;
   static ImagePicker _picker = ImagePicker();
   var imagePath;
@@ -39,12 +46,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
     } else {
       return;
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    Hive.openBox<PersonalInfo>(HiveBoxesInfo.info);
   }
 
   @override
@@ -122,90 +123,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    nickname = widget.personalinfo.nickname;
-    firstName = widget.personalinfo.firstName;
-    middleName = widget.personalinfo.nickname;
-    lastName = widget.personalinfo.nickname;
-    guardianName = widget.personalinfo.nickname;
-    email = widget.personalinfo.nickname;
-    address = widget.personalinfo.nickname;
-    number = widget.personalinfo.contactNumber;
-
-    TextEditingController textNickNameController = TextEditingController()
-      ..text = widget.personalinfo.nickname;
-    TextEditingController textFirstNameController = TextEditingController()
-      ..text = widget.personalinfo.firstName;
-    TextEditingController textMiddleNameController = TextEditingController()
-      ..text = widget.personalinfo.middleName;
-    TextEditingController textLastNameController = TextEditingController()
-      ..text = widget.personalinfo.lastName;
-    TextEditingController textGuardianNameController = TextEditingController()
-      ..text = widget.personalinfo.guardianName;
-    TextEditingController textEmailController = TextEditingController()
-      ..text = widget.personalinfo.email;
-    TextEditingController textNumberController = TextEditingController()
-      ..text = widget.personalinfo.contactNumber.toString();
-    TextEditingController textAddressController = TextEditingController()
-      ..text = widget.personalinfo.address;
-
-    @override
-    void initState() {
-      super.initState();
-      textNickNameController.addListener(() {
-        setState(() {
-          nickname = textNickNameController.text;
-        });
-      });
-      textFirstNameController.addListener(() {
-        setState(() {
-          firstName = textFirstNameController.text;
-        });
-      });
-      textMiddleNameController.addListener(() {
-        setState(() {
-          middleName = textMiddleNameController.text;
-        });
-      });
-      textLastNameController.addListener(() {
-        setState(() {
-          lastName = textLastNameController.text;
-        });
-      });
-      textGuardianNameController.addListener(() {
-        setState(() {
-          guardianName = textGuardianNameController.text;
-        });
-      });
-      textEmailController.addListener(() {
-        setState(() {
-          email = textEmailController.text;
-        });
-      });
-      textNumberController.addListener(() {
-        setState(() {
-          number = int.parse(textNumberController.text);
-        });
-      });
-      textAddressController.addListener(() {
-        setState(() {
-          address = textAddressController.text;
-        });
-      });
-    }
-
-    @override
-    void dispose() {
-      textNickNameController.dispose();
-      textFirstNameController.dispose();
-      textMiddleNameController.dispose();
-      textLastNameController.dispose();
-      textGuardianNameController.dispose();
-      textEmailController.dispose();
-      textNumberController.dispose();
-      textAddressController.dispose();
-      super.dispose();
-    }
-
     return Scaffold(
       backgroundColor: Colors.white,
       extendBody: true,
@@ -218,7 +135,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               children: [
                 Container(
                   padding: const EdgeInsets.only(
-                    top: 60,
+                    top: 20,
                   ),
                   width: MediaQuery.of(context).size.width,
                   child: Column(
@@ -355,16 +272,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 ],
                               ),
                               child: TextFormField(
-                                  controller: textNickNameController,
                                   style: const TextStyle(
                                       color: darkGrey, fontSize: 16),
                                   cursorColor: darkGrey,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter nickname';
-                                    }
-                                    return null;
-                                  },
                                   decoration: const InputDecoration(
                                     isDense: true,
                                     border: InputBorder.none,
@@ -385,7 +295,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                     ),
                                   ),
                                   onChanged: (value) {
-                                    nickname = value;
+                                    setState(() {
+                                      nickname = value;
+                                    });
                                   }),
                             ),
                             const SizedBox(height: 15),
@@ -405,16 +317,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 ],
                               ),
                               child: TextFormField(
-                                  controller: textFirstNameController,
                                   style: const TextStyle(
                                       color: darkGrey, fontSize: 16),
                                   cursorColor: darkGrey,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter first name';
-                                    }
-                                    return null;
-                                  },
                                   decoration: const InputDecoration(
                                     isDense: true,
                                     border: InputBorder.none,
@@ -435,7 +340,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                     ),
                                   ),
                                   onChanged: (value) {
-                                    firstName = value;
+                                    setState(() {
+                                      firstName = value;
+                                    });
                                   }),
                             ),
                             const SizedBox(height: 15),
@@ -455,16 +362,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 ],
                               ),
                               child: TextFormField(
-                                  controller: textMiddleNameController,
                                   style: const TextStyle(
                                       color: darkGrey, fontSize: 16),
                                   cursorColor: darkGrey,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter middle name';
-                                    }
-                                    return null;
-                                  },
                                   decoration: const InputDecoration(
                                     isDense: true,
                                     border: InputBorder.none,
@@ -485,7 +385,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                     ),
                                   ),
                                   onChanged: (value) {
-                                    middleName = value;
+                                    setState(() {
+                                      middleName = value;
+                                    });
                                   }),
                             ),
                             const SizedBox(height: 15),
@@ -505,16 +407,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 ],
                               ),
                               child: TextFormField(
-                                  controller: textLastNameController,
                                   style: const TextStyle(
                                       color: darkGrey, fontSize: 16),
                                   cursorColor: darkGrey,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter last name';
-                                    }
-                                    return null;
-                                  },
                                   decoration: const InputDecoration(
                                     isDense: true,
                                     border: InputBorder.none,
@@ -535,7 +430,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                     ),
                                   ),
                                   onChanged: (value) {
-                                    lastName = value;
+                                    setState(() {
+                                      lastName = value;
+                                    });
                                   }),
                             ),
                             const SizedBox(height: 15),
@@ -555,16 +452,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 ],
                               ),
                               child: TextFormField(
-                                  controller: textGuardianNameController,
                                   style: const TextStyle(
                                       color: darkGrey, fontSize: 16),
                                   cursorColor: darkGrey,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter guardian name';
-                                    }
-                                    return null;
-                                  },
                                   decoration: const InputDecoration(
                                     isDense: true,
                                     border: InputBorder.none,
@@ -585,7 +475,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                     ),
                                   ),
                                   onChanged: (value) {
-                                    guardianName = value;
+                                    setState(() {
+                                      guardianName = value;
+                                    });
                                   }),
                             ),
                             const SizedBox(height: 15),
@@ -607,16 +499,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               child: TextFormField(
                                   keyboardType: TextInputType.multiline,
                                   maxLines: null,
-                                  controller: textEmailController,
                                   style: const TextStyle(
                                       color: darkGrey, fontSize: 16),
                                   cursorColor: darkGrey,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter email address';
-                                    }
-                                    return null;
-                                  },
                                   decoration: const InputDecoration(
                                     isDense: true,
                                     border: InputBorder.none,
@@ -659,17 +544,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 ],
                               ),
                               child: TextFormField(
-                                  controller: textNumberController,
                                   keyboardType: TextInputType.number,
                                   style: const TextStyle(
                                       color: darkGrey, fontSize: 16),
                                   cursorColor: darkGrey,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter phone number';
-                                    }
-                                    return null;
-                                  },
                                   decoration: const InputDecoration(
                                     isDense: true,
                                     border: InputBorder.none,
@@ -690,7 +568,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                     ),
                                   ),
                                   onChanged: (value) {
-                                    number = int.parse(value);
+                                    setState(() {
+                                      number = int.parse(value);
+                                    });
                                   }),
                             ),
                             const SizedBox(height: 15),
@@ -712,16 +592,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               child: TextFormField(
                                   keyboardType: TextInputType.multiline,
                                   maxLines: null,
-                                  controller: textAddressController,
                                   style: const TextStyle(
                                       color: darkGrey, fontSize: 16),
                                   cursorColor: darkGrey,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter home address';
-                                    }
-                                    return null;
-                                  },
                                   decoration: const InputDecoration(
                                     isDense: true,
                                     border: InputBorder.none,
@@ -742,7 +615,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                     ),
                                   ),
                                   onChanged: (value) {
-                                    address = value;
+                                    setState(() {
+                                      address = value;
+                                    });
                                   }),
                             ),
                             const SizedBox(height: 15),
@@ -841,32 +716,19 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   void _onFormSubmit() {
     Box<PersonalInfo> infoBox = Hive.box<PersonalInfo>(HiveBoxesInfo.info);
-    var length = Hive.box<PersonalInfo>(HiveBoxesInfo.info).length;
-    print("Box length = ${length}");
-    if (length >= 1) {
-      print("updating");
-      infoBox.putAt(
-          0,
-          PersonalInfo(
-              nickname: nickname ?? '',
-              firstName: firstName ?? '',
-              middleName: middleName ?? '',
-              lastName: lastName ?? '',
-              guardianName: guardianName ?? '',
-              contactNumber: number ?? 09123456789,
-              address: address ?? '',
-              email: email ?? ''));
-    } else {
-      print("creating");
-      infoBox.add(PersonalInfo(
-          nickname: nickname ?? '',
-          firstName: firstName ?? '',
-          middleName: middleName ?? '',
-          lastName: lastName ?? '',
-          guardianName: guardianName ?? '',
-          contactNumber: number ?? 09123456789,
-          address: address ?? '',
-          email: email ?? ''));
-    }
+    print("Creating User!");
+    var newUser = infoBox.add(PersonalInfo(
+        nickname: nickname,
+        firstName: firstName,
+        middleName: middleName,
+        lastName: lastName,
+        guardianName: guardianName,
+        contactNumber: number,
+        address: address,
+        email: email));
+    print(newUser);
+    var infolength = Hive.box<PersonalInfo>(HiveBoxesInfo.info).length;
+    print("User profile count: ${infolength}");
+    Navigator.pop(context);
   }
 }

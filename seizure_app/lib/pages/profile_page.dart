@@ -8,7 +8,7 @@ import 'package:hive/hive.dart';
 import 'package:seizure_app/constant.dart';
 import 'package:seizure_app/device/widget.dart';
 import 'package:seizure_app/pages/edit_profile_page.dart';
-
+import 'package:seizure_app/device/sensor.dart';
 import '../boxes/boxData.dart';
 import '../boxes/boxInfo.dart';
 import '../model/personal_info.dart';
@@ -22,12 +22,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  @override
-  void initState() {
-    super.initState();
-    Hive.openBox<PersonalInfo>(HiveBoxesInfo.info);
-  }
-
   int pageIndex = 2;
   bool normalStatus = true;
   bool isConnected = false;
@@ -45,18 +39,43 @@ class _ProfilePageState extends State<ProfilePage> {
   late String email = '';
   late int number = 0;
 
-  @override
-  Widget build(BuildContext context) {
+  void isSensitive() {
+    var checkSense = deviceSensitivity.getString();
+    if (checkSense == "Normal") {
+      normalStatus = true;
+      sensitiveStatus = false;
+    } else if (checkSense == "Sensitive") {
+      normalStatus = false;
+      sensitiveStatus = true;
+    }
+  }
+
+  void checkUserInfo() {
     var infolength = Hive.box<PersonalInfo>(HiveBoxesInfo.info).length;
     var infoBox = Hive.box<PersonalInfo>(HiveBoxesInfo.info);
+    isSensitive();
     if (infolength != 0) {
-      PersonalInfo? data = infoBox.getAt(0);
+      print("Profile Found!");
+      PersonalInfo? data = infoBox.getAt(infolength - 1);
       nickname = data?.nickname.toString() ?? "Nick Name";
       fullname = "${data?.firstName} ${data?.middleName} ${data?.lastName}";
       guardianName = data?.guardianName ?? "Guardian Name";
       address = data?.address ?? "Complete Address";
       number = data?.contactNumber ?? 0912345678;
+    } else {
+      print("No Profile Found!");
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Hive.openBox<PersonalInfo>(HiveBoxesInfo.info);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    checkUserInfo();
     return Scaffold(
       backgroundColor: Colors.white,
       extendBody: true,
@@ -210,23 +229,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                               color: darkBlue,
                                             ),
                                             onPressed: () {
-                                              PersonalInfo person =
-                                                  PersonalInfo(
-                                                      nickname: nickname,
-                                                      firstName: firstName,
-                                                      middleName: middleName,
-                                                      lastName: lastName,
-                                                      guardianName:
-                                                          guardianName,
-                                                      email: email,
-                                                      contactNumber: number,
-                                                      address: address);
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      EditProfilePage(
-                                                          personalinfo: person),
+                                                      EditProfilePage(),
                                                 ),
                                               );
                                             },
@@ -577,6 +584,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                       showOnOff: false,
                                       onToggle: (val) {
                                         setState(() {
+                                          var sensitivity = "Normal";
+                                          deviceSensitivity
+                                              .setString(sensitivity);
+                                          var newVal =
+                                              deviceSensitivity.getString();
+                                          print("Sensitivity: ${newVal}");
                                           normalStatus = val;
                                           sensitiveStatus = false;
                                           if (normalStatus == false) {
@@ -649,7 +662,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                       showOnOff: false,
                                       onToggle: (val) {
                                         setState(() {
+                                          var sensitivity = "Sensitive";
+                                          deviceSensitivity
+                                              .setString(sensitivity);
                                           sensitiveStatus = val;
+                                          var newVal =
+                                              deviceSensitivity.getString();
+                                          print("Sensitivity: ${newVal}");
                                           normalStatus = false;
                                           if (sensitiveStatus == false) {
                                             normalStatus = true;

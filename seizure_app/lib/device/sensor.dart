@@ -42,6 +42,7 @@ class _SensorPageState extends State<SensorPage> {
   late String bpm = 'Erratic';
   late String gsr = 'Erratic';
   late String accelerometer = 'Erratic';
+  var sense = "";
 
   @override
   void initState() {
@@ -153,18 +154,15 @@ class _SensorPageState extends State<SensorPage> {
       showYAxis: true,
       padding: 0.0,
       backgroundColor: Colors.white,
-      traceColor: lightBlue,
+      traceColor: darkBlue,
       yAxisMax: 200.0,
       yAxisMin: 0.0,
       dataSet: traceData,
-      strokeWidth: 2,
+      strokeWidth: 5,
       yAxisColor: lightGrey,
     );
-
+    sense = deviceSensitivity.getString();
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Records Page'),
-      // ),
       body: Container(
         padding: const EdgeInsets.symmetric(
           //horizontal: 15,
@@ -198,9 +196,6 @@ class _SensorPageState extends State<SensorPage> {
                     } else if (snapshot.connectionState ==
                             ConnectionState.active &&
                         snapshot.data != []) {
-
-                        
-
                       print("Ito yung snapshotData ${snapshot.data}");
                       var currentValue = _dataParser(snapshot.data!);
                       print("Current Value: $currentValue");
@@ -215,7 +210,7 @@ class _SensorPageState extends State<SensorPage> {
                       print("ACC: ${dataArray[4]}");
 
                       traceData.add(double.tryParse(dataArray[2]) ?? 0);
-
+                      sense = deviceSensitivity.getString();
                       bpm = "${dataArray[2]}";
                       var seizureStat = dataArray[0];
                       if (seizureStat == '1') {
@@ -351,14 +346,16 @@ class _SensorPageState extends State<SensorPage> {
                                           ),
                                           decoration: BoxDecoration(
                                             color: Colors.white,
-                                            borderRadius: BorderRadius.circular(20),
+                                            borderRadius:
+                                                BorderRadius.circular(20),
                                           ),
                                           // padding: const EdgeInsets.only(
                                           //   left: 20,
                                           //   right: 20,
                                           //),
                                           //child: LineChart(activityData()),
-                                          child: oscilloscope,//const BarChartSample1(),
+                                          child:
+                                              oscilloscope, //const BarChartSample1(),
                                         ),
                                       ],
                                     ),
@@ -985,7 +982,7 @@ class _SensorPageState extends State<SensorPage> {
                                                 if (int.parse(dataArray[1]) ==
                                                     0) ...[
                                                   Text(
-                                                    "Normal",
+                                                    "${sense}",
                                                     style: TextStyle(
                                                       fontSize: 20,
                                                       fontWeight:
@@ -1367,5 +1364,16 @@ class _SensorPageState extends State<SensorPage> {
         ),
       ),
     );
+  }
+}
+
+class deviceSensitivity {
+  static String sensitivity = "Normal";
+  static void setString(String newValue) {
+    sensitivity = newValue;
+  }
+
+  static String getString() {
+    return sensitivity;
   }
 }
