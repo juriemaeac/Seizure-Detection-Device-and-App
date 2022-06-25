@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'dart:convert' show utf8;
+import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
@@ -10,10 +11,10 @@ import 'package:hive/hive.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:seizure_app/boxes/boxData.dart';
 import 'package:seizure_app/constant.dart';
+import 'package:seizure_app/model/info_sharedPref.dart';
 import 'package:seizure_app/model/sensed_data.dart';
 import 'package:seizure_app/pages/profile_page.dart';
 import 'package:seizure_app/pages/records_page.dart';
-import 'package:seizure_app/widgets/barchart.dart';
 import 'package:seizure_app/widgets/calendar.dart';
 import 'package:seizure_app/widgets/notification_widget.dart';
 import 'package:oscilloscope/oscilloscope.dart';
@@ -241,8 +242,10 @@ class _SensorPageState extends State<SensorPage> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      const Text(
-                                        'Hi User',
+                                      Text(
+                                        textFirstName == null
+                                            ? 'Hi User!'
+                                            : "Hi $textFirstName!",
                                         style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
@@ -258,15 +261,21 @@ class _SensorPageState extends State<SensorPage> {
                                             ),
                                           );
                                         },
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(
-                                              10), // Image border
-                                          child: SizedBox.fromSize(
-                                              size: const Size.fromRadius(
-                                                  20), // Image radius
-                                              child: Image.asset(
-                                                  'images/samplePic.jpg',
-                                                  fit: BoxFit.cover)),
+                                        child: Column(
+                                          children: [
+                                            if (imagePath != null) ...[
+                                              CircleAvatar(
+                                                radius: 20.0,
+                                                backgroundImage:
+                                                    FileImage(File(imagePath)),
+                                              ),
+                                            ] else ...[
+                                              CircleAvatar(
+                                                  radius: 20.0,
+                                                  backgroundImage: AssetImage(
+                                                      'images/samplePic.jpg')),
+                                            ],
+                                          ],
                                         ),
                                       ),
                                     ],

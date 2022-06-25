@@ -134,12 +134,24 @@ class _RecordPageState extends State<RecordPage> {
                         color: darkBlue,
                       ),
                       Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.only(
-                          bottom: 5,
+                        margin: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 15,
+                              spreadRadius: 2,
+                            ),
+                          ],
                         ),
-                        height: 160,
-                        child: const BarChartSample1(),
+                        width: double.infinity,
+                        height: 140,
+                        child: Image.asset(
+                          'images/records.png',
+                          fit: BoxFit.fitHeight,
+                        ),
                       ),
                     ],
                   ),

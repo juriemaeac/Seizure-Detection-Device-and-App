@@ -4,15 +4,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-import 'package:hive/hive.dart';
 import 'package:seizure_app/constant.dart';
-import 'package:seizure_app/device/widget.dart';
 import 'package:seizure_app/pages/edit_profile_page.dart';
 import 'package:seizure_app/device/sensor.dart';
-import '../boxes/boxData.dart';
-import '../boxes/boxInfo.dart';
-import '../model/personal_info.dart';
-import '../model/sensed_data.dart';
+import 'package:seizure_app/model/info_sharedPref.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -26,18 +21,8 @@ class _ProfilePageState extends State<ProfilePage> {
   bool normalStatus = true;
   bool isConnected = false;
   bool sensitiveStatus = false;
-  TimeOfDay selectedTimeStart = TimeOfDay.now();
-  TimeOfDay selectedTimeEnd = TimeOfDay.now();
-
-  late String nickname = 'Nickname';
-  late String firstName = 'First Name';
-  late String middleName = 'Middle Name';
-  late String lastName = 'Last Name';
-  late String fullname = 'Full Name';
-  late String guardianName = 'Guardian Name';
-  late String address = 'Complete Address';
-  late String email = '';
-  late int number = 0;
+  TimeOfDay selectedTimeStart = setTime.getTimeFrom();
+  TimeOfDay selectedTimeEnd = setTime.getTimeUntil();
 
   void isSensitive() {
     var checkSense = deviceSensitivity.getString();
@@ -50,32 +35,13 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  void checkUserInfo() {
-    var infolength = Hive.box<PersonalInfo>(HiveBoxesInfo.info).length;
-    var infoBox = Hive.box<PersonalInfo>(HiveBoxesInfo.info);
-    isSensitive();
-    if (infolength != 0) {
-      print("Profile Found!");
-      PersonalInfo? data = infoBox.getAt(infolength - 1);
-      nickname = data?.nickname.toString() ?? "Nick Name";
-      fullname = "${data?.firstName} ${data?.middleName} ${data?.lastName}";
-      guardianName = data?.guardianName ?? "Guardian Name";
-      address = data?.address ?? "Complete Address";
-      number = data?.contactNumber ?? 0912345678;
-    } else {
-      print("No Profile Found!");
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    Hive.openBox<PersonalInfo>(HiveBoxesInfo.info);
   }
 
   @override
   Widget build(BuildContext context) {
-    checkUserInfo();
     return Scaffold(
       backgroundColor: Colors.white,
       extendBody: true,
@@ -155,21 +121,24 @@ class _ProfilePageState extends State<ProfilePage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                ClipRRect(
-                                  borderRadius:
-                                      BorderRadius.circular(20), // Image border
-                                  child: SizedBox.fromSize(
-                                    size: const Size.fromRadius(
-                                        80), // Image radius
-                                    child: Image.asset('images/samplePic.jpg',
-                                        fit: BoxFit.cover),
+                                if (imagePath != null) ...[
+                                  CircleAvatar(
+                                    radius: 80.0,
+                                    backgroundImage: FileImage(File(imagePath)),
                                   ),
-                                ),
+                                ] else ...[
+                                  const CircleAvatar(
+                                      radius: 80.0,
+                                      backgroundImage:
+                                          AssetImage('images/samplePic.jpg')),
+                                ],
                                 const SizedBox(height: 10),
                                 FittedBox(
                                   fit: BoxFit.fitWidth,
                                   child: Text(
-                                    nickname,
+                                    textNickname == null
+                                        ? "Nickname"
+                                        : "$textNickname",
                                     style: const TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
@@ -249,82 +218,116 @@ class _ProfilePageState extends State<ProfilePage> {
                                     isAlwaysShown: true,
                                     child: SingleChildScrollView(
                                       scrollDirection: Axis.vertical,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            fullname,
-                                            style: TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold,
-                                              color: darkGrey,
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              textFirstName == null ||
+                                                      textMiddleName == null ||
+                                                      textLastName == null
+                                                  ? 'Full Name'
+                                                  : "$textFirstName $textMiddleName $textLastName",
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold,
+                                                color: darkGrey,
+                                              ),
                                             ),
-                                          ),
-                                          Text(
-                                            'Full Name',
-                                            style: TextStyle(
-                                              fontSize: 11,
-                                              color: lightBlue,
+                                            Text(
+                                              'Full Name',
+                                              style: TextStyle(
+                                                fontSize: 11,
+                                                color: lightBlue,
+                                              ),
                                             ),
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Text(
-                                            guardianName,
-                                            style: TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold,
-                                              color: darkGrey,
+                                            SizedBox(
+                                              height: 10,
                                             ),
-                                          ),
-                                          Text(
-                                            'Guardian Name',
-                                            style: TextStyle(
-                                              fontSize: 11,
-                                              color: lightBlue,
+                                            Text(
+                                              textGuardianName == null
+                                                  ? 'Guardian Name'
+                                                  : "$textGuardianName",
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold,
+                                                color: darkGrey,
+                                              ),
                                             ),
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Text(
-                                            number.toString(),
-                                            style: TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold,
-                                              color: darkGrey,
+                                            Text(
+                                              'Guardian Name',
+                                              style: TextStyle(
+                                                fontSize: 11,
+                                                color: lightBlue,
+                                              ),
                                             ),
-                                          ),
-                                          Text(
-                                            'Contact Number',
-                                            style: TextStyle(
-                                              fontSize: 11,
-                                              color: lightBlue,
+                                            SizedBox(
+                                              height: 10,
                                             ),
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Text(
-                                            address,
-                                            style: TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold,
-                                              color: darkGrey,
+                                            Text(
+                                              textNumber == null
+                                                  ? 'Phone Number'
+                                                  : "$textNumber",
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold,
+                                                color: darkGrey,
+                                              ),
                                             ),
-                                          ),
-                                          Text(
-                                            'Address',
-                                            style: TextStyle(
-                                              fontSize: 11,
-                                              color: lightBlue,
+                                            Text(
+                                              'Contact Number',
+                                              style: TextStyle(
+                                                fontSize: 11,
+                                                color: lightBlue,
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Text(
+                                              textEmail == null
+                                                  ? 'Email Address'
+                                                  : "$textEmail",
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold,
+                                                color: darkGrey,
+                                              ),
+                                            ),
+                                            Text(
+                                              'Email',
+                                              style: TextStyle(
+                                                fontSize: 11,
+                                                color: lightBlue,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Text(
+                                              textAddress == null
+                                                  ? 'Address'
+                                                  : "$textAddress",
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold,
+                                                color: darkGrey,
+                                              ),
+                                            ),
+                                            Text(
+                                              'Address',
+                                              style: TextStyle(
+                                                fontSize: 11,
+                                                color: lightBlue,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -1039,6 +1042,7 @@ class _ProfilePageState extends State<ProfilePage> {
     if (timeOfDay != null && timeOfDay != selectedTimeStart) {
       setState(() {
         selectedTimeStart = timeOfDay;
+        setTime.setTimeFrom(timeOfDay);
       });
     }
   }
@@ -1052,7 +1056,29 @@ class _ProfilePageState extends State<ProfilePage> {
     if (timeOfDay != null && timeOfDay != selectedTimeEnd) {
       setState(() {
         selectedTimeEnd = timeOfDay;
+        setTime.setTimeUntil(timeOfDay);
       });
     }
+  }
+}
+
+class setTime {
+  static TimeOfDay timeFrom = TimeOfDay.now();
+  static TimeOfDay timeUntil = TimeOfDay.now();
+
+  static void setTimeFrom(TimeOfDay newValue) {
+    timeFrom = newValue;
+  }
+
+  static void setTimeUntil(TimeOfDay newValue) {
+    timeUntil = newValue;
+  }
+
+  static TimeOfDay getTimeFrom() {
+    return timeFrom;
+  }
+
+  static TimeOfDay getTimeUntil() {
+    return timeUntil;
   }
 }
