@@ -261,21 +261,16 @@ class _SensorPageState extends State<SensorPage> {
                                             ),
                                           );
                                         },
-                                        child: Column(
-                                          children: [
-                                            if (imagePath != null) ...[
-                                              CircleAvatar(
-                                                radius: 20.0,
-                                                backgroundImage:
-                                                    FileImage(File(imagePath)),
-                                              ),
-                                            ] else ...[
-                                              CircleAvatar(
-                                                  radius: 20.0,
-                                                  backgroundImage: AssetImage(
-                                                      'images/samplePic.jpg')),
-                                            ],
-                                          ],
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                              20), // Image border
+                                          child: SizedBox.fromSize(
+                                            size: const Size.fromRadius(
+                                                20), // Image radius
+                                            child: Image.asset(
+                                                'images/avatar.png',
+                                                fit: BoxFit.cover),
+                                          ),
                                         ),
                                       ),
                                     ],

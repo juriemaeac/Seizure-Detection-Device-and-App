@@ -4,10 +4,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:hive/hive.dart';
 import 'package:seizure_app/constant.dart';
+import 'package:seizure_app/device/widget.dart';
 import 'package:seizure_app/pages/edit_profile_page.dart';
 import 'package:seizure_app/device/sensor.dart';
-import 'package:seizure_app/model/info_sharedPref.dart';
+import '../boxes/boxData.dart';
+import '../boxes/boxInfo.dart';
+import '../model/personal_info.dart';
+import '../model/sensed_data.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -21,8 +26,19 @@ class _ProfilePageState extends State<ProfilePage> {
   bool normalStatus = true;
   bool isConnected = false;
   bool sensitiveStatus = false;
-  TimeOfDay selectedTimeStart = setTime.getTimeFrom();
-  TimeOfDay selectedTimeEnd = setTime.getTimeUntil();
+  TimeOfDay selectedTimeStart = TimeOfDay.now();
+  TimeOfDay selectedTimeEnd = TimeOfDay.now();
+  bool isHidden = false;
+
+  late String nickname = 'Nickname';
+  late String firstName = 'First Name';
+  late String middleName = 'Middle Name';
+  late String lastName = 'Last Name';
+  late String fullname = 'Full Name';
+  late String guardianName = 'Guardian Name';
+  late String address = 'Complete Address';
+  late String email = 'Email';
+  late int number = 0;
 
   void isSensitive() {
     var checkSense = deviceSensitivity.getString();
@@ -35,13 +51,35 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  void checkUserInfo() {
+    var infolength = Hive.box<PersonalInfo>(HiveBoxesInfo.info).length;
+    var infoBox = Hive.box<PersonalInfo>(HiveBoxesInfo.info);
+    isSensitive();
+    if (infolength != 0) {
+      isHidden = false;
+      print("Profile Found!");
+      PersonalInfo? data = infoBox.getAt(infolength - 1);
+      nickname = data?.nickname.toString() ?? "Nick Name";
+      fullname = "${data?.firstName} ${data?.middleName} ${data?.lastName}";
+      guardianName = data?.guardianName ?? "Guardian Name";
+      address = data?.address ?? "Complete Address";
+      number = data?.contactNumber ?? 0912345678;
+      email = data?.email ?? "Email";
+    } else {
+      isHidden = true;
+      print("No Profile Found!");
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    Hive.openBox<PersonalInfo>(HiveBoxesInfo.info);
   }
 
   @override
   Widget build(BuildContext context) {
+    checkUserInfo();
     return Scaffold(
       backgroundColor: Colors.white,
       extendBody: true,
@@ -109,36 +147,33 @@ class _ProfilePageState extends State<ProfilePage> {
                             borderRadius: const BorderRadius.all(
                               Radius.circular(20),
                             ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                blurRadius: 15,
-                                spreadRadius: 3,
-                              ),
-                            ],
+                            // boxShadow: [
+                            //   BoxShadow(
+                            //     color: Colors.black.withOpacity(0.1),
+                            //     blurRadius: 15,
+                            //     spreadRadius: 3,
+                            //   ),
+                            // ],
                           ),
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                if (imagePath != null) ...[
-                                  CircleAvatar(
-                                    radius: 80.0,
-                                    backgroundImage: FileImage(File(imagePath)),
+                                ClipRRect(
+                                  borderRadius:
+                                      BorderRadius.circular(20), // Image border
+                                  child: SizedBox.fromSize(
+                                    size: const Size.fromRadius(
+                                        90), // Image radius
+                                    child: Image.asset('images/avatar.png',
+                                        fit: BoxFit.cover),
                                   ),
-                                ] else ...[
-                                  const CircleAvatar(
-                                      radius: 80.0,
-                                      backgroundImage:
-                                          AssetImage('images/samplePic.jpg')),
-                                ],
+                                ),
                                 const SizedBox(height: 10),
                                 FittedBox(
                                   fit: BoxFit.fitWidth,
                                   child: Text(
-                                    textNickname == null
-                                        ? "Nickname"
-                                        : "$textNickname",
+                                    nickname,
                                     style: const TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
@@ -192,20 +227,24 @@ class _ProfilePageState extends State<ProfilePage> {
                                               ),
                                             ],
                                           ),
-                                          IconButton(
-                                            icon: const Icon(
-                                              Icons.edit,
-                                              color: darkBlue,
+                                          Visibility(
+                                            visible: isHidden,
+                                            child: IconButton(
+                                              icon: const Icon(
+                                                Icons.edit,
+                                                color: darkBlue,
+                                                size: 15,
+                                              ),
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EditProfilePage(),
+                                                  ),
+                                                );
+                                              },
                                             ),
-                                            onPressed: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      EditProfilePage(),
-                                                ),
-                                              );
-                                            },
                                           ),
                                         ],
                                       ),
@@ -213,7 +252,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ),
                                 Expanded(
-                                  flex: 3,
+                                  flex: 4,
                                   child: Scrollbar(
                                     isAlwaysShown: true,
                                     child: SingleChildScrollView(
@@ -228,11 +267,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              textFirstName == null ||
-                                                      textMiddleName == null ||
-                                                      textLastName == null
-                                                  ? 'Full Name'
-                                                  : "$textFirstName $textMiddleName $textLastName",
+                                              fullname,
                                               style: TextStyle(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.bold,
@@ -250,9 +285,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               height: 10,
                                             ),
                                             Text(
-                                              textGuardianName == null
-                                                  ? 'Guardian Name'
-                                                  : "$textGuardianName",
+                                              guardianName,
                                               style: TextStyle(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.bold,
@@ -270,9 +303,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               height: 10,
                                             ),
                                             Text(
-                                              textNumber == null
-                                                  ? 'Phone Number'
-                                                  : "$textNumber",
+                                              number.toString(),
                                               style: TextStyle(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.bold,
@@ -290,9 +321,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               height: 10,
                                             ),
                                             Text(
-                                              textEmail == null
-                                                  ? 'Email Address'
-                                                  : "$textEmail",
+                                              email,
                                               style: TextStyle(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.bold,
@@ -310,9 +339,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               height: 10,
                                             ),
                                             Text(
-                                              textAddress == null
-                                                  ? 'Address'
-                                                  : "$textAddress",
+                                              address,
                                               style: TextStyle(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.bold,
@@ -561,7 +588,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               ),
                                             ),
                                             Text(
-                                              'Subtitle',
+                                              'Regular Sensing',
                                               style: TextStyle(
                                                 fontSize: 12,
                                                 color: lightBlue,
@@ -639,7 +666,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               ),
                                             ),
                                             Text(
-                                              'Subtitle',
+                                              'Heightened Sensing',
                                               style: TextStyle(
                                                 fontSize: 12,
                                                 color: lightBlue,
@@ -684,13 +711,13 @@ class _ProfilePageState extends State<ProfilePage> {
                               ],
                             ),
                           ),
-                          const Divider(
-                            color: Color.fromARGB(255, 217, 217, 217),
-                            thickness: 1,
-                          ),
+                          // const Divider(
+                          //   color: Color.fromARGB(255, 217, 217, 217),
+                          //   thickness: 1,
+                          // ),
                           Container(
                             padding: const EdgeInsets.only(
-                                top: 20, bottom: 20, left: 20, right: 20),
+                                bottom: 20, left: 20, right: 20),
                             //height: 120,
                             width: MediaQuery.of(context).size.width,
                             decoration: const BoxDecoration(
@@ -701,213 +728,121 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             ),
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                IntrinsicHeight(
+                                Container(
+                                  height: 150,
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: const BoxDecoration(
+                                    color: lightGrey,
+                                    borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(20),
+                                      bottomRight: Radius.circular(20),
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20),
+                                    ),
+                                  ),
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
                                     children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: const [
-                                              Icon(
-                                                Icons.access_time_rounded,
+                                      Container(
+                                        padding: const EdgeInsets.only(
+                                            top: 20,
+                                            bottom: 20,
+                                            left: 30,
+                                            right: 20),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Learn how sensing \nparameters \nwork',
+                                              style: TextStyle(
+                                                fontSize: 15,
                                                 color: darkGrey,
-                                                size: 28,
                                               ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Text(
-                                                'Set Schedule',
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: darkGrey),
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          ElevatedButton(
-                                            style: ButtonStyle(
-                                                backgroundColor:
-                                                    MaterialStateProperty.all(
-                                                        lightGrey),
-                                                shape: MaterialStateProperty.all<
-                                                        RoundedRectangleBorder>(
-                                                    RoundedRectangleBorder(
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Container(
+                                                width: MediaQuery.of(context)
+                                                            .size
+                                                            .width /
+                                                        3 -
+                                                    15,
+                                                height: 1,
+                                                color: Colors.white),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          _buildPopupDialog(
+                                                              context),
+                                                );
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.only(
+                                                    top: 5,
+                                                    bottom: 5,
+                                                    left: 15,
+                                                    right: 15),
+                                                width: MediaQuery.of(context)
+                                                            .size
+                                                            .width /
+                                                        6 +
+                                                    10,
+                                                decoration: const BoxDecoration(
+                                                  color: Colors.white,
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          20.0),
-                                                ))),
-                                            onPressed: () {
-                                              showDialog(
-                                                context: context,
-                                                builder: (BuildContext
-                                                        context) =>
-                                                    _buildPopupDialog(context),
-                                              );
-                                            },
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 50, right: 50),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: const <Widget>[
-                                                  Text(
-                                                    'Set', //or connect
-                                                    style: TextStyle(
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      color: darkBlue,
-                                                    ),
+                                                      BorderRadius.only(
+                                                    bottomLeft:
+                                                        Radius.circular(20),
+                                                    bottomRight:
+                                                        Radius.circular(20),
+                                                    topLeft:
+                                                        Radius.circular(20),
+                                                    topRight:
+                                                        Radius.circular(20),
                                                   ),
-                                                ],
+                                                ),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: const [
+                                                    Text(
+                                                      "Learn",
+                                                      style: TextStyle(
+                                                          fontSize: 12,
+                                                          color: darkBlue),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ),
+                                                    Icon(
+                                                      Icons
+                                                          .arrow_forward_ios_rounded,
+                                                      color: darkBlue,
+                                                      size: 8,
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                      const VerticalDivider(
-                                        color:
-                                            Color.fromARGB(255, 240, 240, 240),
-                                        thickness: 1,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          SizedBox(
-                                            width: 130,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                const SizedBox(
-                                                  width: 50,
-                                                  child: Text(
-                                                    'From: ',
-                                                    style: TextStyle(
-                                                      fontSize: 14,
-                                                      color: darkGrey,
-                                                    ),
-                                                  ),
-                                                ),
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    _selectTimeStart(context);
-                                                  },
-                                                  child: Container(
-                                                    width: 80,
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            top: 3,
-                                                            bottom: 3,
-                                                            left: 15,
-                                                            right: 15),
-                                                    decoration: BoxDecoration(
-                                                      color: lightGrey,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                    ),
-                                                    child: Text(
-                                                      '${selectedTimeStart.hour}:${selectedTimeStart.minute}',
-                                                      style: const TextStyle(
-                                                        fontSize: 20,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: darkGrey,
-                                                      ),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          SizedBox(
-                                            width: 130,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                const SizedBox(
-                                                  width: 50,
-                                                  child: Text(
-                                                    'Until: ',
-                                                    style: TextStyle(
-                                                      fontSize: 14,
-                                                      color: darkGrey,
-                                                    ),
-                                                  ),
-                                                ),
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    _selectTimeEnd(context);
-                                                  },
-                                                  child: Container(
-                                                    width: 80,
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            top: 3,
-                                                            bottom: 3,
-                                                            left: 15,
-                                                            right: 15),
-                                                    decoration: BoxDecoration(
-                                                      color: lightGrey,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                    ),
-                                                    child: Text(
-                                                      '${selectedTimeEnd.hour}:${selectedTimeEnd.minute}',
-                                                      style: const TextStyle(
-                                                        fontSize: 20,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: darkGrey,
-                                                      ),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                      Image(
+                                          image:
+                                              AssetImage('images/profile.png')),
                                     ],
                                   ),
-                                ),
+                                )
                               ],
                             ),
                           ),
@@ -932,7 +867,7 @@ class _ProfilePageState extends State<ProfilePage> {
       contentPadding: EdgeInsets.only(top: 10.0),
       content: Container(
         padding: EdgeInsets.all(15),
-        height: MediaQuery.of(context).size.height / 3,
+        height: MediaQuery.of(context).size.height / 2.28,
         width: MediaQuery.of(context).size.width,
         child: Column(
           //mainAxisSize: MainAxisSize.min,
@@ -940,14 +875,14 @@ class _ProfilePageState extends State<ProfilePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(left: 20, top: 20),
+              padding: EdgeInsets.only(left: 20),
               width: double.infinity,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Icon(
-                    Icons.alarm_on_rounded,
+                    Icons.info_outline,
                     color: Colors.amber,
                     size: 40,
                   ),
@@ -958,52 +893,32 @@ class _ProfilePageState extends State<ProfilePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  "Schedule",
-                  style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.amber),
-                ),
+                // Text(
+                //   "Schedule",
+                //   style: TextStyle(
+                //       fontSize: 25,
+                //       fontWeight: FontWeight.bold,
+                //       color: Colors.amber),
+                // ),
                 SizedBox(
-                  height: 20,
+                  height: 25,
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width / 4.2,
+                  padding: EdgeInsets.only(left: 20, right: 20),
+                  width: MediaQuery.of(context).size.width,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Set From: ",
-                            style: TextStyle(fontSize: 15, color: Colors.black),
-                          ),
-                          Text(
-                            "${selectedTimeStart.hour}:${selectedTimeStart.minute}",
-                            style: TextStyle(fontSize: 15, color: Colors.black),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Until: ",
-                            style: TextStyle(fontSize: 15, color: Colors.black),
-                          ),
-                          Text(
-                            "${selectedTimeEnd.hour}:${selectedTimeEnd.minute}",
-                            style: TextStyle(fontSize: 15, color: Colors.black),
-                          ),
-                        ],
+                      Text(
+                        "When the normal state is on, the sensing parameters are tweaked to detect seizures with the highest resolution. In turn, this sets the device to perform multiple sampling for each sensor, ensuring accurate readings. \n\nMeanwhile, when the sensitive state is on, the sensing parameters are tweaked to detect seizures with the lowest resolution. In turn, this sets the device to respond to possible seizure readings faster but may result in false positives often.",
+                        style: TextStyle(fontSize: 14, color: Colors.black),
+                        textAlign: TextAlign.justify,
                       ),
                     ],
                   ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 15),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -1024,7 +939,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 10),
               ],
             )
           ],
@@ -1042,7 +957,6 @@ class _ProfilePageState extends State<ProfilePage> {
     if (timeOfDay != null && timeOfDay != selectedTimeStart) {
       setState(() {
         selectedTimeStart = timeOfDay;
-        setTime.setTimeFrom(timeOfDay);
       });
     }
   }
@@ -1056,29 +970,7 @@ class _ProfilePageState extends State<ProfilePage> {
     if (timeOfDay != null && timeOfDay != selectedTimeEnd) {
       setState(() {
         selectedTimeEnd = timeOfDay;
-        setTime.setTimeUntil(timeOfDay);
       });
     }
-  }
-}
-
-class setTime {
-  static TimeOfDay timeFrom = TimeOfDay.now();
-  static TimeOfDay timeUntil = TimeOfDay.now();
-
-  static void setTimeFrom(TimeOfDay newValue) {
-    timeFrom = newValue;
-  }
-
-  static void setTimeUntil(TimeOfDay newValue) {
-    timeUntil = newValue;
-  }
-
-  static TimeOfDay getTimeFrom() {
-    return timeFrom;
-  }
-
-  static TimeOfDay getTimeUntil() {
-    return timeUntil;
   }
 }
