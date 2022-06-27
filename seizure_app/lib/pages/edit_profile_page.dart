@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -5,7 +6,9 @@ import 'package:hive/hive.dart';
 import 'package:seizure_app/boxes/boxData.dart';
 import 'package:seizure_app/constant.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:seizure_app/model/info_sharedPref.dart';
 import 'package:seizure_app/pages/profile_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../boxes/boxInfo.dart';
 import '../model/personal_info.dart';
@@ -25,6 +28,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   void initState() {
     super.initState();
     Hive.openBox<PersonalInfo>(HiveBoxesInfo.info);
+    loadData();
   }
 
   late String nickname;
@@ -46,6 +50,51 @@ class _EditProfilePageState extends State<EditProfilePage> {
     } else {
       return;
     }
+  }
+
+  loadData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? json = prefs.getString('TestUser_Key');
+    print("load info $json");
+
+    if (json == null) {
+      print('no data');
+    } else {
+      Map<String, dynamic> map = jsonDecode(json);
+      print('map $map');
+
+      final user1 = InfoPref.fromJson(map);
+      print(
+          'Name: ${user1.userFirstName} ${user1.userMiddleName} ${user1.userLastName}');
+      print('Email: ${user1.userEmail}');
+      print('Guardian: ${user1.userGuardianName}');
+      print('Number: ${user1.userNumber}');
+    }
+  }
+
+  saveData() async {
+    //String textName = '${user.displayName}';
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final testUser = InfoPref(
+      userNickname: '$textNickname',
+      userFirstName: '$textFirstName',
+      userMiddleName: '$textMiddleName',
+      userLastName: '$textLastName',
+      userGuardianName: '$textGuardianName',
+      userEmail: '$textEmail',
+      userNumber: '$textNumber',
+      userAddress: '$textAddress',
+    );
+
+    String json = jsonEncode(testUser);
+    print("save info $json");
+    prefs.setString('TestUser_Key', json);
+  }
+
+  cleardata() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+    print("Data cleared");
   }
 
   @override
@@ -117,6 +166,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
     setState(() {
       _imageFile = pickedFile!;
       imagePath = _imageFile.path;
+      print("PATH!!!!!!!!!!!");
+      print(imagePath);
+      setPicture.setPath(_imageFile.path);
     });
     Navigator.of(context).pop();
   }
@@ -199,28 +251,35 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                               color: darkBlue,
                                             ),
                                           ),
-                                          child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(
-                                                20), // Image border
-                                            child: SizedBox.fromSize(
-                                              size: const Size.fromRadius(
-                                                  80), // Image radius
-                                              child: imagePath == null
-                                                  ? Image.asset(
-                                                      'images/samplePic.jpg',
-                                                      fit: BoxFit.cover)
-                                                  : Image.asset(
-                                                      'images/pet.png',
-                                                      fit: BoxFit
-                                                          .cover), //FileImage(File(imagePath)),
-                                            ),
-                                          ),
-                                          // CircleAvatar(
-                                          //   radius: 60.0,
-                                          //   backgroundImage: imagePath == null
-                                          //       ? const AssetImage('images/samplePic.jpg')
-                                          //       : null,//FileImage(File(imagePath)),
+                                          // child: ClipRRect(
+                                          //   borderRadius: BorderRadius.circular(
+                                          //       20), // Image border
+                                          //   child: SizedBox.fromSize(
+                                          //     size: const Size.fromRadius(
+                                          //         80), // Image radius
+                                          //     child: imagePath == null
+                                          //         ? Image.asset(
+                                          //             'images/samplePic.jpg',
+                                          //             fit: BoxFit.cover)
+                                          //         : Image.asset(File(imagePath)),
+                                          //   ),
                                           // ),
+                                          child: Column(
+                                            children: [
+                                              if (imagePath == null) ...[
+                                                CircleAvatar(
+                                                    radius: 80.0,
+                                                    backgroundImage: AssetImage(
+                                                        'images/avatar.png')),
+                                              ] else ...[
+                                                CircleAvatar(
+                                                  radius: 80.0,
+                                                  backgroundImage: FileImage(
+                                                      File(imagePath)),
+                                                ),
+                                              ],
+                                            ],
+                                          ),
                                         ),
                                       ),
                                       Positioned(
@@ -752,3 +811,28 @@ class _EditProfilePageState extends State<EditProfilePage> {
     Navigator.pop(context);
   }
 }
+
+class setPicture {
+  static var picturePath;
+  static void setPath(var newValue) {
+    picturePath = newValue;
+    saveImage(newValue);
+  }
+
+  static getPath() {
+    return picturePath;
+  }
+}
+
+Future<void> saveImage(var path) async {
+  final prefs = await SharedPreferences.getInstance();
+  prefs.setString('savedPath', path);
+  print("Saving path to local disk");
+}
+
+// readImage() async {
+//   final prefs = await SharedPreferences.getInstance();
+//   String? path = prefs.getString('savedPath');
+//   print("SHARED PREF PATH: ${path}");
+//   setPicture.setPath(path);
+// }

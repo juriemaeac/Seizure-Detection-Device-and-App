@@ -58,8 +58,7 @@ class _CalendarWeeklyState extends State<CalendarWeekly> {
                   spreadRadius: 1.0,
                   color: Colors.black12,
                 ),
-              ]
-          ),
+              ]),
         ),
       ),
     );

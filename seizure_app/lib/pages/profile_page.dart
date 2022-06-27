@@ -7,15 +7,20 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:hive/hive.dart';
 import 'package:seizure_app/constant.dart';
 import 'package:seizure_app/device/widget.dart';
+import 'package:seizure_app/model/info_sharedPref.dart';
 import 'package:seizure_app/pages/edit_profile_page.dart';
 import 'package:seizure_app/device/sensor.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../boxes/boxData.dart';
 import '../boxes/boxInfo.dart';
 import '../model/personal_info.dart';
 import '../model/sensed_data.dart';
+import 'package:seizure_app/pages/edit_profile_page.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({Key? key, this.device}) : super(key: key);
+
+  final BluetoothDevice? device;
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -40,6 +45,8 @@ class _ProfilePageState extends State<ProfilePage> {
   late String email = 'Email';
   late int number = 0;
 
+  late var imagePath;
+
   void isSensitive() {
     var checkSense = deviceSensitivity.getString();
     if (checkSense == "Normal") {
@@ -57,7 +64,7 @@ class _ProfilePageState extends State<ProfilePage> {
     isSensitive();
     if (infolength != 0) {
       isHidden = false;
-      print("Profile Found!");
+      //print("Profile Found!");
       PersonalInfo? data = infoBox.getAt(infolength - 1);
       nickname = data?.nickname.toString() ?? "Nick Name";
       fullname = "${data?.firstName} ${data?.middleName} ${data?.lastName}";
@@ -71,15 +78,26 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  Future<void> checkImageStored() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      //imagePath = setPicture.getPath();
+      imagePath = prefs.getString('savedPath');
+      setPicture.setPath(imagePath);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     Hive.openBox<PersonalInfo>(HiveBoxesInfo.info);
+    checkImageStored();
   }
 
   @override
   Widget build(BuildContext context) {
     checkUserInfo();
+    //checkImageStored();
     return Scaffold(
       backgroundColor: Colors.white,
       extendBody: true,
@@ -159,16 +177,29 @@ class _ProfilePageState extends State<ProfilePage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                ClipRRect(
-                                  borderRadius:
-                                      BorderRadius.circular(20), // Image border
-                                  child: SizedBox.fromSize(
-                                    size: const Size.fromRadius(
-                                        90), // Image radius
-                                    child: Image.asset('images/avatar.png',
-                                        fit: BoxFit.cover),
+                                if (imagePath == null) ...[
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(
+                                        20), // Image border
+                                    child: SizedBox.fromSize(
+                                      size: const Size.fromRadius(
+                                          90), // Image radius
+                                      child: Image.asset('images/avatar.png',
+                                          fit: BoxFit.cover),
+                                    ),
                                   ),
-                                ),
+                                ] else ...[
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(
+                                        20), // Image border
+                                    child: SizedBox.fromSize(
+                                      size: const Size.fromRadius(
+                                          90), // Image radius
+                                      child: Image.file(File(imagePath),
+                                          fit: BoxFit.cover),
+                                    ),
+                                  ),
+                                ],
                                 const SizedBox(height: 10),
                                 FittedBox(
                                   fit: BoxFit.fitWidth,
@@ -433,7 +464,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ),
                                         ),
                                         Text(
-                                          "Phone Model",
+                                          "ESP32 Seize Device",
                                           style: TextStyle(
                                             fontSize: 12,
                                             color: darkGrey,
@@ -480,7 +511,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 width: 10,
                                               ),
                                               Text(
-                                                'CONNECT', //or connect
+                                                'CONNECTED', //or connect
                                                 style: TextStyle(
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.w400,

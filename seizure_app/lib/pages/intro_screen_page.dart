@@ -73,7 +73,7 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        'Take Care of \nYour Love Ones',
+                        'Take Care of \nYour Loved Ones',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 28,
@@ -153,7 +153,7 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
                                   )),
                               const Expanded(
                                 child: Text(
-                                  'Get Started',
+                                  'Proceed',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: 22,
@@ -161,9 +161,34 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
                                     color: Colors.white,
                                   ),
                                 ),
-                              )
+                              ),
+                              SizedBox(width: 50),
                             ],
                           ),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(top:25),
+                        width: MediaQuery.of(context).size.width,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text("Powered by   ",
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                              color: lightBlue,
+                            
+                            ),),
+                            Image.asset(
+                                        'images/artemis.png',
+                                        width: 60,
+                                        //height: 100,
+                                        fit:BoxFit.fill  
+
+                                      ),
+                          ],
                         ),
                       )
                     ],

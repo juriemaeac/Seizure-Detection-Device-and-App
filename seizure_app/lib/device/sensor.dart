@@ -18,6 +18,8 @@ import 'package:seizure_app/pages/records_page.dart';
 import 'package:seizure_app/widgets/calendar.dart';
 import 'package:seizure_app/widgets/notification_widget.dart';
 import 'package:oscilloscope/oscilloscope.dart';
+import 'package:seizure_app/pages/edit_profile_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SensorPage extends StatefulWidget {
   const SensorPage({Key? key, this.device}) : super(key: key);
@@ -45,6 +47,20 @@ class _SensorPageState extends State<SensorPage> {
   late String accelerometer = 'Erratic';
   var sense = "";
 
+  late var imagePath;
+
+  // Future<void> checkImageStored() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     //imagePath = setPicture.getPath();
+  //     imagePath = prefs.getString('savedPath');
+  //   });
+  // }
+
+  checkImageStored() {
+    imagePath = setPicture.getPath();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -52,6 +68,7 @@ class _SensorPageState extends State<SensorPage> {
     connectToDevice();
     Hive.openBox<SensedData>(HiveBoxesData.data);
     NotificationWidget.init();
+    checkImageStored();
   }
 
   parseData(String dataVal) {
@@ -209,7 +226,7 @@ class _SensorPageState extends State<SensorPage> {
                       print("BPM: ${dataArray[2]}");
                       print("GSR: ${dataArray[3]}");
                       print("ACC: ${dataArray[4]}");
-
+                      checkImageStored();
                       traceData.add(double.tryParse(dataArray[2]) ?? 0);
                       sense = deviceSensitivity.getString();
                       bpm = "${dataArray[2]}";
@@ -243,9 +260,7 @@ class _SensorPageState extends State<SensorPage> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        textFirstName == null
-                                            ? 'Hi User!'
-                                            : "Hi $textFirstName!",
+                                        'Dashboard',
                                         style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
@@ -261,17 +276,49 @@ class _SensorPageState extends State<SensorPage> {
                                             ),
                                           );
                                         },
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(
-                                              20), // Image border
-                                          child: SizedBox.fromSize(
-                                            size: const Size.fromRadius(
-                                                20), // Image radius
-                                            child: Image.asset(
-                                                'images/avatar.png',
-                                                fit: BoxFit.cover),
-                                          ),
+                                        child: Column(
+                                          children: [
+                                            if (imagePath == null) ...[
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        10), // Image border
+                                                child: SizedBox.fromSize(
+                                                  size: const Size.fromRadius(
+                                                      20), // Image radius
+                                                  child: Image.asset(
+                                                      'images/avatar.png',
+                                                      fit: BoxFit.cover),
+                                                ),
+                                              ),
+                                            ] else ...[
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        10), // Image border
+                                                child: SizedBox.fromSize(
+                                                  size: const Size.fromRadius(
+                                                      20), // Image radius
+                                                  child: Image.file(
+                                                      File(imagePath),
+                                                      fit: BoxFit.cover),
+                                                ),
+                                              ),
+                                            ],
+                                          ],
                                         ),
+
+                                        // ClipRRect(
+                                        //   borderRadius: BorderRadius.circular(
+                                        //       20), // Image border
+                                        //   child: SizedBox.fromSize(
+                                        //     size: const Size.fromRadius(
+                                        //         20), // Image radius
+                                        //     child: Image.asset(
+                                        //         'images/avatar.png',
+                                        //         fit: BoxFit.cover),
+                                        //   ),
+                                        // ),
                                       ),
                                     ],
                                   ),
@@ -1217,7 +1264,7 @@ class _SensorPageState extends State<SensorPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(left: 30, top: 20),
+              padding: EdgeInsets.only(left: 30, top: 10),
               width: double.infinity,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -1246,11 +1293,11 @@ class _SensorPageState extends State<SensorPage> {
                   height: 20,
                 ),
                 Text(
-                  "Seizure Episode Detected",
+                  "Seizure Episode not Detected?",
                   style: TextStyle(fontSize: 15, color: Colors.black),
                 ),
                 Text(
-                  "Manual Record",
+                  "Add Record Manually",
                   style: TextStyle(fontSize: 15, color: Colors.black),
                 ),
                 SizedBox(height: 20),
@@ -1274,6 +1321,18 @@ class _SensorPageState extends State<SensorPage> {
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                     ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    "Cancel",
+                    style: TextStyle(fontSize: 15, color: lightBlue),
                   ),
                 ),
                 SizedBox(height: 20),
