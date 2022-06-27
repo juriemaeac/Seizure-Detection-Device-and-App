@@ -1,7 +1,7 @@
-//import 'dart:ui' as ui;
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-//import 'package:flutter/rendering.dart';
+import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 //import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -22,8 +22,8 @@ Future<void> main() async {
   await Hive.openBox<SensedData>(HiveBoxesData.data);
   await Hive.openBox<PersonalInfo>(HiveBoxesInfo.info);
   runApp(const MyApp());
-  // RenderErrorBox.backgroundColor = Colors.transparent;
-  // RenderErrorBox.textStyle = ui.TextStyle(color: Colors.transparent);
+  RenderErrorBox.backgroundColor = Colors.transparent;
+  RenderErrorBox.textStyle = ui.TextStyle(color: Colors.transparent);
 }
 
 class MyApp extends StatelessWidget {

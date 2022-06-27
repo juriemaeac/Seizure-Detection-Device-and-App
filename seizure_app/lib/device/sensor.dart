@@ -601,9 +601,9 @@ class _SensorPageState extends State<SensorPage> {
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       color: darkGrey,
-                                                      fontFamily:
-                                                          GoogleFonts.poppins()
-                                                              .fontFamily,
+                                                      // fontFamily:
+                                                      //     GoogleFonts.poppins()
+                                                      //         .fontFamily,
                                                     ),
                                                   ),
                                                   const Text(
@@ -624,9 +624,9 @@ class _SensorPageState extends State<SensorPage> {
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       color: darkGrey,
-                                                      fontFamily:
-                                                          GoogleFonts.poppins()
-                                                              .fontFamily,
+                                                      // fontFamily:
+                                                      //     GoogleFonts.poppins()
+                                                      //         .fontFamily,
                                                     ),
                                                   ),
                                                   const Text(
@@ -647,9 +647,9 @@ class _SensorPageState extends State<SensorPage> {
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       color: darkGrey,
-                                                      fontFamily:
-                                                          GoogleFonts.poppins()
-                                                              .fontFamily,
+                                                      // fontFamily:
+                                                      //     GoogleFonts.poppins()
+                                                      //         .fontFamily,
                                                     ),
                                                   ),
                                                   const Text(
@@ -744,9 +744,9 @@ class _SensorPageState extends State<SensorPage> {
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       color: darkGrey,
-                                                      fontFamily:
-                                                          GoogleFonts.poppins()
-                                                              .fontFamily,
+                                                      // fontFamily:
+                                                      //     GoogleFonts.poppins()
+                                                      //         .fontFamily,
                                                     ),
                                                   ),
                                                   const Text(
@@ -767,9 +767,9 @@ class _SensorPageState extends State<SensorPage> {
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       color: darkGrey,
-                                                      fontFamily:
-                                                          GoogleFonts.poppins()
-                                                              .fontFamily,
+                                                      // fontFamily:
+                                                      //     GoogleFonts.poppins()
+                                                      //         .fontFamily,
                                                     ),
                                                   ),
                                                   const Text(
@@ -790,9 +790,9 @@ class _SensorPageState extends State<SensorPage> {
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       color: darkGrey,
-                                                      fontFamily:
-                                                          GoogleFonts.poppins()
-                                                              .fontFamily,
+                                                      // fontFamily:
+                                                      //     GoogleFonts.poppins()
+                                                      //         .fontFamily,
                                                     ),
                                                   ),
                                                   const Text(
@@ -892,9 +892,9 @@ class _SensorPageState extends State<SensorPage> {
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       color: darkGrey,
-                                                      fontFamily:
-                                                          GoogleFonts.poppins()
-                                                              .fontFamily,
+                                                      // fontFamily:
+                                                      //     GoogleFonts.poppins()
+                                                      //         .fontFamily,
                                                     ),
                                                   ),
                                                   const Text(
@@ -915,9 +915,9 @@ class _SensorPageState extends State<SensorPage> {
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       color: darkGrey,
-                                                      fontFamily:
-                                                          GoogleFonts.poppins()
-                                                              .fontFamily,
+                                                      // fontFamily:
+                                                      //     GoogleFonts.poppins()
+                                                      //         .fontFamily,
                                                     ),
                                                   ),
                                                   const Text(
@@ -938,9 +938,9 @@ class _SensorPageState extends State<SensorPage> {
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       color: darkGrey,
-                                                      fontFamily:
-                                                          GoogleFonts.poppins()
-                                                              .fontFamily,
+                                                      // fontFamily:
+                                                      //     GoogleFonts.poppins()
+                                                      //         .fontFamily,
                                                     ),
                                                   ),
                                                   const Text(
@@ -1036,9 +1036,9 @@ class _SensorPageState extends State<SensorPage> {
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       color: darkGrey,
-                                                      fontFamily:
-                                                          GoogleFonts.poppins()
-                                                              .fontFamily,
+                                                      // fontFamily:
+                                                      //     GoogleFonts.poppins()
+                                                      //         .fontFamily,
                                                     ),
                                                   ),
                                                   const Text(
@@ -1059,9 +1059,9 @@ class _SensorPageState extends State<SensorPage> {
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       color: darkGrey,
-                                                      fontFamily:
-                                                          GoogleFonts.poppins()
-                                                              .fontFamily,
+                                                      // fontFamily:
+                                                      //     GoogleFonts.poppins()
+                                                      //         .fontFamily,
                                                     ),
                                                   ),
                                                   const Text(
