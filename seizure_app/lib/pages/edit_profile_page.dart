@@ -3,16 +3,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:seizure_app/boxes/boxData.dart';
 import 'package:seizure_app/constant.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:seizure_app/model/info_sharedPref.dart';
-import 'package:seizure_app/pages/profile_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../boxes/boxInfo.dart';
 import '../model/personal_info.dart';
-import '../model/sensed_data.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({
@@ -97,7 +94,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
     print("Data cleared");
   }
 
-  @override
   Widget _buildSheet() {
     return Container(
       height: 120.0,

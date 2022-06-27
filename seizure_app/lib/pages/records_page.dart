@@ -1,12 +1,7 @@
-import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+//import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:seizure_app/constant.dart';
-import 'package:seizure_app/device/sensor.dart';
-import 'package:seizure_app/pages/home_page.dart';
-import 'package:seizure_app/pages/profile_page.dart';
-import 'package:seizure_app/widgets/barchart.dart';
 import 'package:seizure_app/widgets/stat_card.dart';
 
 import '../boxes/boxData.dart';
@@ -28,8 +23,8 @@ class _RecordPageState extends State<RecordPage> {
     Hive.openBox<SensedData>(HiveBoxesData.data);
   }
 
-  @override
   var recordsCount = Hive.box<SensedData>(HiveBoxesData.data).length;
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:seizure_app/constant.dart';
-import 'package:seizure_app/device/blu_connection.dart';
 import 'package:seizure_app/device/device_screen.dart';
 import 'package:seizure_app/device/sensor.dart';
 import 'package:seizure_app/device/widget.dart';
-import 'package:seizure_app/pages/profile_page.dart';
 
 class FindDevicesScreen extends StatelessWidget {
   const FindDevicesScreen({Key? key}) : super(key: key);

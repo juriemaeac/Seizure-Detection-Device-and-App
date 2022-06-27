@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seizure_app/constant.dart';
 import 'package:seizure_app/device/blu_connection.dart';
-import 'package:seizure_app/pages/home_page.dart';
 
 class IntroScreenPage extends StatefulWidget {
   const IntroScreenPage({Key? key}) : super(key: key);
@@ -168,26 +167,24 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.only(top:25),
+                        padding: EdgeInsets.only(top: 25),
                         width: MediaQuery.of(context).size.width,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text("Powered by   ",
-                            style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w500,
-                              color: lightBlue,
-                            
-                            ),),
-                            Image.asset(
-                                        'images/artemis.png',
-                                        width: 60,
-                                        //height: 100,
-                                        fit:BoxFit.fill  
-
-                                      ),
+                            Text(
+                              "Powered by   ",
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w500,
+                                color: lightBlue,
+                              ),
+                            ),
+                            Image.asset('images/artemis.png',
+                                width: 60,
+                                //height: 100,
+                                fit: BoxFit.fill),
                           ],
                         ),
                       )

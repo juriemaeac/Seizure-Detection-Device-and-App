@@ -11,7 +11,6 @@ import 'package:hive/hive.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:seizure_app/boxes/boxData.dart';
 import 'package:seizure_app/constant.dart';
-import 'package:seizure_app/model/info_sharedPref.dart';
 import 'package:seizure_app/model/sensed_data.dart';
 import 'package:seizure_app/pages/profile_page.dart';
 import 'package:seizure_app/pages/records_page.dart';
@@ -19,7 +18,6 @@ import 'package:seizure_app/widgets/calendar.dart';
 import 'package:seizure_app/widgets/notification_widget.dart';
 import 'package:oscilloscope/oscilloscope.dart';
 import 'package:seizure_app/pages/edit_profile_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SensorPage extends StatefulWidget {
   const SensorPage({Key? key, this.device}) : super(key: key);
@@ -170,7 +168,6 @@ class _SensorPageState extends State<SensorPage> {
   Widget build(BuildContext context) {
     Oscilloscope oscilloscope = Oscilloscope(
       showYAxis: true,
-      padding: 0.0,
       backgroundColor: Colors.white,
       traceColor: darkBlue,
       yAxisMax: 200.0,

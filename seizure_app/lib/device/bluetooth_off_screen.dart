@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:seizure_app/constant.dart';
-import 'package:seizure_app/pages/profile_page.dart';
 
 class BluetoothOffScreen extends StatelessWidget {
-  const BluetoothOffScreen({ Key? key,  this.state}) : super(key: key);
+  const BluetoothOffScreen({Key? key, this.state}) : super(key: key);
 
   final BluetoothState? state;
 

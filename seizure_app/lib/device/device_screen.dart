@@ -1,50 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:seizure_app/constant.dart';
-import 'package:seizure_app/device/widget.dart';
 
 class DeviceScreen extends StatelessWidget {
   const DeviceScreen({Key? key, this.device}) : super(key: key);
 
   final BluetoothDevice? device;
 
-  List<Widget> _buildServiceTiles(List<BluetoothService> services) {
-    return services
-        .map(
-          (s) => ServiceTile(
-            service: s,
-            characteristicTiles: s.characteristics
-                .map(
-                  (c) => CharacteristicTile(
-                    characteristic: c,
-                    onReadPressed: () => c.read(),
-                    onWritePressed: () => c.write([13, 24]),
-                    onNotificationPressed: () =>
-                        c.setNotifyValue(!c.isNotifying),
-                    descriptorTiles: c.descriptors
-                        .map(
-                          (d) => DescriptorTile(
-                            descriptor: d,
-                            onReadPressed: () => d.read(),
-                            onWritePressed: () => d.write([11, 12]),
-                          ),
-                        )
-                        .toList(),
-                  ),
-                )
-                .toList(),
-          ),
-        )
-        .toList();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
             height: 60,
@@ -52,7 +20,7 @@ class DeviceScreen extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(40),
             width: double.infinity,
-            height: MediaQuery.of(context).size.height /3,
+            height: MediaQuery.of(context).size.height / 3,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
@@ -96,7 +64,9 @@ class DeviceScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 StreamBuilder<BluetoothDeviceState>(
                   stream: device!.state,
                   initialData: BluetoothDeviceState.connecting,
@@ -106,23 +76,26 @@ class DeviceScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(device!.name, 
+                        Text(
+                          device!.name,
                           style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black
-                          ),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
                         ),
-                        SizedBox(height: 20,),
+                        SizedBox(
+                          height: 20,
+                        ),
                         Text('ID: ${device!.id.toString()}'),
                         Text(
-                            'Device is ${snapshot.data.toString().split('.')[1]}.',
-                            style: TextStyle(
-                              color: lightBlue
-                            ),),
-                            SizedBox(height: 8),
-                            Divider(thickness: 1,),
-                            SizedBox(height: 8),
+                          'Device is ${snapshot.data.toString().split('.')[1]}.',
+                          style: TextStyle(color: lightBlue),
+                        ),
+                        SizedBox(height: 8),
+                        Divider(
+                          thickness: 1,
+                        ),
+                        SizedBox(height: 8),
                         Container(
                           child: StreamBuilder<BluetoothDeviceState>(
                             stream: device!.state,
@@ -144,33 +117,32 @@ class DeviceScreen extends StatelessWidget {
                                   break;
                                 default:
                                   onPressed = (() => {});
-                                  text =
-                                      snapshot.data.toString().substring(21).toUpperCase();
+                                  text = snapshot.data
+                                      .toString()
+                                      .substring(21)
+                                      .toUpperCase();
                                   break;
                               }
                               return ElevatedButton(
-                                  onPressed: onPressed,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 20.0, right:20.0),
-                                    child: Text(
-                                      text,
+                                onPressed: onPressed,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20.0, right: 20.0),
+                                  child: Text(text,
                                       style: TextStyle(
-                                        fontSize: 15,
-                                              color: Colors.white)
+                                          fontSize: 15, color: Colors.white)),
+                                ),
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all(darkBlue),
+                                  shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
                                     ),
                                   ),
-                                  style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              darkBlue),
-                                      shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                        RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20.0),
-                                        ),
-                                      ),
-                                    ),);
+                                ),
+                              );
                             },
                           ),
                         )

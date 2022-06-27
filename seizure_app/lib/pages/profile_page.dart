@@ -1,4 +1,4 @@
-import 'dart:async';
+//import 'dart:async';
 import 'dart:core';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -6,16 +6,11 @@ import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:hive/hive.dart';
 import 'package:seizure_app/constant.dart';
-import 'package:seizure_app/device/widget.dart';
-import 'package:seizure_app/model/info_sharedPref.dart';
 import 'package:seizure_app/pages/edit_profile_page.dart';
 import 'package:seizure_app/device/sensor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../boxes/boxData.dart';
 import '../boxes/boxInfo.dart';
 import '../model/personal_info.dart';
-import '../model/sensed_data.dart';
-import 'package:seizure_app/pages/edit_profile_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key, this.device}) : super(key: key);
@@ -979,29 +974,29 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  _selectTimeStart(BuildContext context) async {
-    final TimeOfDay? timeOfDay = await showTimePicker(
-      context: context,
-      initialTime: selectedTimeStart,
-      initialEntryMode: TimePickerEntryMode.dial,
-    );
-    if (timeOfDay != null && timeOfDay != selectedTimeStart) {
-      setState(() {
-        selectedTimeStart = timeOfDay;
-      });
-    }
-  }
+  // _selectTimeStart(BuildContext context) async {
+  //   final TimeOfDay? timeOfDay = await showTimePicker(
+  //     context: context,
+  //     initialTime: selectedTimeStart,
+  //     initialEntryMode: TimePickerEntryMode.dial,
+  //   );
+  //   if (timeOfDay != null && timeOfDay != selectedTimeStart) {
+  //     setState(() {
+  //       selectedTimeStart = timeOfDay;
+  //     });
+  //   }
+  // }
 
-  _selectTimeEnd(BuildContext context) async {
-    final TimeOfDay? timeOfDay = await showTimePicker(
-      context: context,
-      initialTime: selectedTimeEnd,
-      initialEntryMode: TimePickerEntryMode.dial,
-    );
-    if (timeOfDay != null && timeOfDay != selectedTimeEnd) {
-      setState(() {
-        selectedTimeEnd = timeOfDay;
-      });
-    }
-  }
+  // _selectTimeEnd(BuildContext context) async {
+  //   final TimeOfDay? timeOfDay = await showTimePicker(
+  //     context: context,
+  //     initialTime: selectedTimeEnd,
+  //     initialEntryMode: TimePickerEntryMode.dial,
+  //   );
+  //   if (timeOfDay != null && timeOfDay != selectedTimeEnd) {
+  //     setState(() {
+  //       selectedTimeEnd = timeOfDay;
+  //     });
+  //   }
+  // }
 }
