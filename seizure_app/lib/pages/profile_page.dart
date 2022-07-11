@@ -109,6 +109,7 @@ class _ProfilePageState extends State<ProfilePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
+                width: MediaQuery.of(context).size.width,
                 child: Row(
                   children: [
                     IconButton(
@@ -134,10 +135,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: 20,
-              ),
               Container(
+                width: MediaQuery.of(context).size.width,
                 padding: const EdgeInsets.only(
                   left: 20,
                   right: 20,
@@ -178,7 +177,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         20), // Image border
                                     child: SizedBox.fromSize(
                                       size: const Size.fromRadius(
-                                          90), // Image radius
+                                          70), // Image radius
                                       child: Image.asset('images/avatar.png',
                                           fit: BoxFit.cover),
                                     ),
@@ -234,24 +233,27 @@ class _ProfilePageState extends State<ProfilePage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Row(
-                                            children: const [
-                                              Icon(
-                                                Icons.person,
-                                                color: darkBlue,
-                                              ),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                'Profile',
-                                                style: TextStyle(
-                                                  fontSize: 22,
-                                                  fontWeight: FontWeight.w600,
+                                          Container(
+                                            child: Row(
+                                              children: const [
+                                                Icon(
+                                                  Icons.person,
                                                   color: darkBlue,
+                                                  size:20,
                                                 ),
-                                              ),
-                                            ],
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(
+                                                  'Profile',
+                                                  style: TextStyle(
+                                                    fontSize: 22,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: darkBlue,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                           Visibility(
                                             visible: isHidden,
@@ -278,7 +280,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ),
                                 Expanded(
-                                  flex: 4,
+                                  flex: 3,
                                   child: Scrollbar(
                                     isAlwaysShown: true,
                                     child: SingleChildScrollView(
@@ -389,11 +391,12 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 20,
+                    Container(
+                      height: MediaQuery.of(context).size.height/50,
                     ),
                     Container(
-                        height: 115,
+                      width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height/7.5,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20),
@@ -410,7 +413,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              height: 115,
+                              height: MediaQuery.of(context).size.height/7.5,
                               padding: const EdgeInsets.only(
                                 top: 10,
                                 bottom: 10,
@@ -524,11 +527,11 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ],
                         )),
-                    const SizedBox(
-                      height: 20,
+                    Container(
+                      height: MediaQuery.of(context).size.height/50,
                     ),
                     Container(
-                      //height: 170,
+                      height: MediaQuery.of(context).size.height/2.5,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
@@ -541,15 +544,16 @@ class _ProfilePageState extends State<ProfilePage> {
                         ],
                       ),
                       width: MediaQuery.of(context).size.width,
-
+                            
                       child: Column(
                         children: [
                           Container(
+                            height: (MediaQuery.of(context).size.height/2.6)/1.9,
                             padding: const EdgeInsets.only(
-                              top: 20,
+                              top: 10,
                               left: 20,
                               right: 20,
-                              bottom: 20,
+                              //bottom: 20,
                             ),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -742,6 +746,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           //   thickness: 1,
                           // ),
                           Container(
+                            height: (MediaQuery.of(context).size.height/2.6)/2,
                             padding: const EdgeInsets.only(
                                 bottom: 20, left: 20, right: 20),
                             //height: 120,
@@ -756,7 +761,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             child: Column(
                               children: [
                                 Container(
-                                  height: 150,
+                                  height: MediaQuery.of(context).size.height/6,
                                   width: MediaQuery.of(context).size.width,
                                   decoration: const BoxDecoration(
                                     color: lightGrey,
@@ -771,10 +776,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                     children: [
                                       Container(
                                         padding: const EdgeInsets.only(
-                                            top: 20,
-                                            bottom: 20,
-                                            left: 30,
-                                            right: 20),
+                                            top: 10,
+                                            bottom: 10,
+                                            left: 20,
+                                            right: 10),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -893,7 +898,7 @@ class _ProfilePageState extends State<ProfilePage> {
       contentPadding: EdgeInsets.only(top: 10.0),
       content: Container(
         padding: EdgeInsets.all(15),
-        height: MediaQuery.of(context).size.height / 2.28,
+        height: MediaQuery.of(context).size.height / 2,
         width: MediaQuery.of(context).size.width,
         child: Column(
           //mainAxisSize: MainAxisSize.min,
@@ -926,10 +931,11 @@ class _ProfilePageState extends State<ProfilePage> {
                 //       fontWeight: FontWeight.bold,
                 //       color: Colors.amber),
                 // ),
-                SizedBox(
-                  height: 25,
+                Container(
+                  height: MediaQuery.of(context).size.height/40,
                 ),
                 Container(
+                  
                   padding: EdgeInsets.only(left: 20, right: 20),
                   width: MediaQuery.of(context).size.width,
                   child: Column(
@@ -938,13 +944,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     children: [
                       Text(
                         "When the normal state is on, the sensing parameters are tweaked to detect seizures with the highest resolution. In turn, this sets the device to perform multiple sampling for each sensor, ensuring accurate readings. \n\nMeanwhile, when the sensitive state is on, the sensing parameters are tweaked to detect seizures with the lowest resolution. In turn, this sets the device to respond to possible seizure readings faster but may result in false positives often.",
-                        style: TextStyle(fontSize: 14, color: Colors.black),
+                        style: TextStyle(fontSize: 13, color: Colors.black),
                         textAlign: TextAlign.justify,
                       ),
                     ],
                   ),
                 ),
-                SizedBox(height: 15),
+                SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pop();

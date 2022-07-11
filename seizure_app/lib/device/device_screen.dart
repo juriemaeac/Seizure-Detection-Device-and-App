@@ -14,13 +14,13 @@ class DeviceScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(
-            height: 60,
+          Container(
+            height: MediaQuery.of(context).size.height/40,
           ),
           Container(
             padding: EdgeInsets.all(40),
             width: double.infinity,
-            height: MediaQuery.of(context).size.height / 3,
+            height: MediaQuery.of(context).size.height / 2.6,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),

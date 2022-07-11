@@ -11,6 +11,7 @@ import 'package:hive/hive.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:seizure_app/boxes/boxData.dart';
 import 'package:seizure_app/constant.dart';
+import 'package:seizure_app/device/alert_page.dart';
 import 'package:seizure_app/model/sensed_data.dart';
 import 'package:seizure_app/pages/profile_page.dart';
 import 'package:seizure_app/pages/records_page.dart';
@@ -216,7 +217,7 @@ class _SensorPageState extends State<SensorPage> {
                       print("Current Value: $currentValue");
                       var dataArray = parseData(currentValue);
                       print("Data Array: $dataArray");
-
+            
                       print("Parsed Data");
                       print("IsSeizure: ${dataArray[0]}");
                       print("IsHeightened: ${dataArray[1]}");
@@ -228,23 +229,35 @@ class _SensorPageState extends State<SensorPage> {
                       sense = deviceSensitivity.getString();
                       bpm = "${dataArray[2]}";
                       var seizureStat = dataArray[0];
+            
+                      
                       if (seizureStat == '1') {
-                        NotificationWidget.showNotification(
-                            title: "Warning",
-                            body: "Possible Seizure Episode Detected");
-                        showDialog(
-                          barrierDismissible: false,
-                          context: context,
-                          builder: (BuildContext context) =>
-                              _buildPopupDialogAlert(context, bpm),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const AlertPage(),
+                          ),
                         );
+                        // NotificationWidget.showNotification(
+                        //     title: "Warning",
+                        //     body: "Possible Seizure Episode Detected");
+                        // showDialog(
+                        //   barrierDismissible: false,
+                        //   context: context,
+                        //   builder: (BuildContext context) =>
+                        //       _buildPopupDialogAlert(context, bpm),
+                        // );
                       }
                       // HOME PAGE
                       return Scaffold(
+                        
                         body: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Container(
+                              //height: MediaQuery.of(context).size.height/30,
+                              width: MediaQuery.of(context).size.width,
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 20,
                               ),
@@ -304,7 +317,7 @@ class _SensorPageState extends State<SensorPage> {
                                             ],
                                           ],
                                         ),
-
+            
                                         // ClipRRect(
                                         //   borderRadius: BorderRadius.circular(
                                         //       20), // Image border
@@ -323,8 +336,9 @@ class _SensorPageState extends State<SensorPage> {
                               ),
                             ),
                             Container(
+                              width: MediaQuery.of(context).size.width,
                               padding: const EdgeInsets.symmetric(
-                                horizontal: 20,
+                                horizontal: 10,
                                 //vertical: 20,
                               ),
                               // margin: const EdgeInsets.only(
@@ -369,7 +383,7 @@ class _SensorPageState extends State<SensorPage> {
                                 children: [
                                   Container(
                                     width: double.infinity,
-                                    height: 170,
+                                    height: MediaQuery.of(context).size.height/7,
                                     decoration: const BoxDecoration(
                                       color: darkBlue,
                                       borderRadius: BorderRadius.only(
@@ -388,6 +402,7 @@ class _SensorPageState extends State<SensorPage> {
                                       children: [
                                         Container(
                                           width: double.infinity,
+                                          height: (MediaQuery.of(context).size.height/6),
                                           margin: EdgeInsets.all(10),
                                           padding: const EdgeInsets.all(
                                             10,
@@ -549,7 +564,7 @@ class _SensorPageState extends State<SensorPage> {
                               ),
                             ),
                             Container(
-                              //height: 250,
+                              height: MediaQuery.of(context).size.height/2.8,
                               child: Column(
                                 children: [
                                   Row(
@@ -557,9 +572,10 @@ class _SensorPageState extends State<SensorPage> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Container(
-                                        width: 180,
+                                        width: MediaQuery.of(context).size.width / 2 - 30,
+                                        height: MediaQuery.of(context).size.height/6.7,
                                         margin: const EdgeInsets.only(
-                                            top: 20, bottom: 20, left: 20),
+                                            top: 15, bottom:10,  left: 20),
                                         padding: const EdgeInsets.only(
                                             top: 15,
                                             bottom: 15,
@@ -663,13 +679,14 @@ class _SensorPageState extends State<SensorPage> {
                                                 ]
                                               ],
                                             ),
-                                            const SizedBox(
-                                              height: 28,
+                                            Container(
+                                              height: MediaQuery.of(context).size.height/60,
                                             ),
                                             Container(
+                                              height: MediaQuery.of(context).size.height/27,
                                               padding: const EdgeInsets.only(
                                                   left: 10,
-                                                  right: 10,
+                                                  //right: 10,
                                                   top: 3,
                                                   bottom: 3),
                                               decoration: BoxDecoration(
@@ -682,9 +699,10 @@ class _SensorPageState extends State<SensorPage> {
                                                   Icon(
                                                     Icons.favorite_rounded,
                                                     color: Colors.red,
+                                                    size:13
                                                   ),
                                                   SizedBox(
-                                                    width: 10,
+                                                    width: 5,
                                                   ),
                                                   Text(
                                                     "Heart Rate",
@@ -700,9 +718,10 @@ class _SensorPageState extends State<SensorPage> {
                                         ),
                                       ),
                                       Container(
-                                        width: 180,
+                                        width: MediaQuery.of(context).size.width / 2 - 30,
+                                        height: MediaQuery.of(context).size.height/6.7,
                                         margin: const EdgeInsets.only(
-                                            top: 20, bottom: 20, right: 20),
+                                            top: 15, bottom:10, right: 20),
                                         padding: const EdgeInsets.only(
                                             top: 15,
                                             bottom: 15,
@@ -806,13 +825,15 @@ class _SensorPageState extends State<SensorPage> {
                                                 ],
                                               ],
                                             ),
-                                            const SizedBox(
-                                              height: 28,
+                                            Container(
+                                              height: MediaQuery.of(context).size.height/60,
                                             ),
                                             Container(
+                                              height: MediaQuery.of(context).size.height/27,
+                                              width: MediaQuery.of(context).size.width,
                                               padding: const EdgeInsets.only(
                                                   left: 10,
-                                                  right: 10,
+                                                  //right: 10,
                                                   top: 3,
                                                   bottom: 3),
                                               decoration: BoxDecoration(
@@ -825,9 +846,10 @@ class _SensorPageState extends State<SensorPage> {
                                                   Icon(
                                                     Icons.device_hub_rounded,
                                                     color: Colors.green,
+                                                    size:13
                                                   ),
                                                   SizedBox(
-                                                    width: 10,
+                                                    width: 5,
                                                   ),
                                                   Text(
                                                     "Accelerometer",
@@ -849,7 +871,8 @@ class _SensorPageState extends State<SensorPage> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Container(
-                                        width: 180,
+                                        width: MediaQuery.of(context).size.width / 2 - 30,
+                                        height: MediaQuery.of(context).size.height/6.7,
                                         margin: const EdgeInsets.only(left: 20),
                                         padding: const EdgeInsets.only(
                                             top: 15,
@@ -954,10 +977,11 @@ class _SensorPageState extends State<SensorPage> {
                                                 ],
                                               ],
                                             ),
-                                            const SizedBox(
-                                              height: 28,
+                                            Container(
+                                              height: MediaQuery.of(context).size.height/60,
                                             ),
                                             Container(
+                                              height: MediaQuery.of(context).size.height/27,
                                               padding: const EdgeInsets.only(
                                                   left: 10,
                                                   right: 10,
@@ -973,9 +997,10 @@ class _SensorPageState extends State<SensorPage> {
                                                   Icon(
                                                     Icons.back_hand_rounded,
                                                     color: Colors.amber,
+                                                    size:13
                                                   ),
                                                   SizedBox(
-                                                    width: 10,
+                                                    width: 5,
                                                   ),
                                                   Text(
                                                     "Electrodermal",
@@ -991,7 +1016,8 @@ class _SensorPageState extends State<SensorPage> {
                                         ),
                                       ),
                                       Container(
-                                        width: 180,
+                                        width: MediaQuery.of(context).size.width / 2 - 30,
+                                        height: MediaQuery.of(context).size.height/6.7,
                                         margin:
                                             const EdgeInsets.only(right: 20),
                                         padding: const EdgeInsets.only(
@@ -1075,10 +1101,12 @@ class _SensorPageState extends State<SensorPage> {
                                                 ],
                                               ],
                                             ),
-                                            const SizedBox(
-                                              height: 28,
+                                            Container(
+                                              height: MediaQuery.of(context).size.height/60,
                                             ),
                                             Container(
+                                              height: MediaQuery.of(context).size.height/27,
+                                              
                                               padding: const EdgeInsets.only(
                                                   left: 10,
                                                   right: 10,
@@ -1094,9 +1122,10 @@ class _SensorPageState extends State<SensorPage> {
                                                   Icon(
                                                     Icons.speed_rounded,
                                                     color: Colors.blue,
+                                                    size:13
                                                   ),
                                                   SizedBox(
-                                                    width: 10,
+                                                    width: 5,
                                                   ),
                                                   Text(
                                                     "Parameter",
@@ -1117,9 +1146,9 @@ class _SensorPageState extends State<SensorPage> {
                               ),
                             ),
                             Container(
-                              height: 50,
+                              height: MediaQuery.of(context).size.height/20,
                               margin: EdgeInsets.only(
-                                  top: 20, bottom: 7, left: 20, right: 20),
+                                  bottom: 7, left: 20, right: 20),
                               //width: MediaQuery.of(context).size.width * 0.7,
                               padding: const EdgeInsets.all(7),
                               decoration: BoxDecoration(
@@ -1151,9 +1180,6 @@ class _SensorPageState extends State<SensorPage> {
                                       },
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
                                   Container(
                                     width: MediaQuery.of(context).size.width *
                                         0.7 /
@@ -1179,9 +1205,6 @@ class _SensorPageState extends State<SensorPage> {
                                         );
                                       },
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
                                   ),
                                   Container(
                                     width: MediaQuery.of(context).size.width *
@@ -1252,7 +1275,7 @@ class _SensorPageState extends State<SensorPage> {
           borderRadius: BorderRadius.all(Radius.circular(20.0))),
       contentPadding: EdgeInsets.only(top: 10.0),
       content: Container(
-        padding: EdgeInsets.only(top: 15),
+        //padding: EdgeInsets.only(top: 15),
         height: MediaQuery.of(context).size.height / 3,
         width: MediaQuery.of(context).size.width,
         child: Column(
@@ -1332,7 +1355,7 @@ class _SensorPageState extends State<SensorPage> {
                     style: TextStyle(fontSize: 15, color: lightBlue),
                   ),
                 ),
-                SizedBox(height: 20),
+                //SizedBox(height: 10),
               ],
             )
           ],
@@ -1348,7 +1371,7 @@ class _SensorPageState extends State<SensorPage> {
           borderRadius: BorderRadius.all(Radius.circular(20.0))),
       contentPadding: EdgeInsets.only(top: 10.0),
       content: Container(
-        padding: EdgeInsets.only(top: 15),
+        //padding: EdgeInsets.only(top: 15),
         height: MediaQuery.of(context).size.height / 3,
         width: MediaQuery.of(context).size.width,
         child: Column(
@@ -1383,7 +1406,7 @@ class _SensorPageState extends State<SensorPage> {
                   "Episode Detected",
                   style: TextStyle(fontSize: 15, color: Colors.white),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: () {
                     addData(bpmString);
@@ -1417,7 +1440,7 @@ class _SensorPageState extends State<SensorPage> {
                     style: TextStyle(fontSize: 15, color: Colors.white),
                   ),
                 ),
-                SizedBox(height: 20),
+                //SizedBox(height: 20),
               ],
             )
           ],

@@ -95,6 +95,7 @@ class _RecordPageState extends State<RecordPage> {
             ),
           ),
           Container(
+            width: MediaQuery.of(context).size.width,
             padding: const EdgeInsets.only(
               left: 20,
               right: 20,
@@ -142,7 +143,7 @@ class _RecordPageState extends State<RecordPage> {
                           ],
                         ),
                         width: double.infinity,
-                        height: 140,
+                        height: 130,
                         child: Image.asset(
                           'images/records.png',
                           fit: BoxFit.fitHeight,
@@ -168,6 +169,7 @@ class _RecordPageState extends State<RecordPage> {
                 return SingleChildScrollView(
                   scrollDirection: Axis.vertical,
                   child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height - 390,
                     child: ListView.builder(
                         itemCount: box.values.length,
@@ -269,7 +271,7 @@ class _RecordPageState extends State<RecordPage> {
                                                 Icons.favorite_rounded,
                                                 color: Color.fromARGB(
                                                     255, 244, 86, 74),
-                                                size: 20,
+                                                size: 15,
                                               ),
                                               SizedBox(
                                                 width: 10,
@@ -282,12 +284,12 @@ class _RecordPageState extends State<RecordPage> {
                                                 ),
                                               ),
                                               SizedBox(
-                                                width: 20,
+                                                width: 15,
                                               ),
                                               Icon(
                                                 Icons.device_hub_rounded,
                                                 color: Colors.green,
-                                                size: 20,
+                                                size: 15,
                                               ),
                                               SizedBox(
                                                 width: 10,
@@ -300,12 +302,12 @@ class _RecordPageState extends State<RecordPage> {
                                                 ),
                                               ),
                                               SizedBox(
-                                                width: 20,
+                                                width: 15,
                                               ),
                                               Icon(
                                                 Icons.back_hand,
                                                 color: Colors.amber,
-                                                size: 20,
+                                                size: 15,
                                               ),
                                               SizedBox(
                                                 width: 10,
