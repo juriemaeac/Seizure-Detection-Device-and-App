@@ -1,6 +1,6 @@
 # Seizure Detection Device and App
 
-The mobile application is built using Flutter framework, integrated with Firebase for seamless data management, and complemented by hardware provisioning. The application serves as a seizure-detecting wearable device, accompanied by a dedicated mobile app. Its primary function revolves around tracking and recording seizure incidents, facilitating patients and their caregivers in monitoring the occurrences.
+The mobile application is built using Flutter framework, integrated with Hive for local data management, and complemented by hardware provisioning. The application serves as a seizure-detecting wearable device, accompanied by a dedicated mobile app. Its primary function revolves around tracking and recording seizure incidents, facilitating patients and their caregivers in monitoring the occurrences.
 
 Through an intuitive user interface, individuals can conveniently access and review the seizure records, providing crucial insights into the patient's condition. The app also offers a Bluetooth pairing feature, establishing a direct connection with the wearable device. This enables the collection and transmission of vital health metrics, including heartbeat, electrodermal activity, and movement patterns.
 
