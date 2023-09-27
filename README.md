@@ -8,19 +8,19 @@ In the unfortunate event of a seizure episode, the app promptly notifies the pat
 
 ### Welcome Screen
 
-![image](https://github.com/juriemaeac/Seizure_Device/assets/59803167/8f59e992-ec07-44dc-b1f7-abd719a1d4f1)
+![image](https://github.com/juriemaeac/Seizure-Detection-Device-and-App/assets/59803167/45e3ba81-f7f9-4ae0-91b4-c82a1d6f2fd5)
 
 ### Home Screen
 
-![image](https://github.com/juriemaeac/Seizure_Device/assets/59803167/02992923-433a-43ad-a551-62c37764535b)
+![image](https://github.com/juriemaeac/Seizure-Detection-Device-and-App/assets/59803167/7ccef513-de47-4577-ba4a-595f3b8ce989)
 
 ### Records Screen
 
-![image](https://github.com/juriemaeac/Seizure_Device/assets/59803167/174cc392-09ac-4505-a93f-444a11205846)
+![image](https://github.com/juriemaeac/Seizure-Detection-Device-and-App/assets/59803167/95ea4642-8186-485c-9661-88f640404438)
 
 ### Profile Screen
 
-![image](https://github.com/juriemaeac/Seizure_Device/assets/59803167/28e13b0a-d70e-408a-b9e2-4f7243e6f3af)
+![image](https://github.com/juriemaeac/Seizure-Detection-Device-and-App/assets/59803167/d09ec813-ad1b-43e7-92dd-6183abba91e7)
 
 # Developers
 
